@@ -16,7 +16,7 @@
 */
 $config['project_name']  = 'Condominium Management System';
 $config['master_domain'] = 'localhost';
-$config['domain'] 		 = '/condo';
+$config['domain'] 		 = '/condominium';
 $config['base_url']	 	              = 'http://'.$config['master_domain'].$config['domain'].'/';
 $config['admin_url']	            = 'http://'.$config['base_url'].'/admin';
 $config['project_admin']        = $config['project_name'] . ' Admin';

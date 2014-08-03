@@ -1,5 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+date_default_timezone_set('asia/kuala_lumpur');
 /*
 |--------------------------------------------------------------------------
 | Base Site URL

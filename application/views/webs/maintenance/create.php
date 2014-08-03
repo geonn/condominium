@@ -45,7 +45,10 @@
 								Search Unit Lots
 							</label>
 							<div class="col-sm-9">
-								<?= form_input('unitLot', '',' placeholder="Owner\'s Unit Lots"  id="unitLot" class="form-control"'); ?>
+								<?= form_input('unitLot', '',' placeholder="Owner\'s Unit Lots (eg. 01-01)"  id="unitLot" class="form-control" style="width:50%;display:inline;"'); ?>
+								<button type="button" class="btn btn-primary" onClick="return searchUnit()">Search</button>
+												
+											
 							</div>
 						</div>
 					
@@ -107,7 +110,19 @@
             );
             var $toast = toastr[shortCutFunction](msg, title); // Wire up an event handler to a button in the toast, if it exists
         }
-        
+     
+     var searchUnit  = function(){
+     	var unitLots = $("#unitLot").val();
+     	if(unitLots == "" ){
+     		alert("Please fill in unit Lots");
+     		return false;	
+     	}
+     	/**Do create property to system***/
+		$.get("<?= $this->config->item('domain') ?>/<?= $this->name ?>/searchUnit/?unitLots="+unitLots,  function(result) {
+			alert(result);
+		});
+    }
+    
 	var create = function(){
 		var str = $('form').serialize();
 		

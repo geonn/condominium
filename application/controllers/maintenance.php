@@ -22,6 +22,10 @@ class Maintenance extends Web_Controller {
 		$this->_render_form('create',$data);
 	}
 	
+	public function searchUnit(){
+		print_pre($this->param);	
+	}
+	
 }
 
 /* End of file maintenance.php */

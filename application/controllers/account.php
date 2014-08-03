@@ -58,7 +58,6 @@ class Account extends Web_Controller {
 	
 	public function changeOnlineStatus(){
 		$this->users_model->updateOnlineStatus();
-		print_pre($this->param);
 	}
 	
 	public function register(){

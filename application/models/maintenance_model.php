@@ -24,12 +24,13 @@ class Maintenance_Model extends APP_Model{
 		return $this->_result;
 	}
 	
-	public function getByUser(){
+	public function getByResident(){
+		$limit = !empty( $this->param['limit']) ?  $this->param['limit'] : '';
 		$filter = array(
-			'u_id' => $this->param['u_id']
+			'r_id' => $this->param['r_id']
 		);
 		
-		$result = $this->get_data($filter);
+		$result = $this->get_data($filter,$limit,0 ,$this->primary_key,'DESC');
 		
 		/*** return response***/
 		$this->_result['status']     = 'success';

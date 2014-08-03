@@ -232,8 +232,8 @@ for($y = date('Y') - 10; $y >= 1955; $y--){
 	$config['year'][$y] = $y; 
 }
 
-for($z = 2012; $z <= date('Y'); $z++){
-	$config['yearRpt'][$z] = $z; 
+for($z = 2014; $z <= date('Y'); $z++){
+	$config['yearRecent'][$z] = $z; 
 }
 
 /********Malaysia State********/

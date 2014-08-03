@@ -150,6 +150,11 @@
 				$format = "am";
 			}
 			$date_processed =  $tarikh[2]."/".$tarikh[1]."/".$tarikh[0] .", ".$masa[0].":".$masa[1] ."".$format ;
+		}elseif($type =="shorten"){
+			$element = explode("-", $date_processed);
+
+			$d2 = mktime(0,0,0,$element[1],$element[2],$element[0]);
+			$date_processed =  date('M Y', $d2);
 		}else{
 			$element = explode("-", $date_processed);
 

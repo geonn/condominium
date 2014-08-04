@@ -10,7 +10,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	<?php 
+	<?php  
 	if(!empty($result['data'])){ ?>	
 		<tr>
 			<td><?= $result['data']['firstname'] . " " .$result['data']['lastname'] ?></td>
@@ -24,7 +24,7 @@
 					 	echo 'No payment yet';
 					 } ?></td>
 			<td>
-				<a class="btn btn-purple" href="javascript:void(0);" onclick="showMaintenanceForm('<?= $result['data']['firstname'] . " " .$result['data']['lastname'] ?>')">
+				<a class="btn btn-purple" href="javascript:void(0);" onclick="showMaintenanceForm('<?= $result['data']['firstname'] . " " .$result['data']['lastname'] ?>','<?= $result['data']['residental']['r_id'] ?>')">
 					ADD <i class="fa fa-plus"></i>
 				</a>
 			</td>

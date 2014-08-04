@@ -21,6 +21,11 @@ class Maintenance extends Web_Controller {
 		
 		$this->_render_form('create',$data);
 	}
+
+	public function doAdd(){
+		$result = $this->maintenance_model->add();
+		echo json_encode($result);
+	}
 	
 	public function searchUnit(){
 		/*****get admin property incharge*****/
@@ -30,8 +35,6 @@ class Maintenance extends Web_Controller {
 		/*****check if residents exists*****/
 		$resident = $this->residents_model->getByUnitLots();
 		
-		
-	
 		/*****get resident info*****/
 		$user = array();
 		if(!empty($resident['data'])){

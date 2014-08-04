@@ -40,11 +40,11 @@ class Maintenance_Model extends APP_Model{
 	
 	public function add(){
 		$validation = $this->validate();
-		
+		$duration   = $this->param['year']."-". $this->param['month'] . "-01";
 		if(empty($validation)) { 
 			$data = array(
-				'u_id'                     => $this->param['u_id'],
-				'duration'             => $this->param['duration'],
+				'r_id'                     => $this->param['r_id'],
+				'duration'             => $duration,
 				'totalAmount'      => $this->param['totalAmount'],
 				'type'                     => !empty($this->param['type']) ? $this->param['type'] : 1,
 				'paymentType'     => !empty($this->param['paymentType']) ? $this->param['paymentType'] : 1,
@@ -109,10 +109,11 @@ class Maintenance_Model extends APP_Model{
 	/*** Do checking before send to database***/
 	private function validate(){
 		$statusCode = array();
-		$duration        = $this->param['duration'];
+		$year        = $this->param['year'];
+		$month        = $this->param['month'];
 		$totalAmount = $this->param['totalAmount'];
 		
-		if(empty($duration)){
+		if(empty($year) || empty($month)){
 			$statusCode[] = 132;
 		}
 		

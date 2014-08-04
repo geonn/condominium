@@ -65,9 +65,9 @@
 							<label class="col-sm-2 control-label" for="form-field-2">
 								Name
 							</label>
-							<div class="col-sm-9" id="residentName">
-								
-							</div>
+							<div class="col-sm-9" id="residentName"></div>
+							<?= form_hidden('r_id', ''); ?>	
+							
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="form-field-1">
@@ -113,8 +113,8 @@
 						<div class="form-group" >
 							<label class="col-sm-2 control-label form-field-select-3" for="form-field-select-3"></label>
 							<div class="col-sm-9" style="text-align:right;">
-								<button data-style="expand-right" class="ladda-button" data-color="green">
-									Create <?= ucwords($this->name) ?> <i class="fa fa-arrow-circle-right"></i>
+								<button data-style="expand-right" class="ladda-button" data-color="green" onClick="return create()">
+									Add <?= ucwords($this->name) ?> <i class="fa fa-arrow-circle-right"></i>
 								</button>
 							</div>
 						</div>
@@ -146,9 +146,10 @@
 		}
 	});
 	
-	var showMaintenanceForm = function(residentName) {
+	var showMaintenanceForm = function(residentName,r_id) {
 		$("#maintenanceBox").show();
 		$("#residentName").html(residentName);
+		$("input[name=r_id]").val(r_id);
 	}
 	
 	 var toastCount = 0;
@@ -198,9 +199,10 @@
     
 	var create = function(){
 		var str = $('form').serialize();
-		
+	
 		/**Do create property to system***/
 		$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/doAdd/", str, function(result) {
+			alert(result);
 			var obj = $.parseJSON(result);
 			if(obj.status =="success"){
 				showSuccessPopUp();

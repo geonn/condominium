@@ -89,7 +89,7 @@
 									</tr>
 								</thead>
 								<tbody>
-								<?php 
+								<?php  
 								if(!empty($result['data'])){
 									foreach($result['data'] as $k => $val){ ?>	
 									<tr>
@@ -116,8 +116,10 @@
 										</td>
 									</tr>
 								<?php } 
-								}?>
-									
+								}else{ ?>
+									<tr><td rowspan="6">No records found.</td></tr>
+										
+							<?php } ?>
 								</tbody>
 							</table>
 						</div>

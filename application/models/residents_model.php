@@ -24,6 +24,25 @@ class Residents_Model extends APP_Model{
 		return $this->_result;
 	}
 	
+	public function getByUnitLots(){
+		$filter = array(
+			'p_id'		 => $this->param['p_id'],
+			'unitLots' => $this->param['unitLots']
+		);
+		
+		$result = $this->get_data($filter);
+		$return = array();
+		if(!empty($result)){
+			$return = $result[0];
+		}
+		
+		/*** return response***/
+		$this->_result['status']     = 'success';
+		$this->_result['data']       = $return;	
+		return $this->_result;
+		
+	}
+	
 	public function getByUser($u_id){
 		$filter = array(
 			'u_id' => $u_id
@@ -54,10 +73,15 @@ class Residents_Model extends APP_Model{
 		);
 		
 		$result = $this->get_data($filter);
+		$return = array();
 		
+		foreach($result as $k => $val){
+			$return[$val['r_id']]['u_id'] = $val['u_id'];
+			$return[$val['r_id']]['unitLots'] = $val['unitLots'];
+		}
 		/*** return response***/
 		$this->_result['status']     = 'success';
-		$this->_result['data']       = $result;	
+		$this->_result['data']       = $return;	
 		return $this->_result;
 	}
 	

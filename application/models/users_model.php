@@ -18,7 +18,6 @@ class Users_Model extends APP_Model{
 		$result = $this->get_data($filter);
 		
 		$userType = $this->user->get_memberrole();
-			
 		if($userType == "2"){
 			$admin = $this->propertyAdmin_model->getByUser($this->user->get_memberid());
 			$count = 0;

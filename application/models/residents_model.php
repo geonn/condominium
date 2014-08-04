@@ -66,16 +66,21 @@ class Residents_Model extends APP_Model{
 		return $this->_result;
 	}
 	
-	public function getByProperty(){
+	public function getByProperty($p_id){
 		$filter = array(
-			'p_id' => $this->param['p_id']
+			'p_id' => $p_id
 		);
 		
 		$result = $this->get_data($filter);
+		$return = array();
 		
+		foreach($result as $k => $val){
+			$return[$val['r_id']]['u_id'] = $val['u_id'];
+			$return[$val['r_id']]['unitLots'] = $val['unitLots'];
+		}
 		/*** return response***/
 		$this->_result['status']     = 'success';
-		$this->_result['data']       = $result;	
+		$this->_result['data']       = $return;	
 		return $this->_result;
 	}
 	

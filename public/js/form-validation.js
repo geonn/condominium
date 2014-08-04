@@ -7,6 +7,7 @@ var FormValidator = function () {
     }; 
     // function to initiate Validation Sample 1
     var runValidator1 = function () {
+    	 
         var form1 = $('#form');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
@@ -65,6 +66,10 @@ var FormValidator = function () {
                 type:{
                 	required: true
                 },
+                paymentType:{
+                	required: true
+                },
+             
                 gender: {
                     required: true
                 },
@@ -82,6 +87,10 @@ var FormValidator = function () {
                     required: false,
                     number: true,
                     minlength: 8
+                },
+                 totalAmount: {
+                    required: true,
+                     number: true
                 },
                 city: {
                     required: true
@@ -106,8 +115,14 @@ var FormValidator = function () {
                     required: "The email is viewable by owner and tenants for contact",
                     email: "Your email address must be in the format of name@domain.com"
                 },
+                totalAmount: {
+                    required:  "Please fill in total amount!",
+                    contact_no: "Invalid amount"
+                },
                 gender: "Please check a gender!",
-                type: "Please select user type"
+                type: "Please select user type",
+                paymentType: "Please selec maintenance payment type",
+               
             },
             groups: {
                 DateofBirth: "dd mm yyyy",

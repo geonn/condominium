@@ -11,7 +11,7 @@ class Maintenance extends Web_Controller {
 	public function index(){
 		/**Module name***/
 		$data['module'] = "Manage Maintenance";
-		
+		$data['result']    = $this->maintenance_model->get();
 		$this->_render_form('index',$data);
 	}
 	

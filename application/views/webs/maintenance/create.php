@@ -39,7 +39,7 @@
 				 
 				</div>
 				<div class="panel-body" >
-					<form role="form" class="form-horizontal" id="form">
+					<form role="form" class="form-horizontal" id="searchform">
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="form-field-1">
 								Search Unit Lots
@@ -113,7 +113,7 @@
 						<div class="form-group" >
 							<label class="col-sm-2 control-label form-field-select-3" for="form-field-select-3"></label>
 							<div class="col-sm-9" style="text-align:right;">
-								<button data-style="expand-right" class="ladda-button" data-color="green" onClick="return create()">
+								<button data-style="expand-right" class="ladda-button" data-color="green">
 									Add <?= ucwords($this->name) ?> <i class="fa fa-arrow-circle-right"></i>
 								</button>
 							</div>
@@ -132,19 +132,6 @@
 	<!-- end: PAGE CONTENT-->
 </div>
 <script>
-	$( "#accountType" ).change(function() {
-	 	
-	 	 if($( this ).val()  == "3"){
-	  		$("#manageProperty").hide();
-	  		$("#unitLots2").show();
-		}else if($( this ).val()  == "2"){
-			$("#manageProperty").show();
-	  		$("#unitLots2").hide();
-		}else{
-			$("#manageProperty").hide();
-	  		$("#unitLots2").hide();
-		}
-	});
 	
 	var showMaintenanceForm = function(residentName,r_id) {
 		$("#maintenanceBox").show();
@@ -199,10 +186,13 @@
     
 	var create = function(){
 		var str = $('form').serialize();
-	
+		var totalAmount = $("#totalAmount").val();
+     	if(totalAmount == "" ){
+     		alert("Please fill in total amount");
+     		return false;	
+     	}
 		/**Do create property to system***/
 		$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/doAdd/", str, function(result) {
-			alert(result);
 			var obj = $.parseJSON(result);
 			if(obj.status =="success"){
 				showSuccessPopUp();

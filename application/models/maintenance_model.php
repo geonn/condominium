@@ -11,6 +11,40 @@ class Maintenance_Model extends APP_Model{
 		$this->_result['data']       = array();	
 	}
 	
+	public function get(){
+		/** Get property that admin in-charged**/
+		$admin = $this->propertyAdmin_model->getByUser($this->user->get_memberid());
+		$p_id	 = $admin['data']['p_id'];
+		
+		$resident = $this->residents_model->getByProperty($p_id);
+		$res=  array();
+		foreach($resident ['data'] as $k => $val){
+			$res[] = $k;
+		}
+		$r_id = implode(',' , $res);
+		
+		$filter =  "r_id IN (".$r_id.")";
+		$result = $this->get_data($filter,'','',$this->primary_key,'DESC');
+		
+		$return = array();
+		foreach($result as $r => $ret){
+			$return[$r] = $ret;
+			$return[$r]['type']     			  = match($ret['type'], $this->config->item('maintenance_type'));
+			$return[$r]['paymentType']   = match($ret['paymentType'], $this->config->item('payment_type'));
+			$return[$r]['unitLots'] 			= $resident['data'][$ret['r_id']]['unitLots'];
+			
+			/**get user info**/
+			$user = $this->users_model->getById($resident['data'][$ret['r_id']]['u_id']);
+			$return[$r]['name'] 			= $user['data']['firstname'];
+		}
+		
+		/*** return response***/
+		$this->_result['status']     = 'success';
+		$this->_result['data']       = $return;	
+		return $this->_result;
+		
+	}
+	
 	public function getById(){
 		$filter = array(
 			$this->primary_key => $this->param['m_id']

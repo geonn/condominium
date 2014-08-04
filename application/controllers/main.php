@@ -21,7 +21,9 @@ class Main extends Web_Controller {
 	 
 	 	if($type == "3"){
 	 		$this->_render_form('dashboard',$data);
-	 	}else{
+	 	}else if($type == "1" && !$this->user->get_memberproperty()){
+			redirect($this->CI->config->item('base_url').'main/switchCondo');
+		}else{
 	 		$this->_render_form('index',$data);
 	 	}
 		
@@ -48,8 +50,22 @@ class Main extends Web_Controller {
 		$this->_render_form('lockScreen',$data);
 	}
 	
+	public function switchCondo(){
+		$data = array();
+		$res = $this->property_model->get();
+		$data['property_list'] = $res['data'];
+		$this->template->set_layout('lockScreen');
+		$this->template->set_partial('includes' , $this->config->item('template_dir').'/_login_includes');   
+		$this->_render_form('switchCondo',$data);
+	}
+	
 	public function doLogin(){
 		$result = $this->users_model->loginUser();
+		echo json_encode($result);
+	}
+	
+	public function doSwitchCondo(){
+		$result = $this->users_model->switchCondo();
 		echo json_encode($result);
 	}
 	

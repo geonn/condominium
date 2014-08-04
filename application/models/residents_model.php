@@ -47,9 +47,10 @@ class Residents_Model extends APP_Model{
 		return $this->_result;
 	}
 	
-	public function getByProperty(){
+	public function getByProperty($pid = ''){
+		$pid = !empty($pid) ? $pid : $this->param['p_id'];
 		$filter = array(
-			'p_id' => $this->param['p_id']
+			'p_id' => $pid
 		);
 		
 		$result = $this->get_data($filter);
@@ -62,11 +63,12 @@ class Residents_Model extends APP_Model{
 	
 	public function add($u_id){
 		$validation = $this->validate();
+		$p_id = $this->param['p_id'];
 		
 		if(empty($validation)) {
 			$data = array(
 				'u_id'                   => $u_id,
-				'p_id'                   => $this->param['p_id'],
+				'p_id'                   => $p_id,
 				'unitLots'            => $this->param['unitLots'],
 				'type'                  => !empty($this->param['residentType']) ? $this->param['residentType'] : 1,
 				'created'                => date('Y-m-d H:i:s'),
@@ -77,7 +79,7 @@ class Residents_Model extends APP_Model{
 			
 			/*** return response***/
 			$this->_result['status']     = 'success';
-			$this->_result['data']       = $id;	
+			$this->_result['data']       = $id;
 		}else{
 			/***Set Error Message***/
 			$this->_result['status']     = 'error';

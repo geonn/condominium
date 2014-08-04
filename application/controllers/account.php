@@ -26,8 +26,11 @@ class Account extends Web_Controller {
 	
 	public function create(){
 		/**Module name***/
+		
 		$data['module'] = "Create Account";
-	 
+		if($this->user->get_memberrole() != 3){
+	 		$data['p_id'] = $this->user->get_memberproperty();
+		}
 		$this->_render_form('create',$data);
 	}
 	

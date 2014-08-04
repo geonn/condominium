@@ -22,6 +22,7 @@ class Users_Model extends APP_Model{
 		if($userType == "2"){
 			$admin = $this->propertyAdmin_model->getByUser($this->user->get_memberid());
 			$count = 0;
+			$residents = $this->residents_model->getByProperty($admin['data']['p_id']);
 			foreach($result as $k => $val){
 				if($val['type'] == "3"){
 					$residents = $this->residents_model->getByUser($val['u_id']);
@@ -132,6 +133,10 @@ class Users_Model extends APP_Model{
 					$this->user->set_memberfullname($info['firstname']." ".$info['lastname']);
 					$this->user->set_memberusername($info['username']);
 					$this->user->set_memberrole($info['type']);
+					if($info['type'] == 2){
+						$admin = $this->propertyAdmin_model->getByUser($this->user->get_memberid());
+						$this->user->set_memberproperty($admin['data']['p_id']);
+					}
 					$this->user->set_memberonline(1);
 				}
 			}
@@ -188,7 +193,7 @@ class Users_Model extends APP_Model{
 					$this->propertyAdmin_model->add($id);	
 				}
 				if($type == "3"){
-					$this->residents_model->add($id);	
+					$this->residents_model->add($id);
 				}
 				
 				$this->_result['status']     = 'success';
@@ -314,6 +319,18 @@ class Users_Model extends APP_Model{
 		}
 		$this->_result['status']     = 'success';
 		return $this->_result;		
+	}
+	
+	public function switchCondo(){
+		if(!empty($this->param['propertyOptions'])){
+			$this->user->set_memberproperty($this->param['propertyOptions']);
+			$this->_result['status']     = 'success';
+		}else{
+			$this->_result['status']     = 'error';
+			$this->_result['error_code']     = '108';
+			$this->_result['data']['error_msg'] = $this->code[108];
+		}
+		return $this->_result;	
 	}
 	
 	/*********************************************

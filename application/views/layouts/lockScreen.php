@@ -21,6 +21,7 @@
 		<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/styles.css">
+        <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/plugins.css">
 		<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/styles-responsive.css">
 		<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/animate.css/animate.min.css"> 
 		<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/print.css" type="text/css" media="print"/>

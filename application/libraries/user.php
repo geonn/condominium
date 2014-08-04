@@ -10,6 +10,7 @@ class User{
 	private $memberfullname;
 	private $memberrole;
 	private $memberonline;
+	private $memberproperty;
 	
 	function __construct(){
 		$this->CI  =& get_instance();	
@@ -46,6 +47,22 @@ class User{
 		}
 		return $this->memberemail;		
 	}	
+	
+	// Member Property
+	function set_memberproperty($val){
+		$this->CI->phpsession->save("property", $val);	
+		$this->memberproperty = $val;		
+	}
+	
+	function get_memberproperty(){
+		$semail = $this->CI->phpsession->get("property");
+		if(!isset($this->memberproperty)){		
+			if(isset($semail)){
+				$this->memberproperty = $this->CI->phpsession->get("property");
+			}				
+		}
+		return $this->memberproperty;		
+	}
 	
 	// Member Fullname
 	function set_memberfullname($val){

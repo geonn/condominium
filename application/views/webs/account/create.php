@@ -85,7 +85,10 @@
 								Account Type  <span class="symbol required"></span>
 							</label>
 							<div class="col-sm-9">
-									<?= form_dropdown('type', array(""=>"Choose Account Type")+$this->config->item('user_type'), '',' id="accountType" class="form-control search-select"'); ?> 
+                            		<?php 
+									$usertype = $this->config->item('user_type');
+									;?>
+									<?= form_dropdown('type', array(""=>"Choose Account Type")+$usertype[$this->user->get_memberrole()], '',' id="accountType" class="form-control search-select"'); ?> 
 							</div>
 						</div>
 						<div class="form-group" id="unitLots2" style="display:none;">
@@ -138,6 +141,7 @@
 	 	 if($( this ).val()  == "3"){
 	  		$("#manageProperty").hide();
 	  		$("#unitLots2").show();
+			$("#form-field-7").val(<?= $p_id; ?>);
 		}else if($( this ).val()  == "2"){
 			$("#manageProperty").show();
 	  		$("#unitLots2").hide();
@@ -182,10 +186,11 @@
         
 	var create = function(){
 		var str = $('form').serialize();
-		
 		/**Do create property to system***/
+
 		$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/doAdd/", str, function(result) {
 			var obj = $.parseJSON(result);
+			
 			if(obj.status =="success"){
 				showSuccessPopUp();
 				setTimeout(function(){window.location.href="../<?= $this->name ?>/index";}, 2000);

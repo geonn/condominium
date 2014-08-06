@@ -13,8 +13,8 @@ class Maintenance_Model extends APP_Model{
 	
 	public function get(){
 		/** Get property that admin in-charged**/
-		$admin = $this->propertyAdmin_model->getByUser($this->user->get_memberid());
-		$p_id	 = $admin['data']['p_id'];
+		//$admin = $this->propertyAdmin_model->getByUser($this->user->get_memberid());
+		$p_id	 = $this->user->get_memberproperty();
 		
 		$resident = $this->residents_model->getByProperty($p_id);
 		$res=  array();

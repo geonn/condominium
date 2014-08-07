@@ -18,14 +18,14 @@ class Users_Model extends APP_Model{
 		$result = $this->get_data($filter);
 		
 		$userType = $this->user->get_memberrole();
-		if($userType == "2"){
-			$admin = $this->propertyAdmin_model->getByUser($this->user->get_memberid());
+		if($userType != "3"){
 			$count = 0;
-			$residents = $this->residents_model->getByProperty($admin['data']['p_id']);
+			$p_id = $this->user->get_memberproperty();
+			$residents = $this->residents_model->getByProperty($p_id);
 			foreach($result as $k => $val){
 				if($val['type'] == "3"){
 					$residents = $this->residents_model->getByUser($val['u_id']);
-					if($residents['data']['p_id'] == $admin['data']['p_id'] ){
+					if($residents['data']['p_id'] == $p_id ){
 						$return[$count] = $val;
 						$count++;
 					}

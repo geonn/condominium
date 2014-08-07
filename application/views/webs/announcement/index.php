@@ -1,88 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
-
-	<style type="text/css">
-
-	::selection{ background-color: #E13300; color: white; }
-	::moz-selection{ background-color: #E13300; color: white; }
-	::webkit-selection{ background-color: #E13300; color: white; }
-
-	body {
-		background-color: #fff;
-		margin: 40px;
-		font: 13px/20px normal Helvetica, Arial, sans-serif;
-		color: #4F5155;
-	}
-
-	a {
-		color: #003399;
-		background-color: transparent;
-		font-weight: normal;
-	}
-
-	h1 {
-		color: #444;
-		background-color: transparent;
-		border-bottom: 1px solid #D0D0D0;
-		font-size: 19px;
-		font-weight: normal;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 15px;
-	}
-
-	code {
-		font-family: Consolas, Monaco, Courier New, Courier, monospace;
-		font-size: 12px;
-		background-color: #f9f9f9;
-		border: 1px solid #D0D0D0;
-		color: #002166;
-		display: block;
-		margin: 14px 0 14px 0;
-		padding: 12px 10px 12px 10px;
-	}
-
-	#body{
-		margin: 0 15px 0 15px;
-	}
-	
-	p.footer{
-		text-align: right;
-		font-size: 11px;
-		border-top: 1px solid #D0D0D0;
-		line-height: 32px;
-		padding: 0 10px 0 10px;
-		margin: 20px 0 0 0;
-	}
-	
-	#container{
-		margin: 10px;
-		border: 1px solid #D0D0D0;
-		-webkit-box-shadow: 0 0 8px #D0D0D0;
-	}
-	</style>
-</head>
-<body>
-
-<div id="container">
-	<h1>Welcome to CodeIgniter!</h1>
-
-	<div id="body">
-		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
-
-		<p>If you would like to edit this page you'll find it located at:</p>
-		<code>application/views/welcome_message.php</code>
-
-		<p>The corresponding controller for this page is found at:</p>
-		<code>application/controllers/welcome.php</code>
-
-		<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p>
+<!-- start: MAIN CONTAINER -->
+<div class="main-container inner">
+	<!-- start: PAGE -->
+	<div class="main-content">
+		<!-- start: PANEL CONFIGURATION MODAL FORM -->
+		<div class="modal fade" id="panel-config" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title">Panel Configuration</h4>
+					</div>
+					<div class="modal-body">
+						Here will be a configuration form
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							Close
+						</button>
+						<button type="button" class="btn btn-primary">
+							Save changes
+						</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
+		<!-- end: SPANEL CONFIGURATION MODAL FORM -->
+		<div class="container">
+			<!-- start: PAGE HEADER -->
+			<!-- start: TOOLBAR -->
+			<div class="toolbar row">
+				<div class="col-sm-6 hidden-xs">
+					<div class="page-header">
+						<h1>Managet <?= ucwords($this->name) ?> <small>view all available <?= $this->name ?> in the system</small></h1>
+					</div>
+				</div>
+				<div class="col-sm-6 col-xs-12">
+					<a href="#" class="back-subviews">
+						<i class="fa fa-chevron-left"></i> BACK
+					</a>
+					<a href="#" class="close-subviews">
+						<i class="fa fa-times"></i> CLOSE
+					</a>
+					
+				</div>
+			</div>
+			<!-- end: TOOLBAR -->
+			<!-- end: PAGE HEADER -->
+			<!-- start: BREADCRUMB -->
+			<div class="row">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<li>
+							<a href="<?= $this->config->item('domain').'/'.$this->name ?>/index">
+								Manage <?= ucwords($this->name) ?>
+							</a>
+						</li>
+						
+					</ol>
+				</div>
+			</div>
+			<!-- end: BREADCRUMB -->
+			<!-- start: PAGE CONTENT -->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- start: DYNAMIC TABLE PANEL -->
+					<div class="panel panel-white">
+						<div class="panel-heading">
+							<h4 class="panel-title"><span class="text-bold"><?= ucwords($this->name) ?> List</span></h4>
+						
+						</div>
+						<div class="panel-body">
+							
+							<table class="table table-striped table-bordered table-hover table-full-width" id="sample_1">
+								<thead>
+									<tr>
+										<th>Date Post</th>
+										<th>Title</th>
+										<th>Status</th>
+										<th class="hidden-xs"> Post By</th>
+										<th>Action </th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php  
+								if(!empty($result['data'])){
+									foreach($result['data'] as $k => $val){ ?>	
+									<tr>
+										<td class="hidden-xs"><?= date_convert($val['updated'], 'full') ?></td>
+										<td><?= $val['title'] ?></td>
+										<td><?= match($val['status'], $this->config->item('status') ) ?></td>
+										<td class="hidden-xs"><?= $val['postBy'] ?> </td>
+										<td>
+											<a class="btn btn-purple" href="<?= $this->config->item('domain').'/'.$this->name ?>/edit/<?= $val['id'] ?>">
+												EDIT <i class="fa fa-edit"></i>
+											</a>
+										</td>
+									</tr>
+								<?php } 
+								}else{ ?>
+									<tr><td rowspan="6">No records found.</td></tr>
+										
+							<?php } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- end: DYNAMIC TABLE PANEL -->
+				</div>
+			</div>
+			<!-- end: PAGE CONTENT-->
+		</div>
+		<div class="subviews">
+			<div class="subviews-container"></div>
+		</div>
 	</div>
-
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
+	<!-- end: PAGE -->
 </div>
-
-</body>
-</html>
+<!-- end: MAIN CONTAINER -->

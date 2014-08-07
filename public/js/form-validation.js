@@ -69,6 +69,12 @@ var FormValidator = function () {
                 paymentType:{
                 	required: true
                 },
+                announcementTitle:{
+                	required: true
+                },
+                announcementContent:{
+                	required: true
+                },
              
                 gender: {
                     required: true
@@ -121,7 +127,9 @@ var FormValidator = function () {
                 },
                 gender: "Please check a gender!",
                 type: "Please select user type",
-                paymentType: "Please selec maintenance payment type",
+                paymentType: "Please select maintenance payment type",
+                announcementTitle: "Please fill in announcement title",
+                announcementContent: "Please fill in announcement content",
                
             },
             groups: {

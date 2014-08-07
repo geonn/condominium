@@ -46,7 +46,7 @@
 								<i class="fa fa-times-sign"></i> You have some form errors. Please check below.
 							</div>
 							<div class="successHandler alert alert-success no-display">
-								<i class="fa fa-ok"></i> Your form validation is successful!
+								<i class="fa fa-ok"></i> Announcement successfully submitted!
 							</div>
 						</div>
 						
@@ -55,7 +55,7 @@
 								Title <span class="symbol required"></span>
 							</label>
 							<div class="col-sm-9">
-								<input type="text" placeholder="Announcement Title" class="form-control" id="title" name="title">
+								<?= form_input('announcementTitle', '',' placeholder="Announcement Title"  id="title" class="form-control"'); ?>
 							</div>
 						</div>
 					
@@ -65,7 +65,7 @@
 								Content
 							</label>
 							<div class="col-sm-9">
-								<textarea class="ckeditor form-control" id="editor2" name="editor2" cols="10" rows="10"></textarea>
+								<textarea class="ckeditor form-control" id="editor2" name="announcementContent" cols="10" rows="10"></textarea>
 							</div> 
 						</div>
 						<div class="row">
@@ -116,6 +116,7 @@
 		 
 		/**Do create property to system***/
 		$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/doCreate/", str, function(result) {
+			alert(result);
 			var obj = $.parseJSON(result);
 			if(obj.status =="success"){
 				window.location.href="../<?= $this->name ?>/index";

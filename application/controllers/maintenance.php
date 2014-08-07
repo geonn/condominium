@@ -29,8 +29,7 @@ class Maintenance extends Web_Controller {
 	
 	public function searchUnit(){
 		/*****get admin property incharge*****/
-		$admin = $this->propertyAdmin_model->getByUser($this->user->get_memberid());
-		$this->param['p_id'] = $admin['data']['p_id'];
+		$this->param['p_id'] =  $this->user->get_memberproperty();
 		
 		/*****check if residents exists*****/
 		$resident = $this->residents_model->getByUnitLots();

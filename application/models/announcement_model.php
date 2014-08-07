@@ -11,9 +11,30 @@ class Announcement_Model extends APP_Model{
 		$this->_result['data']       = array();	
 	}
 	
-	public function getById(){
+	public function get(){
+		/** Get property that admin in-charged**/
+		$p_id	 = $this->user->get_memberproperty();
+		
 		$filter = array(
-			$this->primary_key => $this->param['id']
+			'p_id' => $p_id
+		);
+		
+		$result = $this->get_data($filter,'','',$this->primary_key,'DESC');
+		
+		foreach($result as $k => $val){
+			$user = $this->users_model->getById($val['u_id']);
+			$result[$k]['postBy'] = $user['data']['firstname'] . " " .$user['data']['lastname'];
+		}
+		
+		/*** return response***/
+		$this->_result['status']     = 'success';
+		$this->_result['data']       = $result;	
+		return $this->_result;
+	}
+	
+	public function getById($id){
+		$filter = array(
+			$this->primary_key => $id
 		);
 		
 		$result = $this->get_data($filter);
@@ -30,9 +51,10 @@ class Announcement_Model extends APP_Model{
 		
 		if(empty($validation)) { 
 			$data = array(
-				'title'              => $this->param['title'],
-				'content'       => $this->param['content'],
-				'u_id'             => $this->param['u_id'],
+				'title'              => $this->param['announcementTitle'],
+				'content'       => $this->param['announcementContent'],
+				'u_id'             =>  $this->user->get_memberid(),
+				'p_id'             =>  $this->user->get_memberproperty(),
 				'status'          => !empty($this->param['status']) ? $this->param['status'] : 1,
 				'created'       => date('Y-m-d H:i:s'),
 				'updated'      => date('Y-m-d H:i:s')
@@ -56,17 +78,17 @@ class Announcement_Model extends APP_Model{
 	
 	public function edit(){
 		$data = array(
-			'title'              => $this->param['title'],
-			'content'       => $this->param['content'],
+			'title'              => $this->param['announcementTitle'],
+			'content'       => $this->param['announcementContent'],
 			'status'          => !empty($this->param['status']) ? $this->param['status'] : 1,
 			'updated'      => date('Y-m-d H:i:s')
 		);
 		
-		$this->update($this->param['f_id'], $data);
+		$this->update($this->param['id'], $data);
 		 
 		/*** return response***/
 		$this->_result['status']     = 'success';
-		$this->_result['data']       = $this->param['f_id'];	
+		$this->_result['data']       = $this->param['id'];	
 		return $this->_result;
 	}
 	
@@ -81,8 +103,8 @@ class Announcement_Model extends APP_Model{
 	/*** Do checking before send to database***/
 	private function validate(){
 		$statusCode = array();
-		$title        = $this->param['title'];
-		$content = $this->param['content'];
+		$title        = $this->param['announcementTitle'];
+		$content = $this->param['announcementContent'];
 		
 		if(empty($title)){
 			$statusCode[] = 130;

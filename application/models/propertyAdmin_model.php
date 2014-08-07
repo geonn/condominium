@@ -28,8 +28,9 @@ class propertyAdmin_Model extends APP_Model{
 		$filter = array(
 			'u_id' => $u_id
 		);
-		
+	
 		$result = $this->get_data($filter);
+		print_pre($u_id);
 		if(!empty($result)){
 			foreach($result as $k => $val){
 				$property = $this->property_model->getById($val['p_id']);

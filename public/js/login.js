@@ -116,6 +116,7 @@ var Login = function() {
 				
 				/**Do login to system***/
 				$.post("../main/doLogin/",$('form').serialize(), function(result) {
+					console.log(result);
 					var obj = $.parseJSON(result);
 					
 					if(obj.status =="error"){

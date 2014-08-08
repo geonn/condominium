@@ -132,6 +132,14 @@
 	<!-- end: PAGE CONTENT-->
 </div>
 <script>
+	$( "#searchform" ).keypress(function(e) {
+	 	var key = e.which;
+	  
+		 if(key == 13) {
+		    searchUnit();
+		    return false;  
+		  }
+	});
 	
 	var showMaintenanceForm = function(residentName,r_id) {
 		$("#maintenanceBox").show();

@@ -150,9 +150,16 @@
 									<tbody>
 										<tr>
 											<td style="width:30%;">Resident Property</td>
-											<td><a href="#" id="residentProperty" data-type="select" data-pk="1" data-value="<?= $result['data']['residental']['p_id'] ?>" data-source="<?= $this->config->item('domain') ?>/<?= $this->name ?>/getPropertyList"   data-original-title="Resident Property">
-												<?= $result['data']['residental']['property'] ?>
-											</a></td>
+											<td>
+												
+												<?php if($this->user->get_memberrole() == "2") { ?>
+													<?= $result['data']['residental']['property'] ?>
+												<?php }else{ ?>
+													<a href="#" id="residentProperty" data-type="select" data-pk="1" data-value="<?= $result['data']['residental']['p_id'] ?>" data-source="<?= $this->config->item('domain') ?>/<?= $this->name ?>/getPropertyList"   data-original-title="Resident Property">
+														<?= $result['data']['residental']['property'] ?>
+													</a>
+												<?php } ?>
+											</td>
 										</tr>
 										<tr>
 											<td style="width:30%;">Unit Lots</td>

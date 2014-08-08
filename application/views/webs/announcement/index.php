@@ -92,7 +92,7 @@
 									foreach($result['data'] as $k => $val){ ?>	
 									<tr>
 										<td class="hidden-xs"><?= date_convert($val['updated'], 'full') ?></td>
-										<td><?= $val['title'] ?></td>
+										<td><?= $val['title'] ?><div style="display:none;"><?= htmlspecialchars($val['content']) ?></div></td>
 										<td><?= match($val['status'], $this->config->item('status') ) ?></td>
 										<td class="hidden-xs"><?= $val['postBy'] ?> </td>
 										<td>

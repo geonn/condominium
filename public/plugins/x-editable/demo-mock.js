@@ -29,7 +29,7 @@ $(function(){
     });
   
   	$.ajax({
-		url: 'http://localhost/condo/account/getPropertyList',
+		url: '../account/getPropertyList',
 		dataType: 'json',
 		success: function(json) {
 			

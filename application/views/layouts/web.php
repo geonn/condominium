@@ -57,65 +57,8 @@
 						</div>
 					</div>
 					<!-- end: SLIDING BAR FIRST COLUMN -->
-					<!-- start: SLIDING BAR SECOND COLUMN -->
-					<div class="col-md-4 col-sm-4">
-						<h2>My Recent Works</h2>
-						<div class="blog-photo-stream margin-bottom-30">
-							<ul class="list-unstyled">
-								<li>
-									<a href="#"><img alt="" src="<?= $this->config->item('domain') ?>/public/images/image01_th.jpg"></a>
-								</li>
-								<li>
-									<a href="#"><img alt="" src="<?= $this->config->item('domain') ?>/public/images/image02_th.jpg"></a>
-								</li>
-								<li>
-									<a href="#"><img alt="" src="<?= $this->config->item('domain') ?>/public/images/image03_th.jpg"></a>
-								</li>
-								<li>
-									<a href="#"><img alt="" src="<?= $this->config->item('domain') ?>/public/images/image04_th.jpg"></a>
-								</li>
-								<li>
-									<a href="#"><img alt="" src="<?= $this->config->item('domain') ?>/public/images/image05_th.jpg"></a>
-								</li>
-								<li>
-									<a href="#"><img alt="" src="<?= $this->config->item('domain') ?>/public/images/image06_th.jpg"></a>
-								</li>
-								<li>
-									<a href="#"><img alt="" src="<?= $this->config->item('domain') ?>/public/images/image07_th.jpg"></a>
-								</li>
-								<li>
-									<a href="#"><img alt="" src="<?= $this->config->item('domain') ?>/public/images/image08_th.jpg"></a>
-								</li>
-								<li>
-									<a href="#"><img alt="" src="<?= $this->config->item('domain') ?>/public/images/image09_th.jpg"></a>
-								</li>
-								<li>
-									<a href="#"><img alt="" src="<?= $this->config->item('domain') ?>/public/images/image10_th.jpg"></a>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<!-- end: SLIDING BAR SECOND COLUMN -->
-					<!-- start: SLIDING BAR THIRD COLUMN -->
-					<div class="col-md-4 col-sm-4">
-						<h2>My Info</h2>
-						<address class="margin-bottom-40">
-							Peter Clark
-							<br>
-							12345 Street Name, City Name, United States
-							<br>
-							P: (641)-734-4763
-							<br>
-							Email:
-							<a href="#">
-								peter.clark@example.com
-							</a>
-						</address>
-						<a class="btn btn-transparent-white" href="#">
-							<i class="fa fa-pencil"></i> Edit
-						</a>
-					</div>
-					<!-- end: SLIDING BAR THIRD COLUMN -->
+				
+				
 				</div>
 				<div class="row">
 					<!-- start: SLIDING BAR TOGGLE BUTTON -->

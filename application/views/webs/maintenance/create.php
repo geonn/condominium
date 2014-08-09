@@ -134,7 +134,6 @@
 <script>
 	$( "#searchform" ).keypress(function(e) {
 	 	var key = e.which;
-	  
 		 if(key == 13) {
 		    searchUnit();
 		    return false;  

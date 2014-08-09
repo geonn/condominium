@@ -13,22 +13,53 @@ class Announcement_Model extends APP_Model{
 	
 	public function get(){
 		/** Get property that admin in-charged**/
-		$p_id	 = $this->user->get_memberproperty();
-		
-		$filter = array(
-			'p_id' => $p_id
-		);
+		$roles = $this->user->get_memberrole();
+		$return = array();
+		if($roles == "3"){
+			$user	 = $this->residents_model->getByUser($this->user->get_memberid()); 
+			
+			$filter = array(
+				'p_id' => $user['data']['p_id'],
+				'status' => 1
+			);
+		}else{
+			$filter = array();
+		}
 		
 		$result = $this->get_data($filter,'','',$this->primary_key,'DESC');
 		
+		$month = array();
 		foreach($result as $k => $val){
-			$user = $this->users_model->getById($val['u_id']);
-			$result[$k]['postBy'] = $user['data']['firstname'] . " " .$user['data']['lastname'];
+			if($roles == "3"){
+				
+				$user = $this->users_model->getById($val['u_id']);
+				
+				$date = date_convert($val['updated']);
+				$date = explode(' ', $date);
+				
+				$month = $date[1];
+				$return[$month][$k] = $val;
+				$return[$month][$k]['postBy'] = $user['data']['firstname'] . " " .$user['data']['lastname'];
+				$return[$month][$k]['day']  	  = $date[0];
+				$return[$month][$k]['month']  = $month;
+				$return[$month][$k]['year'] 	 = $date[2];
+				$return[$month][$k]['dayOfWeek'] 	 = $date[3];
+				$monthList[strtolower($month)] = $month;
+			}else{
+				$return[$k] = $val;
+				$user = $this->users_model->getById($val['u_id']);
+				$return[$k]['postBy'] = $user['data']['firstname'] . " " .$user['data']['lastname'];
+			}
+			
 		}
 		
+		if($roles == "3"){
+			$return['monthList'] = $monthList;
+		}
+		 
 		/*** return response***/
 		$this->_result['status']     = 'success';
-		$this->_result['data']       = $result;	
+		$this->_result['data']       = $return;	
 		return $this->_result;
 	}
 	
@@ -38,7 +69,10 @@ class Announcement_Model extends APP_Model{
 		);
 		
 		$result = $this->get_data($filter);
-		
+		foreach($result as $k => $val){
+			$user = $this->users_model->getById($val['u_id']);
+			$result[$k]['postBy'] = $user['data']['firstname'] . " " .$user['data']['lastname'];
+		}
 		/*** return response***/
 		$this->_result['status']     = 'success';
 		$this->_result['data']       = $result[0];	

@@ -230,6 +230,7 @@
 				UIButtons.init();
 				FormValidator.init();
 				TableData.init();
+				Timeline.init();
 			});
 		</script>
 	</body>

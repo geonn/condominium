@@ -12,20 +12,35 @@ class Maintenance_Model extends APP_Model{
 	}
 	
 	public function get(){
-		/** Get property that admin in-charged**/
-		//$admin = $this->propertyAdmin_model->getByUser($this->user->get_memberid());
-		$p_id	 = $this->user->get_memberproperty();
+		/** Check user type**/
+		$role = $this->user->get_memberrole();
 		
-		$resident = $this->residents_model->getByProperty($p_id);
-		$res=  array();
-		foreach($resident ['data'] as $k => $val){
-			$res[] = $k;
+		if($role == 3){
+			/** Normal user query**/
+			$u_id	 = $this->user->get_memberid();
+			$res = $this->residents_model->getByUser($u_id);
+		 	
+		 	/**Convert array standard**/
+		 	$resident['data'][$res['data']['r_id']]['u_id'] = $res['data']['u_id'];
+		 	$resident['data'][$res['data']['r_id']]['unitLots'] = $res['data']['unitLots'];
+		 	
+			$filter = array(
+				'r_id' => $res['data']['r_id']
+			);
+		}else{
+			/** for admin: Get property that admin in-charged**/
+			$p_id	 = $this->user->get_memberproperty();
+			$resident = $this->residents_model->getByProperty($p_id);
+			$res=  array();
+			foreach($resident ['data'] as $k => $val){
+				$res[] = $k;
+			}
+			$r_id = implode(',' , $res);
+			$filter =  "r_id IN (".$r_id.")";
 		}
-		$r_id = implode(',' , $res);
-		
-		$filter =  "r_id IN (".$r_id.")";
+	 
 		$result = $this->get_data($filter,'','',$this->primary_key,'DESC');
-		
+	 
 		$return = array();
 		foreach($result as $r => $ret){
 			$return[$r] = $ret;
@@ -37,7 +52,7 @@ class Maintenance_Model extends APP_Model{
 			$user = $this->users_model->getById($resident['data'][$ret['r_id']]['u_id']);
 			$return[$r]['name'] 			= $user['data']['firstname'];
 		}
-		
+	 
 		/*** return response***/
 		$this->_result['status']     = 'success';
 		$this->_result['data']       = $return;	

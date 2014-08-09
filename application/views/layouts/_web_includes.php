@@ -112,4 +112,6 @@
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/x-editable/demo-mock.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/x-editable/demo.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/js/ui-notifications.js"></script>
+		<script src="<?= $this->config->item('domain') ?>/public/plugins/ScrollToFixed/jquery-scrolltofixed-min.js"></script>
+		<script src="<?= $this->config->item('domain') ?>/public/js/pages-timeline.js"></script>
 		<!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->

@@ -20,9 +20,9 @@ class Main extends Web_Controller {
 	 	$type = $this->user->get_memberrole();
 	 
 	 	if($type == "3"){
-	 		$this->_render_form('dashboard',$data);
+	 		$this->dashboard();
 	 	}else if($type == "1" && !$this->user->get_memberproperty()){
-			redirect($this->CI->config->item('base_url').'main/switchCondo');
+			redirect($this->config->item('base_url').'main/switchCondo');
 		}else{
 	 		$this->_render_form('index',$data);
 	 	}
@@ -32,8 +32,25 @@ class Main extends Web_Controller {
 	public function dashboard(){
 		/**Module name***/
 		$data['module'] = "Dashboard";
+	 	$role = $this->user->get_memberrole();
+	 	
+	 	if($role == 3){
+	 		$data['result'] = $this->announcement_model->get();
+	 		$data['monthList'] = $data['result']['data']['monthList'];
+			unset($data['result']['data']['monthList']);
+	 		$this->_render_form('dashboard'.$role,$data);
+	 	}else{
+	 		$this->_render_form('dashboard',$data);
+	 	}
+	}
+	
+	public function articles($id){
+		/**Module name***/
+		$data['module'] = "Dashboard";
+		
+		$data['result'] = $this->announcement_model->getById($id);
 	 
-		$this->_render_form('dashboard',$data);
+		$this->_render_form('articles',$data);
 	}
 	
 	public function login(){

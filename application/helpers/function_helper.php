@@ -124,7 +124,7 @@
 		 if(substr($date_convert,0,10) == "0000-00-00"){
 		 	return "";
 		}
-		
+	
 		$geodate =  strtotime($date_convert);
 		$date_convert =  date("Y-m-d H:i:s",$geodate); 
 	
@@ -159,7 +159,7 @@
 			$element = explode("-", $date_processed);
 
 			$d2 = mktime(0,0,0,$element[1],$element[2],$element[0]);
-			$date_processed =  date('j M Y', $d2);
+			$date_processed =  date('j F Y l', $d2);
 		}
 		
 		return $date_processed;
@@ -182,15 +182,14 @@
         if(!empty($limit)){
         	$chars= $limit;
         }
+      	$text = strip_tags($text);
+		if(strlen($text) >= $chars){
+		 	$text = $text." "; 
+		    $text = substr($text,0,$chars); 
+		    $text = substr($text,0,strrpos($text,' ')); 
+		    $text = $text."..."; 
+		}
         
-			 if(strlen($text) >= $chars){
-				 	$text = $text." "; 
-	        $text = substr($text,0,$chars); 
-	        $text = substr($text,0,strrpos($text,' ')); 
-	        $text = $text."..."; 
-				}
-        
-
         return $text; 
 
     } 

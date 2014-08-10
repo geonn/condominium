@@ -36,8 +36,12 @@ class Main extends Web_Controller {
 	 	
 	 	if($role == 3){
 	 		$data['result'] = $this->announcement_model->get();
-	 		$data['monthList'] = $data['result']['data']['monthList'];
-			unset($data['result']['data']['monthList']);
+	 		$data['monthList']  = array();
+	 		if(!empty( $data['result']['data']['monthList'])){
+	 			$data['monthList'] = $data['result']['data']['monthList'];
+				unset($data['result']['data']['monthList']);
+	 		}
+	 		
 	 		$this->_render_form('dashboard'.$role,$data);
 	 	}else{
 	 		$this->_render_form('dashboard',$data);

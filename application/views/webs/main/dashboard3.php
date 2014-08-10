@@ -41,6 +41,7 @@
 						<div class="panel-body">
 							<ul class="timeline-scrubber inner-element">
 								<?php
+								if(!empty($monthList)){
 								$counter = 0;
 								 foreach($monthList as $key => $value) { 
 								 		if($counter != 0){
@@ -52,13 +53,16 @@
 								
 									<a href="#<?= $key ?>" data-separator="#<?= $key ?>"><?= $value ?></a>
 								</li>
-								<?php $counter++; } ?> 
+								<?php $counter++; } 
+								} ?> 
 							</ul>
 							<div id="timeline" class="demo1">
 								<div class="timeline">
 									<div class="spine"></div>
 									
-									<?php foreach($result['data'] as $k => $val) { ?>
+									<?php
+									if(!empty($result['data'] )){
+									 foreach($result['data'] as $k => $val) { ?>
 									<div class="date_separator" id="<?= strtolower($k) ?>" data-appear-top-offset="-400">
 										<span><?= $k ?> 2014</span>
 									</div>
@@ -94,7 +98,9 @@
 										
 							
 									</ul>
-									
+									<?php }
+									}else{ ?>
+										No announcement/news at the moment.
 									<?php } ?>
 								</div>
 							</div>

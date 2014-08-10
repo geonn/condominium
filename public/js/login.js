@@ -123,7 +123,7 @@ var Login = function() {
 						$("#errorHandler1").html(obj.data.error_msg);
 						errorHandler.show();
 					}else{
-						window.location.href="../main/dashboard";
+						window.location.href="../main/index";
 					}
 				});
 				

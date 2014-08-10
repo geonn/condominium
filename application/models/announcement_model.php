@@ -53,7 +53,7 @@ class Announcement_Model extends APP_Model{
 			
 		}
 		
-		if($roles == "3"){
+		if($roles == "3" && !empty($monthList)){
 			$return['monthList'] = $monthList;
 		}
 		 

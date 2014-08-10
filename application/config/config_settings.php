@@ -264,7 +264,10 @@ $config['user_type'] = array(
 	2 => array(
 		2 => 'Admin',
 		3 => 'Owner/Tenant' 
-	)
+	),
+	3 => array(
+		3 => 'Owner/Tenant' 
+	),
 );
 
 /********Status********/

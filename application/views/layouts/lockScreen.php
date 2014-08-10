@@ -7,7 +7,8 @@
 	<!--<![endif]-->
 	<!-- start: HEAD -->
 	<head>
-		<title>Rapido - Responsive Admin Template</title>
+		<title>Lock Screen  | <?= $this->config->item('project_name') ?></title>
+		<?= $template['partials']['includes']; ?>
 		<!-- start: META -->
 		<meta charset="utf-8" />
 		<!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
@@ -17,14 +18,7 @@
 		<meta content="" name="description" />
 		<meta content="" name="author" />
 		<!-- end: META -->
-		<!-- start: MAIN CSS -->
-		<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/font-awesome/css/font-awesome.min.css">
-		<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/styles.css">
-        <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/plugins.css">
-		<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/styles-responsive.css">
-		<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/animate.css/animate.min.css"> 
-		<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/print.css" type="text/css" media="print"/>
+        
 		<!--[if IE 7]>
 		<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome-ie7.min.css">
 		<![endif]-->
@@ -41,7 +35,7 @@
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<![endif]-->
 		<!--[if gte IE 9]><!-->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script src="<?= $this->config->item('domain') ?>/public/plugins/jQuery/jquery-2.1.1.min.js"></script>
 		<!--<![endif]-->
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/bootstrap/js/bootstrap.min.js"></script>

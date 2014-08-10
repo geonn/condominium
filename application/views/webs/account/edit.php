@@ -77,6 +77,7 @@
 								<?= form_hidden('lastname',$result['data']['lastname']  ) ?>
 								<?= form_hidden('email',$result['data']['email']   ) ?>
 								<?= form_hidden('status',$result['data']['status']   ) ?>
+							 
 								<table id="user" class="table table-bordered table-striped">
 									<tbody>
 										<tr>
@@ -87,7 +88,14 @@
 										<tr>
 											<td class="column-left" style="width:30%;">Account Type</td>
 											<td class="column-right">
-											<?= match($result['data']['type'],$this->config->item('user_type')) ?></td>
+											<?php
+												$user_type = $this->config->item('user_type');
+											 if($this->user->get_memberrole() != "3") { ?>
+												<?= match($result['data']['type'],$user_type[$this->user->get_memberrole() ]) ?>
+											<?php }else{  ?>
+												<?=  match($result['data']['type'],$user_type[$this->user->get_memberrole() ]) ?>
+											<?php }  ?>
+											</td>
 										</tr>
 										<tr>
 											<td class="column-left" style="width:30%;">First Name</td>
@@ -152,7 +160,7 @@
 											<td style="width:30%;">Resident Property</td>
 											<td>
 												
-												<?php if($this->user->get_memberrole() == "2") { ?>
+												<?php if($this->user->get_memberrole() != "1") { ?>
 													<?= $result['data']['residental']['property'] ?>
 												<?php }else{ ?>
 													<a href="#" id="residentProperty" data-type="select" data-pk="1" data-value="<?= $result['data']['residental']['p_id'] ?>" data-source="<?= $this->config->item('domain') ?>/<?= $this->name ?>/getPropertyList"   data-original-title="Resident Property">

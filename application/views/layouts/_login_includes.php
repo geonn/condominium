@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/styles.css">
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/styles-responsive.css">
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/iCheck/skins/all.css">
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/plugins.css">
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/print.css" type="text/css" media="print"/>
 <!--[if IE 7]>
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/font-awesome/css/font-awesome-ie7.min.css">
 <![endif]-->

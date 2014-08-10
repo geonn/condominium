@@ -4,7 +4,6 @@
  	 
 		$.post("<?= $this->config->item('domain') ?>/main/doSwitchCondo/",$('form').serialize(), function(result) {
 			var obj = $.parseJSON(result);
-			
 			if(obj.status =="error"){
 				$("#errorHandler1").html(obj.data.error_msg);
 				$("#divErrorHandler").removeClass("no-display");
@@ -60,25 +59,4 @@
 			 <? echo date('Y');?> &copy; <?= $this->config->item('project_developer') ?>
 		</div>
 	</div>
-	<!-- start: MAIN JAVASCRIPTS -->
-	<!--[if lt IE 9]>
-	<script src="<?= $this->config->item('domain') ?>/public/plugins/respond.min.js"></script>
-	<script src="<?= $this->config->item('domain') ?>/public/plugins/excanvas.min.js"></script>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<![endif]-->
-	<!--[if gte IE 9]><!-->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<!--<![endif]-->
-	<script src="<?= $this->config->item('domain') ?>/public/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js"></script>
-	<script src="<?= $this->config->item('domain') ?>/public/plugins/bootstrap/js/bootstrap.min.js"></script>
-	<script src="<?= $this->config->item('domain') ?>/public/plugins/jquery-cookie/jquery.cookie.js"></script>
-	<script src="<?= $this->config->item('domain') ?>/public/js/main.js"></script>
-	<!-- end: MAIN JAVASCRIPTS -->
-	<!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
-	<!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
-	<script>
-		jQuery(document).ready(function() {
-			Main.init();
-		});
-	</script>
-</body>
+	

@@ -36,21 +36,30 @@ class Maintenance_Model extends APP_Model{
 				$res[] = $k;
 			}
 			$r_id = implode(',' , $res);
-			$filter =  "r_id IN (".$r_id.")";
+			$filter = "";
+			if(!empty($r_id)){
+				$filter =  "r_id IN (".$r_id.")";
+			}else{
+				$filter =  "type =999";
+			}
+			
 		}
 	 
 		$result = $this->get_data($filter,'','',$this->primary_key,'DESC');
 	 
 		$return = array();
-		foreach($result as $r => $ret){
-			$return[$r] = $ret;
-			$return[$r]['type']     			  = match($ret['type'], $this->config->item('maintenance_type'));
-			$return[$r]['paymentType']   = match($ret['paymentType'], $this->config->item('payment_type'));
-			$return[$r]['unitLots'] 			= $resident['data'][$ret['r_id']]['unitLots'];
-			
-			/**get user info**/
-			$user = $this->users_model->getById($resident['data'][$ret['r_id']]['u_id']);
-			$return[$r]['name'] 			= $user['data']['firstname'];
+	 
+		if(!empty($result)){
+			foreach($result as $r => $ret){
+				$return[$r] = $ret;
+				$return[$r]['type']     			  = match($ret['type'], $this->config->item('maintenance_type'));
+				$return[$r]['paymentType']   = match($ret['paymentType'], $this->config->item('payment_type'));
+				$return[$r]['unitLots'] 			= $resident['data'][$ret['r_id']]['unitLots'];
+				
+				/**get user info**/
+				$user = $this->users_model->getById($resident['data'][$ret['r_id']]['u_id']);
+				$return[$r]['name'] 			= $user['data']['firstname'];
+			}
 		}
 	 
 		/*** return response***/

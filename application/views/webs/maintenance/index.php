@@ -90,7 +90,7 @@
 								</thead>
 								<tbody>
 								<?php 
-							
+								if(!empty($result['data'])){
 								foreach($result['data'] as $k => $val){ ?>	
 									<tr>
 										<td><?= $val['m_id'] ?></td>
@@ -102,7 +102,12 @@
 										<td class="hidden-xs"><?= $val['totalAmount'] ?></td>
 										<td class="hidden-xs"><?=   date_convert($val['created'], 'full') ?></td>
 									</tr>
-								<?php } ?>
+								<?php
+								}
+								 } else{ ?>
+									<tr><td colspan="8" style="text-align:center;">No records found.</td></tr>
+										
+							<?php } ?>
 									
 								</tbody>
 							</table>

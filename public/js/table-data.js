@@ -251,7 +251,7 @@ var TableData = function() {
 	return {
 		//main function to initiate template pages
 		init : function() {
-			runDataTable_maintenance();
+			//runDataTable_maintenance();
 			runDataTable_example1();
 			runDataTable_example2();
 		}

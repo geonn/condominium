@@ -47,21 +47,21 @@ $config['menu1'] = array(
 $config['sub_menu1'] = array(
 	'main'     => array(),
 	'property'     => array(
-					'Manage Property' =>  $this->domain.'/property/',
+					'Manage Property' =>  $this->domain.'/property/index',
 					'Create Property' =>  $this->domain.'/property/create',
 	),
 	 'account'  => array(
-	 				'Manage Account' => $this->domain.'/account/', 
+	 				'Manage Account' => $this->domain.'/account/index', 
 	 				'Create Account' => $this->domain.'/account/create', 
 	 				'Edit Account' => $this->domain.'/account/edit'
 	 ),
 	 'facility'     => array(
-	 				'Manage Facility' => $this->domain.'/facility/',
+	 				'Manage Facility' => $this->domain.'/facility/index',
 	 				'Create Facility' => $this->domain.'/facility/add',
 	 				'Check Booking' => $this->domain.'/facility/booking'
 	 ),	
 	'maintenance'     => array(
-					'Manage Maintenance' =>  $this->domain.'/maintenance/',
+					'Manage Maintenance' =>  $this->domain.'/maintenance/index',
 					'Add Maintenance' =>  $this->domain.'/maintenance/create',
 	),	
 	 'announcement'    => array(

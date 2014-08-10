@@ -40,6 +40,7 @@ class Maintenance_Model extends APP_Model{
 			if(!empty($r_id)){
 				$filter =  "r_id IN (".$r_id.")";
 			}else{
+				/** to avoid get any records from query**/
 				$filter =  "type =999";
 			}
 			

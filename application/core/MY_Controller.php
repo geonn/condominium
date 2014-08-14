@@ -22,7 +22,8 @@ class APP_Controller extends CI_Controller{
 			 ->model(array(
 				'admin_model','permissions_model','user_sessions_model','users_model',
 				'facility_model','facilityOptions_model','maintenance_model', 'property_model',
-				'residents_model', 'propertyAdmin_model', 'facilityBooking_model','announcement_model'
+				'residents_model', 'propertyAdmin_model', 'facilityBooking_model','announcement_model',
+				'chatroom_model','message_model','messageNotification_model'
 			));
 			
 		/***********************************************

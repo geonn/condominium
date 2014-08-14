@@ -6,29 +6,77 @@ class Chatroom_Model extends APP_Model{
 		$this->_table      = "chatroom";
 		$this->primary_key = 'id';	
 		
-		$this->list                          = array();
+	 
 		$this->_result['status']     = '';
 		$this->_result['error_code'] = '';
 		$this->_result['data']       = array();	
 	}
 	
-	public function getById(){
+	public function getById($id){
+		$recipient = $this->user->get_memberid();
+		
 		$filter = array(
-			$this->primary_key => $this->param['id']
+			$this->primary_key => $id
 		);
 		
 		$result = $this->get_data($filter);
-		
+		$return = array();
 		if(!empty($result)){
 			foreach($result as $k => $val){
-				$this->list['chatroomInfo'] = $val;
-				$this->list['chatroomMsg'] = $this->message_model->getByChatroom($val['id']);
-			}
+				$return = $val;
+				
+				$list = explode(',', $val['recipient']);
+				if(in_array($recipient, $list)){
+					foreach($list as $rec){
+						if($recipient != $rec){
+							$users = $this->users_model->getById($rec);
+							$return['target'] = $rec;
+							$return['targetName'] = $users['data']['firstname']." ".$users['data']['lastname'];
+						} 
+						
+					}
+				}
+			} 
 		}
 		
 		/*** return response***/
 		$this->_result['status']     = 'success';
-		$this->_result['data']       = $this->list;	
+		$this->_result['data']       = $return;	
+		return $this->_result;
+	}
+	
+	public function getByUser(){
+		$recipient = $this->user->get_memberid();
+		
+		$filter = "recipient LIKE ('%".$recipient. "%')";
+		
+		$result = $this->get_data($filter);
+		$return = array();
+		$count = 0;
+		$noti = $this->messageNotification_model->getByUser();
+		foreach($result as $k => $val){
+			$list = explode(',', $val['recipient']);
+			if(in_array($recipient, $list)){
+				$return[$count] = $val;
+				$return[$count]['notification'] = array();
+				if(isset($noti['data'][$val['id']])){
+					$return[$count]['notification'] = $noti['data'][$val['id']];
+				} 
+				foreach($list as $rec){
+					if($recipient != $rec){
+						$users = $this->users_model->getById($rec);
+						$return[$count]['isOnline'] = $users['data']['onlineStatus'];
+						$return[$count]['target'] = $rec;
+						$return[$count]['targetName'] = $users['data']['firstname']." ".$users['data']['lastname'];
+					}
+				}
+				$count++;
+			}
+		} 
+		 
+		/*** return response***/
+		$this->_result['status']     = 'success';
+		$this->_result['data']       = $return;	
 		return $this->_result;
 	}
 	
@@ -43,18 +91,55 @@ class Chatroom_Model extends APP_Model{
 		return $this->_result;
 	}
 	
-	public function add(){
-		$validation = $this->validate();
+	public function setupChatroom(){
+		$user = $this->users_model->getById($this->user->get_memberid());
+		$adminList = $this->users_model->getAdminList();
+
+		foreach($adminList['data']  as $k => $admin){
+			if($admin['type'] == 2){
+				$propertyAdmin = $this->propertyAdmin_model->getByProperty($user['data']['residental']['p_id']);
+				if(empty($propertyAdmin['data'])){
+					unset($adminList['data'][$k]);
+				}
+			}else{
+			
+				$this->add($this->user->get_memberid(), $admin['u_id'],1 );
+			}
+		}
+		 
+	}
+	
+	public function add($r1 ="", $r2="", $isReg=""){
+			 
+		$r1 = !empty($r1) ? $r1 : $this->param['recipient1'];
+		$r2 = !empty($r2) ? $r2 : $this->param['recipient2'];
+		$validation = $this->validate($r1,$r2);
 		
 		if(empty($validation)) { 
-			$data = array(
-				'recipient1'   => $this->param['recipient1'],
-				'recipient2'   => $this->param['recipient2'],
-				'created'       => date('Y-m-d H:i:s'),
-				'updated'      => date('Y-m-d H:i:s')
-			);
+			$re_list = array($r1,$r2 );
+			asort($re_list);
+			$recipient = implode(',',$re_list);
 			
-			$id = $this->insert($data);
+			$filter = array('recipient' => $recipient);
+			
+			$result= $this->get_data($filter);
+			
+			if(empty($result)){
+				$data = array(
+					'recipient'   => $recipient,
+					'created'       => date('Y-m-d H:i:s'),
+					'updated'      => date('Y-m-d H:i:s')
+				);
+				
+				$id = $this->insert($data);
+			}else{
+				$id = $result[0]['id'];
+			}
+			
+			//add unread status to targeted recipient
+			if(empty($isReg)){
+				$this->messageNotification_model->add($id, $r2 );
+			}
 			
 			/*** return response***/
 			$this->_result['status']     = 'success';
@@ -80,10 +165,10 @@ class Chatroom_Model extends APP_Model{
 	}
 	
 	/*** Do checking before send to database***/
-	private function validate(){
+	private function validate($r1,$r2){
 		$statusCode = array();
-		$recipient1        = $this->param['recipient1'];
-		$recipient2        = $this->param['recipient2'];
+		$recipient1        = $r1;
+		$recipient2        = $r2;
 		
 		if(empty($recipient1)){
 			$statusCode[] = 127;

@@ -45,9 +45,10 @@ class propertyAdmin_Model extends APP_Model{
 		return $this->_result;
 	}
 	
-	public function getByProperty(){
+	public function getByProperty($p_id=""){
+		$property = !empty( $this->param['p_id']) ?  $this->param['p_id'] : $p_id;
 		$filter = array(
-			'p_id' => $this->param['p_id']
+			'p_id' => $property
 		);
 		
 		$result = $this->get_data($filter);

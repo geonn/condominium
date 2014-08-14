@@ -44,6 +44,15 @@ class Users_Model extends APP_Model{
 		return $this->_result;
 	}
 	
+	public function getAdminList(){
+		$filter = "(type IN (1,2) AND status=1)";
+		$res = $this->get_data($filter);
+		
+		$this->_result['status']     = 'success';
+		$this->_result['data']       = $res;	
+		return $this->_result;
+	}
+	
 	/** Retrieve user base on their info  **/
 	public function getUser(){
 		$u_id     =$this->user_sessions_model->checkUserSession();
@@ -155,6 +164,7 @@ class Users_Model extends APP_Model{
 		$u_id = $this->user_sessions_model->removeUserSession();
 		$data = array(
 			'lastLogin' 	 => date('Y-m-d H:i:s'),
+			'onlineStatus' 	 => 2,
 		);				
 		$this->update($u_id,$data);
 		$this->phpsession->clear(null,'key');

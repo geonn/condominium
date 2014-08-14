@@ -22,7 +22,7 @@ class Main extends Web_Controller {
 	 	if($type == "3"){
 	 		$this->dashboard();
 	 	}else if($type == "1" && !$this->user->get_memberproperty()){
-			redirect($this->config->item('base_url').'main/switchCondo');
+			redirect($this->config->item('base_url').$this->name.'/switchCondo');
 		}else{
 	 		$this->_render_form('index',$data);
 	 	}
@@ -95,6 +95,20 @@ class Main extends Web_Controller {
 		echo json_encode($result);
 		exit;
 	}
+	
+	public function testChatroom(){
+		$result = $this->chatroom_model->add();	
+		$message = $this->message_model->add($result['data']);
+		
+		echo json_encode($result); 
+	}
+	
+	public function getByUser(){
+		$result = $this->chatroom_model->getByUser();	
+		
+		echo json_encode($result); 
+	}
+	
 }
 
 /* End of file main.php */

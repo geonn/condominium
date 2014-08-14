@@ -97,6 +97,11 @@ $config['menu2'] = array(
 	 					"icon"    => "fa-comment",
 	 					"url" => $this->domain."/announcement/index",	
 	 				),
+	 'messages'    => array(
+	 					"name" => "Messages",	
+	 					"icon"    => "fa-comments",
+	 					"url" => $this->domain."/messages/index",	
+	 				),
 );
 
 $config['sub_menu2'] = array( 
@@ -142,6 +147,11 @@ $config['menu3'] = array(
 	 					"name" => "Maintenance",	
 	 					"icon"    => "fa-wrench",
 	 					"url" => $this->domain."/maintenance/index",	
+	 				),
+	  'messages'    => array(
+	 					"name" => "Messages",	
+	 					"icon"    => "fa-comments",
+	 					"url" => $this->domain."/messages/index",	
 	 				),
 
 );

@@ -8,7 +8,7 @@
 				$("#errorHandler1").html(obj.data.error_msg);
 				$("#divErrorHandler").removeClass("no-display");
 			}else{
-				window.location.href="../main";
+				window.location.href="../<?= $this->name ?>/index";
 			}
 		});
 		return false;

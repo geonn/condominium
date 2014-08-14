@@ -5129,7 +5129,7 @@ div.timeline .column_center .timeline_element:before, div.timeline .column_cente
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   -moz-opacity: 0;
   -khtml-opacity: 0;
-  opacity: 0;
+ 
 }
 .messages-list .messages-item .messages-item-time:hover .messages-item-actions {
   filter: alpha(opacity=100);

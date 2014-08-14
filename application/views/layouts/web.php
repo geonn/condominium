@@ -26,38 +26,7 @@
 		<div id="slidingbar-area">
 			<div id="slidingbar">
 				<div class="row">
-					<!-- start: SLIDING BAR FIRST COLUMN -->
-					<div class="col-md-4 col-sm-4">
-						<h2>My Options</h2>
-						<div class="row">
-							<div class="col-xs-6 col-lg-3">
-								<button class="btn btn-icon btn-block space10">
-									<i class="fa fa-folder-open-o"></i>
-									Projects <span class="badge badge-info partition-red"> 4 </span>
-								</button>
-							</div>
-							<div class="col-xs-6 col-lg-3">
-								<button class="btn btn-icon btn-block space10">
-									<i class="fa fa-envelope-o"></i>
-									Messages <span class="badge badge-info partition-red"> 23 </span>
-								</button>
-							</div>
-							<div class="col-xs-6 col-lg-3">
-								<button class="btn btn-icon btn-block space10">
-									<i class="fa fa-calendar-o"></i>
-									Calendar <span class="badge badge-info partition-blue"> 5 </span>
-								</button>
-							</div>
-							<div class="col-xs-6 col-lg-3">
-								<button class="btn btn-icon btn-block space10">
-									<i class="fa fa-bell-o"></i>
-									Notifications <span class="badge badge-info partition-red"> 9 </span>
-								</button>
-							</div>
-						</div>
-					</div>
-					<!-- end: SLIDING BAR FIRST COLUMN -->
-				
+				 
 				
 				</div>
 				<div class="row">
@@ -91,7 +60,10 @@
 							<!-- start: USER DROPDOWN -->
 							<li class="dropdown current-user">
 								<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
-									 <span class="username hidden-xs"><?= $this->user->get_memberusername() ?></span> <i class="fa fa-caret-down "></i>
+									  <span id="topMsgBullet"> </span>
+									  <span class="username hidden-xs"><?= $this->user->get_memberusername() ?></span>
+									
+									  <i class="fa fa-caret-down "></i>
 								</a>
 								<ul class="dropdown-menu dropdown-dark">
 									<li>
@@ -105,8 +77,8 @@
 										</a>
 									</li>
 									<li>
-										<a href="pages_messages.html">
-											My Messages (3)
+										<a id="topMessage" href="pages_messages.html">
+											My Messages  
 										</a>
 									</li>
 									<li>
@@ -152,8 +124,8 @@
 											$activeMainClass ="open active";
 										}
 							 
-									echo "<li class='".$activeMainClass."'>".
-											"<a href='javascript:void(0)'><i class='fa ".$menu['icon'] . "'></i> <span class='title'> ".$menu['name'] . " </span> <i class='icon-arrow'></i> </a>";; 
+									echo "<li  class='".$activeMainClass."'>".
+											"<a  id='".strtolower($menu['name']) ."' href='javascript:void(0)'><i class='fa ".$menu['icon'] . "'></i> <span class='title'> ".$menu['name'] . " </span> <i class='icon-arrow'></i> </a>";; 
 									echo '<ul class="sub-menu">';
 									foreach($this->sub_menu[$modul] as $sm => $sub_menu){
 										$activeSubClass ="";
@@ -169,8 +141,8 @@
 									}
 									echo '</ul>';
 								}else{
-									echo "<li>".
-											"<a href=' ".$menu['url'] . "'><i class='fa ".$menu['icon'] . "'></i> <span class='title'> ".$menu['name'] . " </span> </a>";; 
+									echo "<li  >".
+											"<a  id='".strtolower($menu['name']) ."' href=' ".$menu['url'] . "'><i class='fa ".$menu['icon'] . "'></i> <span class='title'> ".$menu['name'] . " </span> </a>";; 
 								}
 								echo	"</li>";
 					    	} 
@@ -224,6 +196,25 @@
 		<script src="<?= $this->config->item('domain') ?>/public/js/main.js"></script>
 		<!-- end: CORE JAVASCRIPTS  -->
 		<script>
+			var getUnreadBullet = function(){
+				/**Get chatroom message***/
+				$.get("<?= $this->config->item('domain') ?>/messages/getUnread/",  function(result) {
+					var obj = $.parseJSON(result);
+					if(obj.status =="success"){
+						if(obj.data > 0){
+							$("#topMsgBullet").html('<span class="notifications-count badge badge-default animated bounceIn"> '+obj.data+'</span>');
+							$("#messages").html('<i class="fa fa-comments"></i> Messages <span class="notifications-count badge badge-default animated bounceIn"> '+obj.data+'</span>');
+							$("#topMessage").html('My Messages   <span class="notifications-count badge badge-default animated bounceIn"> '+obj.data+'</span>');
+						}else{
+							$("#topMsgBullet").html('');
+							$("#messages").html('<i class="fa fa-comments"></i> Messages ');
+							$("#topMessage").html('My Messages');
+						}
+					}
+				});
+				return false;
+			}
+		
 			jQuery(document).ready(function() {
 				Main.init();
 				UINotifications.init();
@@ -231,6 +222,7 @@
 				FormValidator.init();
 				TableData.init();
 				Timeline.init();
+				getUnreadBullet();
 			});
 		</script>
 	</body>

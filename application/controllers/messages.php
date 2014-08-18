@@ -12,18 +12,23 @@ class Messages extends Web_Controller {
 		/**Module name***/
 		$data['module'] = "Messages";
 		$chatroom    = $this->chatroom_model->getByUser();
+		 
 		if(!empty($chatroom['data'])){
 			$data['result']    = $this->message_model->getLastMessage($chatroom['data']);
 		}else{
 			$data['result']    = $this->chatroom_model->setupChatroom();
+			$this->index();
 		}
  
 		$this->_render_form('index',$data);
 	}
 	
 	public function getMessageList(){
+		$data['chatroom'] = $this->param['chatroom'];	
 		$this->messageNotification_model->resetBadge($this->param['chatroom']);
+		$data['chatroom'] = $this->chatroom_model->getByChatroom($this->param['chatroom']);
 		$data['result']    = $this->message_model->getByChatroom($this->param['chatroom']);
+	 
 		$table_row = $this->load->view('/webs/'.$this->name.'/_message',$data,true);
 		echo $table_row;
 	}

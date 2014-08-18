@@ -77,7 +77,7 @@
 										</a>
 									</li>
 									<li>
-										<a id="topMessage" href="pages_messages.html">
+										<a id="topMessage" href="<?= $this->config->item('domain') ?>/messages/index">
 											My Messages  
 										</a>
 									</li>

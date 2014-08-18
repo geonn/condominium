@@ -147,6 +147,7 @@
 			var str = "chatroom="+chatroom;
 			/**Get chatroom message***/
 			$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/getMessageList/", str, function(result) {
+			//	console.log(result);
 				$("#message_container").html(result);
 	    		$("#message_container").scrollTo(document.body.scrollHeight,0);
 			});

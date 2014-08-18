@@ -96,7 +96,9 @@
 										<td><?= $val['firstname'] . " " .$val['lastname'] ?></td>
 										<td><?= $val['username'] ?></td>
 										<td><?= $val['email'] ?></td>
-										<td class="hidden-xs"><?= match($val['type'],$this->config->item('user_type')) ?> </td>
+										<td class="hidden-xs"><?php
+											 $userTypeList = $this->config->item('user_type');
+										 echo match($val['type'],$userTypeList[$val['type']]); ?> </td>
 										<td class="hidden-xs">
 											<span class=" btn-sm status" >
 											<?php if($val['onlineStatus'] == "1" ){ ?>

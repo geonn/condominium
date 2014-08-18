@@ -12,6 +12,36 @@ class Chatroom_Model extends APP_Model{
 		$this->_result['data']       = array();	
 	}
 	
+	public function getByChatroom($id){
+		$recipient = $this->user->get_memberid();
+		
+		$filter = array(
+			$this->primary_key => $id
+		);
+		
+		$result = $this->get_data($filter);
+		foreach($result as $k => $val){
+			$list = explode(',', $val['recipient']);
+			if(in_array($recipient, $list)){
+				
+				foreach($list as $rec){
+						if($recipient != $rec){
+							$users = $this->users_model->getById($rec);
+							$result[$k]['target'] = $rec;
+							$result[$k]['targetName'] = $users['data']['firstname']." ".$users['data']['lastname'];
+						} 
+						
+				}
+			}
+		}
+		
+	
+		/*** return response***/
+		$this->_result['status']     = 'success';
+		$this->_result['data']       = $result[0];	
+		return $this->_result;
+	}
+	
 	public function getById($id){
 		$recipient = $this->user->get_memberid();
 		
@@ -50,7 +80,7 @@ class Chatroom_Model extends APP_Model{
 		
 		$filter = "recipient LIKE ('%".$recipient. "%')";
 		
-		$result = $this->get_data($filter);
+		$result = $this->get_data($filter,'','','updated','DESC');
 		$return = array();
 		$count = 0;
 		$noti = $this->messageNotification_model->getByUser();
@@ -133,6 +163,10 @@ class Chatroom_Model extends APP_Model{
 				
 				$id = $this->insert($data);
 			}else{
+				$data = array(
+					'updated'      => date('Y-m-d H:i:s')
+				);
+				$this->update($result[0]['id'],$data);
 				$id = $result[0]['id'];
 			}
 			

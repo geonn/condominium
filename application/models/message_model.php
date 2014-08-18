@@ -30,14 +30,15 @@ class Message_Model extends APP_Model{
 			);
 			
 		$result = $this->get_data($filter);
-		
-		foreach($result as $k => $val){
-			$users1 = $this->users_model->getById($val['recipient']);
-			$result[$k]['recipientName'] = $users1['data']['firstname']." ".$users1['data']['lastname'];
-			$chatroom = $this->chatroom_model->getById($val['c_id']);
-			$result[$k]['chatroom'] = $chatroom['data'];
+	
+		if(!empty($result)){
+			foreach($result as $k => $val){
+				$users1 = $this->users_model->getById($val['recipient']);
+				$result[$k]['recipientName'] = $users1['data']['firstname']." ".$users1['data']['lastname'];
+				$chatroom = $this->chatroom_model->getById($val['c_id']);
+				$result[$k]['chatroom'] = $chatroom['data'];
+			}
 		}
-		
 		/*** return response***/
 		$this->_result['status']     = 'success';
 		$this->_result['data']       = $result;	

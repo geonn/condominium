@@ -42,6 +42,11 @@ $config['menu1'] = array(
 	 					"icon"    => "fa-comment",	
 	 					"url" => $this->domain."/announcement/index",	
 	 				),
+	  'messages'    => array(
+	 					"name" => "Messages",	
+	 					"icon"    => "fa-comments",
+	 					"url" => $this->domain."/messages/index",	
+	 				),
 );
 
 $config['sub_menu1'] = array(

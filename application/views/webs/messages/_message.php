@@ -78,7 +78,7 @@ foreach($result['data'] as $k => $val){
 	function refreshList() {
 	    myVar = setTimeout(function(){
 	    	
-			var str = "chatroom=<?= $result['data'][0]['c_id'] ?>";
+			var str = "chatroom=<?= $chatroom['data']['id'] ?>";
 			/**Get chatroom message***/
 			$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/getMessageList/", str, function(result) {
 				$("#message_container").html(result);
@@ -92,10 +92,10 @@ foreach($result['data'] as $k => $val){
 	}
 	getUnreadBullet();
 	refreshList();
-	$("#notification<?= $result['data'][0]['c_id'] ?>").fadeOut();
-	$("#preview<?= $result['data'][0]['c_id'] ?>").html("<?=  strip_tags($preview) ?>");
-	$("input[name=c_id]").val("<?= $result['data'][0]['c_id'] ?>");
-	$("input[name=recipient2]").val("<?= $result['data'][0]['chatroom']['target'] ?>");
+	$("#notification<?= $chatroom['data']['id'] ?>").fadeOut();
+	$("#preview<?= $chatroom['data']['id'] ?>").html("<?=  strip_tags($preview) ?>");
+	$("input[name=c_id]").val("<?= $chatroom['data']['id'] ?>");
+	$("input[name=recipient2]").val("<?= $chatroom['data']['target'] ?>");
 	$(".messages-item").removeClass("active");
-	$("#messages-item<?= $result['data'][0]['c_id'] ?>").addClass("active");
+	$("#messages-item<?= $chatroom ?>").addClass("active");
 </script>

@@ -24,6 +24,22 @@ $(function(){
            title: 'Enter username'
     });
     
+    $(".facilitiesOptions").editable({
+        validate: function(value) { 
+           if($.trim(value) == '') return 'Facility option name is required';
+          var str = "fo_id="+$(this).attr('id')+"&option="+ value;
+   		  $.post("../../facility/updateOptions/", str, function(result) { });
+        }
+    });
+    
+     $(".optionStatus").editable({
+        validate: function(value) { 
+           if($.trim(value) == '') return 'Facility status is required';
+            var str = "fo_id="+$(this).attr('id')+"&status="+ value; 
+   		  $.post("../../facility/updateOptions/", str, function(result) { });
+        }
+    });
+    
     $('#firstname').editable({
         validate: function(value) {
         	$("input[name=firstname]").val(value);

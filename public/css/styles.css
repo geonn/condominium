@@ -632,6 +632,7 @@ ul.main-navigation-menu li ul.sub-menu li ul.sub-menu li ul.sub-menu li a {
 .main-container .container {
   max-width: none !important;
   width: auto !important;
+  min-height:600px !important;
 }
 .main-container .container > .row, .main-container .container #ajax-content > .row {
   padding: 0 0 0 10px;

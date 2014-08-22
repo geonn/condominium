@@ -9,7 +9,7 @@
 <!-- end: META -->
 <!-- start: MAIN CSS -->
 <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,500,600,700,200,100,800' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/bootstrap/css/bootstrap.css">
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/iCheck/skins/all.css">
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/perfect-scrollbar/src/perfect-scrollbar.css">
@@ -40,6 +40,18 @@
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/jquery-address/address.css">
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css">
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css">
+
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/owl-carousel/owl-carousel/owl.carousel.css">
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/owl-carousel/owl-carousel/owl.theme.css">
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/owl-carousel/owl-carousel/owl.transitions.css">
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/summernote/dist/summernote.css">
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/fullcalendar/fullcalendar/fullcalendar.css">
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/toastr/toastr.min.css">
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/bootstrap-select/bootstrap-select.min.css">
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/DataTables/media/css/DT_bootstrap.css">
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/bootstrap-fileupload/bootstrap-fileupload.min.css">
+<link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css">
 <!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
 <!-- start: CORE CSS -->
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/styles.css">
@@ -109,9 +121,10 @@
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/wysihtml5/wysihtml5.js"></script>
-		<script src="<?= $this->config->item('domain') ?>/public/plugins/x-editable/demo-mock.js"></script>
-		<script src="<?= $this->config->item('domain') ?>/public/plugins/x-editable/demo.js"></script>
+		
 		<script src="<?= $this->config->item('domain') ?>/public/js/ui-notifications.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/ScrollToFixed/jquery-scrolltofixed-min.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/js/pages-timeline.js"></script>
+		<script src="<?= $this->config->item('domain') ?>/public/plugins/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+		<script src="<?= $this->config->item('domain') ?>/public/js/pages-calendar.js"></script> 
 		<!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->

@@ -5924,7 +5924,7 @@ Editableform based on Twitter Bootstrap 3
 		daysOfWeekDisabled: [],
 		endDate: Infinity,
 		forceParse: true,
-		format: 'mm/dd/yyyy',
+		format: 'dd/mm/yyyy',
 		keyboardNavigation: true,
 		language: 'en',
 		minViewMode: 0,

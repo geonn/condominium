@@ -11,9 +11,41 @@ class Facility_Model extends APP_Model{
 		$this->_result['data']       = array();	
 	}
 	
-	public function getById(){
+	public function get(){
+		$result = $this->get_data('','','','updated','DESC');
+		
+		foreach($result as $k => $val){
+			$options = $this->facilityOptions_model->getChildById($val['f_id']);
+			$result[$k]['totalOptions'] = count($options['data']);
+		}
+				
+		/*** return response***/
+		$this->_result['status']     = 'success';
+		$this->_result['data']       = $result;	
+		return $this->_result;
+	}
+	
+	public function getFacilityList(){
 		$filter = array(
-			$this->primary_key => $this->param['f_id']
+			'status' => 1
+		);
+		$res = $this->get_data($filter);
+		$list = array();
+		foreach($res as $k => $val){
+			$list[$val['f_id']] = $val['name'];
+		}
+		
+		return $list;
+	}
+	
+	public function getById($f_id=""){
+		
+		if(empty($f_id)){
+			$f_id = $this->param['f_id'];
+		}
+		
+		$filter = array(
+			$this->primary_key => $f_id
 		);
 		
 		$result = $this->get_data($filter);
@@ -37,11 +69,6 @@ class Facility_Model extends APP_Model{
 			);
 			
 			$id = $this->insert($data);
-			
-			/***Check if facility has options***/
-			if(!empty($this->param['option'])){
-				$this->facilityOptions_model->add($id);	
-			}
 			
 			/*** return response***/
 			$this->_result['status']     = 'success';
@@ -70,12 +97,7 @@ class Facility_Model extends APP_Model{
 			);
 			
 			$this->update($this->param['f_id'], $data);
-			
-			/***Check if facility has options***/
-			if(!empty($this->param['option'])){
-				$this->facilityOptions_model->edit();	
-			}
-			
+			 
 			/*** return response***/
 			$this->_result['status']     = 'success';
 			$this->_result['data']       = $this->param['f_id'];	

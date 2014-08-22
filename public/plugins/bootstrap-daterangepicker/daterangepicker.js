@@ -119,7 +119,7 @@
             this.applyClass = 'btn-green';
             this.cancelClass = 'btn-default';
 
-            this.format = 'MM/DD/YYYY';
+            this.format = 'DD/MM/YYYY';
             this.separator = ' - ';
 
             this.locale = {
@@ -998,6 +998,7 @@
     };
 
     $.fn.daterangepicker = function (options, cb) {
+    	
         this.each(function () {
             var el = $(this);
             if (el.data('daterangepicker'))

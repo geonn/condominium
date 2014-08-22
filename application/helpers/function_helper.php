@@ -338,7 +338,7 @@
     
     function convertToDBDate($date){
 		$date_processed = explode("/", $date);
-		return $date_processed[2]."-".$date_processed[1]."-".$date_processed[0];
+		return trim($date_processed[2])."-".trim($date_processed[1])."-".trim($date_processed[0]);
 	}
 	
 	/*

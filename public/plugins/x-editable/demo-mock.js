@@ -32,10 +32,15 @@ $(function(){
 		url: '../account/getPropertyList',
 		dataType: 'json',
 		success: function(json) {
-			
 		}
 	});
 	
+	$.ajax({
+		url: '../facility/getFacilityOptionStatus',
+		dataType: 'json',
+		success: function(json) {
+		}
+	});
 
     $.mockjax({
         url: '/groups',

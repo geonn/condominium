@@ -1,4 +1,4 @@
-<!-- start: MAIN CONTAINER -->
+	<!-- start: MAIN CONTAINER -->
 			<div class="main-container inner">
 				<!-- start: PAGE -->
 				<div class="main-content">
@@ -36,7 +36,7 @@
 						<div class="toolbar row">
 							<div class="col-sm-6 hidden-xs">
 								<div class="page-header">
-									<h1>Responsive Table <small>responsive tables samples</small></h1>
+									<h1>Calendar <small>with draggable and editable events </small></h1>
 								</div>
 							</div>
 							<div class="col-sm-6 col-xs-12">
@@ -200,7 +200,7 @@
 										</a>
 									</li>
 									<li class="active">
-										Responsive Table
+										Calendar
 									</li>
 								</ol>
 							</div>
@@ -208,222 +208,85 @@
 						<!-- end: BREADCRUMB -->
 						<!-- start: PAGE CONTENT -->
 						<div class="row">
-							<div class="col-md-12">
-								<div class="alert alert-info">
-									Please try to re-size your browser window in order to see the tables in responsive mode.
-								</div>
-								<!-- start: RESPONSIVE TABLE PANEL -->
+							<div class="col-sm-12">
+								<!-- start: FULL CALENDAR PANEL -->
 								<div class="panel panel-white">
 									<div class="panel-heading">
-										<i class="fa fa-external-link-square"></i>
-										Responsive Table
-										<div class="panel-tools">										
+										<i class="fa fa-calendar"></i>
+										Full Calendar
+										<div class="panel-tools">
 											<div class="dropdown">
-											<a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
-												<i class="fa fa-cog"></i>
-											</a>
-											<ul class="dropdown-menu dropdown-light pull-right" role="menu">
-												<li>
-													<a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-												</li>
-												<li>
-													<a class="panel-refresh" href="#"> <i class="fa fa-refresh"></i> <span>Refresh</span> </a>
-												</li>
-												<li>
-													<a class="panel-config" href="#panel-config" data-toggle="modal"> <i class="fa fa-wrench"></i> <span>Configurations</span></a>
-												</li>
-												<li>
-													<a class="panel-expand" href="#"> <i class="fa fa-expand"></i> <span>Fullscreen</span></a>
-												</li>										
-											</ul>
+												<a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
+													<i class="fa fa-cog"></i>
+												</a>
+												<ul class="dropdown-menu dropdown-light pull-right" role="menu">
+													<li>
+														<a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
+													</li>
+													<li>
+														<a class="panel-refresh" href="#">
+															<i class="fa fa-refresh"></i> <span>Refresh</span>
+														</a>
+													</li>
+													<li>
+														<a class="panel-config" href="#panel-config" data-toggle="modal">
+															<i class="fa fa-wrench"></i> <span>Configurations</span>
+														</a>
+													</li>
+													<li>
+														<a class="panel-expand" href="#">
+															<i class="fa fa-expand"></i> <span>Fullscreen</span>
+														</a>
+													</li>
+												</ul>
 											</div>
+											<a class="btn btn-xs btn-link panel-close" href="#">
+												<i class="fa fa-times"></i>
+											</a>
 										</div>
 									</div>
 									<div class="panel-body">
-										<div class="table-responsive">
-											<table class="table table-bordered table-hover" id="sample-table-1">
-												<thead>
-													<tr>
-														<th class="center">
-														<div class="checkbox-table">
-															<label>
-																<input type="checkbox" class="flat-grey selectall">
-															</label>
-														</div></th>
-														<th>Domain</th>
-														<th>Price</th>
-														<th>Clicks</th>
-														<th><i class="fa fa-time"></i> Update </th>
-														<th>Status</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td class="center">
-														<div class="checkbox-table">
-															<label>
-																<input type="checkbox" class="flat-grey foocheck">
-															</label>
-														</div></td>
-														<td>
-														<a href="#">
-															alpha.com
-														</a></td>
-														<td>$45</td>
-														<td>3,330</td>
-														<td>Feb 13</td>
-														<td><span class="label label-sm label-warning">Expiring</span></td>
-													</tr>
-													<tr>
-														<td class="center">
-														<div class="checkbox-table">
-															<label>
-																<input type="checkbox" class="flat-grey foocheck">
-															</label>
-														</div></td>
-														<td>
-														<a href="#">
-															beta.com
-														</a></td>
-														<td>$70</td>
-														<td>3,330</td>
-														<td>Jen 15</td>
-														<td><span class="label label-sm label-success">Registered</span></td>
-													</tr>
-													<tr>
-														<td class="center">
-														<div class="checkbox-table">
-															<label>
-																<input type="checkbox" class="flat-grey foocheck">
-															</label>
-														</div></td>
-														<td>
-														<a href="#">
-															gamma.com
-														</a></td>
-														<td>$25</td>
-														<td>3,330</td>
-														<td>Mar 09</td>
-														<td><span class="label label-sm label-danger">Expired</span></td>
-													</tr>
-													<tr>
-														<td class="center">
-														<div class="checkbox-table">
-															<label>
-																<input type="checkbox" class="flat-grey foocheck">
-															</label>
-														</div></td>
-														<td>
-														<a href="#">
-															delta.com
-														</a></td>
-														<td>$50</td>
-														<td>3,330</td>
-														<td>Feb 10</td>
-														<td><span class="label label-sm label-inverse">Flagged</span></td>
-													</tr>
-													<tr>
-														<td class="center">
-														<div class="checkbox-table">
-															<label>
-																<input type="checkbox" class="flat-grey foocheck">
-															</label>
-														</div></td>
-														<td>
-														<a href="#">
-															epsilon.com
-														</a></td>
-														<td>$35</td>
-														<td>3,330</td>
-														<td>Feb 18</td>
-														<td><span class="label label-sm label-success">Registered</span></td>
-													</tr>
-													<tr>
-														<td class="center">
-														<div class="checkbox-table">
-															<label>
-																<input type="checkbox" class="flat-grey foocheck">
-															</label>
-														</div></td>
-														<td>
-														<a href="#">
-															zeta.com
-														</a></td>
-														<td>$45</td>
-														<td>3,330</td>
-														<td>Feb 13</td>
-														<td><span class="label label-sm label-warning">Expiring</span></td>
-													</tr>
-													<tr>
-														<td class="center">
-														<div class="checkbox-table">
-															<label>
-																<input type="checkbox" class="flat-grey foocheck">
-															</label>
-														</div></td>
-														<td>
-														<a href="#">
-															eta.com
-														</a></td>
-														<td>$70</td>
-														<td>3,330</td>
-														<td>Jen 15</td>
-														<td><span class="label label-sm label-success">Registered</span></td>
-													</tr>
-													<tr>
-														<td class="center">
-														<div class="checkbox-table">
-															<label>
-																<input type="checkbox" class="flat-grey foocheck">
-															</label>
-														</div></td>
-														<td>
-														<a href="#">
-															theta.com
-														</a></td>
-														<td>$25</td>
-														<td>3,330</td>
-														<td>Mar 09</td>
-														<td><span class="label label-sm label-danger">Expired</span></td>
-													</tr>
-													<tr>
-														<td class="center">
-														<div class="checkbox-table">
-															<label>
-																<input type="checkbox" class="flat-grey foocheck">
-															</label>
-														</div></td>
-														<td>
-														<a href="#">
-															iota.com
-														</a></td>
-														<td>$50</td>
-														<td>3,330</td>
-														<td>Feb 10</td>
-														<td><span class="label label-sm label-inverse">Flagged</span></td>
-													</tr>
-													<tr>
-														<td class="center">
-														<div class="checkbox-table">
-															<label>
-																<input type="checkbox" class="flat-grey foocheck">
-															</label>
-														</div></td>
-														<td>
-														<a href="#">
-															kappa.com
-														</a></td>
-														<td>$35</td>
-														<td>3,330</td>
-														<td>Feb 18</td>
-														<td><span class="label label-sm label-success">Registered</span></td>
-													</tr>
-												</tbody>
-											</table>
+										<div class="col-sm-12 space20">
+											<a href="#newFullEvent" class="btn btn-green add-event"><i class="fa fa-plus"></i> Add New Event</a>
+										</div>
+										<div class="col-sm-9">
+											<div id='full-calendar'></div>
+										</div>
+										<div class="col-sm-3">
+											<h4 class="space20">Draggable categories</h4>
+											<div id="event-categories">
+												<div class="event-category event-generic" data-class="event-generic">
+													Generic
+												</div>
+												<div class="event-category event-home" data-class="event-home">
+													Home
+												</div>
+												<div class="event-category event-overtime" data-class="event-overtime">
+													Overtime
+												</div>
+												<div class="event-category event-job" data-class="event-job">
+													Job
+												</div>
+												<div class="event-category event-offsite" data-class="event-offsite">
+													Off-site work
+												</div>
+												<div class="event-category event-todo" data-class="event-todo">
+													To Do
+												</div>
+												<div class="event-category event-cancelled" data-class="event-cancelled">
+													Cancelled
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" class="grey" id="drop-remove" />
+														Remove after drop
+													</label>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
-								<!-- end: RESPONSIVE TABLE PANEL -->
+								<!-- end: FULL CALENDAR PANEL -->
 							</div>
 						</div>
 						<!-- end: PAGE CONTENT-->

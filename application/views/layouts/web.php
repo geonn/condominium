@@ -193,6 +193,8 @@
 		</div>
 		
 		<!-- start: CORE JAVASCRIPTS  -->
+		<script src="<?= $this->config->item('domain') ?>/public/plugins/x-editable/demo-mock.js"></script>
+		<script src="<?= $this->config->item('domain') ?>/public/plugins/x-editable/demo.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/js/main.js"></script>
 		<!-- end: CORE JAVASCRIPTS  -->
 		<script>
@@ -222,7 +224,8 @@
 				FormValidator.init();
 				TableData.init();
 				Timeline.init();
-				getUnreadBullet();
+				getUnreadBullet(); 
+				Calendar.init();
 			});
 		</script>
 	</body>

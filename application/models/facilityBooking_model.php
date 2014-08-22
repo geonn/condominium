@@ -31,6 +31,34 @@ class FacilityBooking_Model extends APP_Model{
 		
 		$result = $this->get_data($filter);
 		
+		foreach($result as $k => $val){
+			/**Extract Booking Facility**/
+			$facility = $this->facility_model->getById($val['f_id']);
+			$result[$k]['facility'] = $facility['data']['name'];
+			
+			/**Extract Booking Facility Options**/
+			$options = $this->facilityOptions_model->getById($val['fo_id']);
+			$result[$k]['options'] = $options['data']['option'];
+			
+			$result[$k]['bookTime'] = match($val['bookTime'], $this->config->item('time_range'));
+			/**Extract Booking Date**/
+			$bookDate = explode('-', $val['bookDate']);
+			$result[$k]['bookYear'] = $bookDate[0];
+			$result[$k]['bookMonth'] = $bookDate[1];
+			$result[$k]['bookDay'] = $bookDate[2];
+			
+			/**Extract Booking Time**/
+			$result[$k]['bookTime'] = match($val['bookTime'], $this->config->item('time_range'));
+			$bookTime = explode(' - ', $result[$k]['bookTime']);
+	
+			$startTime = explode(':', $bookTime[0]);
+			$result[$k]['startTime'] = $startTime[0];
+			
+			$endTime = explode(':', $bookTime[1]);
+			$result[$k]['endTime'] = $endTime[0];
+			
+		}
+		
 		/*** return response***/
 		$this->_result['status']     = 'success';
 		$this->_result['data']       = $result;	
@@ -48,6 +76,93 @@ class FacilityBooking_Model extends APP_Model{
 		$this->_result['status']     = 'success';
 		$this->_result['data']       = $result;	
 		return $this->_result;
+	}
+	
+	public function checkAvailablity(){
+		$filter = array(
+			'f_id' => $this->param['bookingFacility'],
+			'bookDate' => $this->param['bookingDate'],
+			'bookTime' => $this->param['bookingTime'],
+		);
+		
+		$result = $this->get_data($filter);
+		
+		/***get facility options***/
+		$options = $this->facilityOptions_model->getChildById($this->param['bookingFacility'], 1);
+		
+		if(empty($result)){
+			$pick = "";
+			if(!empty($options)){
+				/***Assign an option for the booking***/
+				$pick = $options['data'][0]['fo_id'];
+			}
+			
+			$data = array(
+				'f_id' => $this->param['bookingFacility'],
+				'fo_id' => $pick,
+				'u_id'  => $this->user->get_memberid(),
+				'bookDate' => $this->param['bookingDate'],
+				'bookTime' => $this->param['bookingTime'],
+				'status'        => 1,
+				'created' => date('Y-m-d H:i:s'),
+				'updated' => date('Y-m-d H:i:s'),
+			);
+			
+			$id = $this->insert($data);
+			 
+			/*** return response***/
+			$this->_result['status']     = 'success';
+			$this->_result['data']       = $id;	
+			return $this->_result;
+		}else{
+			//check options	
+			$op = array();
+			$pick = "";
+			if(!empty($options)){
+				foreach($options['data'] as $b => $bal){
+					$op[$bal['fo_id']] = $bal['fo_id'];
+				}
+			}
+			
+			foreach($result as $p => $pal){
+				if(in_array($pal['fo_id'], $op)){
+					unset($op[$pal['fo_id']]);
+				}
+			}
+			
+			if(count($op) > 0){
+				$count = 0 ;
+				foreach($op as $opt){
+					if($count  == 0) {
+						$data = array(
+							'f_id' => $this->param['bookingFacility'],
+							'fo_id' => $opt,
+							'u_id'  => $this->user->get_memberid(),
+							'bookDate' => $this->param['bookingDate'],
+							'bookTime' => $this->param['bookingTime'],
+							'status'        => 1,
+							'created' => date('Y-m-d H:i:s'),
+							'updated' => date('Y-m-d H:i:s'),
+						);
+						
+						$id = $this->insert($data);
+						$count++;
+					}
+				
+				}
+				/*** return response***/
+				$this->_result['status']     = 'success';
+				$this->_result['data']       = $id;	
+				return $this->_result;
+			}else{
+				/*** return response***/
+				$this->_result['status']     = 'error';
+				$this->_result['data']       = "Booking Full. Please choose others date or time.";	
+				return $this->_result;
+			}
+		}
+		
+		
 	}
 	
 	public function add(){

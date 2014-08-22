@@ -253,7 +253,7 @@ exports.is_valid = {
 
     "oddball permissiveness" : function (test) {
         //https://github.com/moment/moment/issues/1128
-        test.ok(moment("2010-10-3199", ["MM/DD/YYYY", "MM-DD-YYYY", "YYYY-MM-DD"]).isValid());
+        test.ok(moment("2010-10-3199", ["DD/MM/YYYY", "DD/MM/YYYY", "YYYY-MM-DD"]).isValid());
 
         //https://github.com/moment/moment/issues/1122
         test.ok(moment("3:25", ["h:mma", "hh:mma", "H:mm", "HH:mm"]).isValid());

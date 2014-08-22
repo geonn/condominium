@@ -57,6 +57,10 @@ var FormValidator = function () {
                     minlength: 6,
                     required: true
                 },
+                fac_name:{
+                	minlength:3,
+                    required: true
+                },
                 confirmation: {
                     required: true,
                     minlength: 6,
@@ -110,6 +114,7 @@ var FormValidator = function () {
             	username: "Please specify an username",
                 firstname: "Please fill in first name",
                 //lastname: "Please fill in last name",
+                 fac_name: "Please fill in facility option name",
                 contact_no: {
                     required: "Please fill in property contact number",
                     contact_no: "Invalid contact number format"
@@ -158,7 +163,14 @@ var FormValidator = function () {
                 successHandler1.show();
                 errorHandler1.hide();
                 // submit form
-                create();
+               var mod=  $("input[name=module]").val();
+                
+                if(mod == "update"){
+                	update();
+                }else{
+                	create();
+                }
+                
             }
         });
     };
@@ -282,7 +294,7 @@ var FormValidator = function () {
         init: function () {
         	validateCheckRadio();
             runValidator1();
-            runValidator2();
+            runValidator2(); 
         }
     };
 }();

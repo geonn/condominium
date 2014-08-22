@@ -11,10 +11,28 @@ class FacilityOptions_Model extends APP_Model{
 		$this->_result['data']       = array();	
 	}
 	
-	public function getChildById($f_id){
+	public function getById($fo_id){
 		$filter = array(
-			'f_id' => $f_id
+			'fo_id' => $fo_id
 		);
+		$result = $this->get_data($filter);
+		/*** return response***/
+		$this->_result['status']     = 'success';
+		$this->_result['data']       = $result[0];	
+		return $this->_result;
+	}
+	
+	public function getChildById($f_id, $activeOnly=""){
+		if(!empty($activeOnly)){
+			$filter = array(
+				'f_id' => $f_id,
+				'status' => 1
+			);
+		}else{
+			$filter = array(
+				'f_id' => $f_id
+			);
+		}
 		
 		$result = $this->get_data($filter);
 		
@@ -24,12 +42,12 @@ class FacilityOptions_Model extends APP_Model{
 		return $this->_result;
 	}
 	
-	public function add($f_id){
+	public function add(){
 		$validation = $this->validate();
 		
 		if(empty($validation)) { 
 			$data = array(
-				'f_id'              => $f_id,
+				'f_id'              => $this->param['f_id'],
 				'option'         => $this->param['option'],
 				'status'          => !empty($this->param['optionStatus']) ? $this->param['optionStatus'] : 1,
 				'created'       => date('Y-m-d H:i:s'),
@@ -54,11 +72,17 @@ class FacilityOptions_Model extends APP_Model{
 	}
 	
 	public function edit(){
-		$data = array(
-			'option'         => $this->param['option'],
-			'status'          => !empty($this->param['status']) ? $this->param['status'] : 1,
-			'updated'      => date('Y-m-d H:i:s')
-		);
+		if(isset($this->param['option'])){
+			$data = array(
+				'option'         => $this->param['option'], 
+				'updated'      => date('Y-m-d H:i:s')
+			);
+		}elseif(isset($this->param['status'])){
+			$data = array( 
+				'status'          => !empty($this->param['status']) ? $this->param['status'] : 1,
+				'updated'      => date('Y-m-d H:i:s')
+			);
+		}
 		
 		$this->update($this->param['fo_id'], $data);
 		
@@ -67,6 +91,8 @@ class FacilityOptions_Model extends APP_Model{
 		$this->_result['data']       = $this->param['fo_id'];	
 		return $this->_result;
 	}
+	
+
 	
 	public function remove(){
 		$this->delete($this->param['fo_id']);

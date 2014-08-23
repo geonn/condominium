@@ -1,7 +1,7 @@
 (function($) {
 	"use strict";
 	var subViews = $(".subviews"), show_functions = [], close_functions = [], hide_functions = [], subview_id = [], screenPosition, $this, subViewElement, subviewShowClass = ".show-sv", subviewHideClass = ".hide-sv", subviewBackClass = ".back-sv", subview_action = "", thisBody = document.body || document.documentElement, thisStyle = thisBody.style, supportTransition = thisStyle.transition !== undefined || thisStyle.WebkitTransition !== undefined || thisStyle.MozTransition !== undefined || thisStyle.MsTransition !== undefined || thisStyle.OTransition !== undefined;
-
+ 
 	$(subviewShowClass).on("click", function(e) {
 		subViewElement = $(this);
 		var customOptions = new Object;
@@ -37,7 +37,6 @@
 			hide_functions.push(settings.onHide);
 			close_functions.push(settings.onClose);
 			subview_id.push(settings.content);
-
 			if(subViews.is(":visible") == false) {
 				if(supportTransition) {
 
@@ -71,14 +70,16 @@
 							'overflow': 'hidden',
 						});
 					});
+					
+					
 					switch (settings.startFrom) {
 						case "right" :
-
 							subViews.addClass("subviews-right").css({
 								"right": 0,
 								"top": $(".toolbar").outerHeight(true),
 								height: $windowHeight - topBar.outerHeight(true) - $(".toolbar").outerHeight(true)
 							}).show(0, function() {
+								
 								$(this).css({
 									width: "100%"
 								}).on('webkitTransitionEnd oTransitionEnd otransitionend transitionend msTransitionEnd', function() {
@@ -90,7 +91,9 @@
 												show_functions[show_functions.length - 1].call($this);
 											}
 										});
+									
 									} else {
+									 
 										$(".subviews-container").html("<h3 class='center'>Sorry this page is not available</h3>");
 									}
 

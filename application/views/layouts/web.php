@@ -195,6 +195,8 @@
 		<!-- start: CORE JAVASCRIPTS  -->
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/x-editable/demo-mock.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/x-editable/demo.js"></script>
+		<script src="<?= $this->config->item('domain') ?>/public/js/subview.js"></script>
+		<script src="<?= $this->config->item('domain') ?>/public/js/subview-examples.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/js/main.js"></script>
 		<!-- end: CORE JAVASCRIPTS  -->
 		<script>
@@ -219,6 +221,7 @@
 		
 			jQuery(document).ready(function() {
 				Main.init();
+				SVExamples.init();
 				UINotifications.init();
 				UIButtons.init();
 				FormValidator.init();
@@ -226,6 +229,7 @@
 				Timeline.init();
 				getUnreadBullet(); 
 				Calendar.init();
+				UIModals.init();
 			});
 		</script>
 	</body>

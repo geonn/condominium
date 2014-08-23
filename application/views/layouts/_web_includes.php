@@ -52,6 +52,8 @@
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/DataTables/media/css/DT_bootstrap.css">
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/bootstrap-fileupload/bootstrap-fileupload.min.css">
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css">
+<link href=""<?= $this->config->item('domain') ?>/public/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href=""<?= $this->config->item('domain') ?>/public/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
 <!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
 <!-- start: CORE CSS -->
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/styles.css">
@@ -101,8 +103,7 @@
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/truncate/jquery.truncate.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/summernote/dist/summernote.min.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
-		<script src="<?= $this->config->item('domain') ?>/public/js/subview.js"></script>
-		<script src="<?= $this->config->item('domain') ?>/public/js/subview-examples.js"></script>
+
 		<!-- end: JAVASCRIPTS REQUIRED FOR SUBVIEW CONTENTS -->
 		<!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/ladda-bootstrap/dist/spin.min.js"></script>
@@ -127,4 +128,8 @@
 		<script src="<?= $this->config->item('domain') ?>/public/js/pages-timeline.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/js/pages-calendar.js"></script> 
+		
+		<script src="<?= $this->config->item('domain') ?>/public/plugins/bootstrap-modal/js/bootstrap-modal.js"></script>
+		<script src="<?= $this->config->item('domain') ?>/public/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+		<script src="<?= $this->config->item('domain') ?>/public/js/ui-modals.js"></script>
 		<!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->

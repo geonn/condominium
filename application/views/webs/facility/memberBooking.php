@@ -1,168 +1,244 @@
-	<!-- start: MAIN CONTAINER -->
-			<div class="main-container inner">
-				<!-- start: PAGE -->
-				<div class="main-content">
-					<!-- start: PANEL CONFIGURATION MODAL FORM -->
-					<div class="modal fade" id="panel-config" tabindex="-1" role="dialog" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-										&times;
-									</button>
-									<h4 class="modal-title">Panel Configuration</h4>
-								</div>
-								<div class="modal-body">
-									Here will be a configuration form
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default" data-dismiss="modal">
-										Close
-									</button>
-									<button type="button" class="btn btn-primary">
-										Save changes
-									</button>
-								</div>
-							</div>
-							<!-- /.modal-content -->
-						</div>
-						<!-- /.modal-dialog -->
-					</div>
-					<!-- /.modal -->
-					<!-- end: SPANEL CONFIGURATION MODAL FORM -->
-					<div class="container">
-						<!-- start: PAGE HEADER -->
-						<!-- start: TOOLBAR -->
-						<div class="toolbar row">
-							<div class="col-sm-6 hidden-xs">
-								<div class="page-header">
-									<h1>Calendar <small>with draggable and editable events </small></h1>
-								</div>
-							</div>
-							 
-						</div>
-						<!-- end: TOOLBAR -->
-						<!-- end: PAGE HEADER -->
-						<!-- start: BREADCRUMB -->
-						<div class="row">
-							<div class="col-md-12">
-								<ol class="breadcrumb">
-									<li>
-										<a href="#">
-											Dashboard
-										</a>
-									</li>
-									<li class="active">
-										Calendar
-									</li>
-								</ol>
-							</div>
-						</div>
-						<!-- end: BREADCRUMB -->
-						<!-- start: PAGE CONTENT -->
-						<div class="row">
-							<div class="col-sm-12">
-								<!-- start: FULL CALENDAR PANEL -->
-								<div class="panel panel-white">
-								 
-									<div class="panel-body">
-										<div class="col-sm-12 space20">
-											<a href="<?= $this->config->item('domain') ?>/<?= $this->name ?>/memberAddBooking" class="btn btn-green add-event"><i class="fa fa-plus"></i> Book Facility</a>
-										</div>
-										<div class="col-sm-9">
-											<div id='booking-calendar'></div>
-										</div>
-										<div class="col-sm-3">
-											<h4 class="space20">Draggable categories</h4>
-											<div id="event-categories">
-												<div class="event-category event-generic" data-class="event-generic">
-													Generic
-												</div>
-												<div class="event-category event-home" data-class="event-home">
-													Home
-												</div>
-												<div class="event-category event-overtime" data-class="event-overtime">
-													Overtime
-												</div>
-												<div class="event-category event-job" data-class="event-job">
-													Job
-												</div>
-												<div class="event-category event-offsite" data-class="event-offsite">
-													Off-site work
-												</div>
-												<div class="event-category event-todo" data-class="event-todo">
-													To Do
-												</div>
-												<div class="event-category event-cancelled" data-class="event-cancelled">
-													Cancelled
-												</div>
-												<div class="checkbox">
-													<label>
-														<input type="checkbox" class="grey" id="drop-remove" />
-														Remove after drop
-													</label>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<!-- end: FULL CALENDAR PANEL -->
-							</div>
-						</div>
-						<!-- end: PAGE CONTENT-->
-					</div>
-					<div class="subviews">
-						<div class="subviews-container"></div>
+<div class="main-container inner">
+	<!-- start: PAGE -->
+	<div class="main-content">
+	 
+		<!-- end: SPANEL CONFIGURATION MODAL FORM -->
+		<div class="container">
+			<!-- start: PAGE HEADER -->
+			<!-- start: TOOLBAR -->
+			<div class="toolbar row">
+				<div class="col-sm-6 hidden-xs">
+					<div class="page-header">
+						<h1>My Booking Facility <small>my schedule on facility booked</small></h1>
 					</div>
 				</div>
-				<!-- end: PAGE -->
+				<div class="col-sm-6 col-xs-12">
+					<a href="#" class="back-subviews">
+						<i class="fa fa-chevron-left"></i> BACK
+					</a>
+					<a href="#" class="close-subviews">
+						<i class="fa fa-times"></i> CLOSE
+					</a>
+					<div class="toolbar-tools pull-right">
+						<!-- start: TOP NAVIGATION MENU -->
+						<ul class="nav navbar-right">
+							<!-- start: TO-DO DROPDOWN -->
+						</ul>
+						<!-- end: TOP NAVIGATION MENU -->
+					</div>
+				</div>
 			</div>
-			<!-- end: MAIN CONTAINER -->
+			<!-- end: TOOLBAR -->
+			<!-- end: PAGE HEADER -->
+			<!-- start: BREADCRUMB -->
+			<div class="row">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<li>
+							<a href="#">
+								Dashboard
+							</a>
+						</li>
+						<li class="active">
+							Calendar
+						</li>
+					</ol>
+				</div>
+			</div>
+			<!-- end: BREADCRUMB -->
+			<!-- start: PAGE CONTENT -->
+			<div class="row">
+				<div class="col-sm-12">
+					<!-- start: FULL CALENDAR PANEL -->
+					<div class="panel panel-white">
+					 
+						<div class="panel-body">
+							<div class="col-sm-12 space20">
+								<a href="<?= $this->config->item('domain').'/'.$this->name ?>/memberAddBooking" class="btn btn-green add-event"><i class="fa fa-plus"></i> Book Facility</a>
+							</div>
+							<div class="col-sm-9">
+								<div id='book-calendar'></div>
+							</div>
+							<div class="col-sm-3">
+								<h4 class="space20">Draggable categories</h4>
+								<div id="event-categories">
+									
+									<div class="event-category event-offsite" data-class="event-offsite">
+										Confirmed
+									</div>
+								
+									<div class="event-category event-cancelled" data-class="event-cancelled">
+										Cancelled
+									</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end: FULL CALENDAR PANEL -->
+				</div>
+			</div>
+			<!-- end: PAGE CONTENT-->
+		</div>
+		<div class="subviews">
+			<div class="subviews-container"></div>
+		</div>
+	</div>
+	<!-- end: PAGE -->
+</div>
+<!-- end: MAIN CONTAINER -->
+<div id="readFullEvent">
+	<div class="noteWrap col-md-8 col-md-offset-2">
+		<div class="row">
+			<div class="col-md-12">
+				
+				<h2 class="event-title"></h2>
+				<?= form_hidden('fb_id', '') ?>
+			</div>
 			
+			<div class="col-md-6">
+				<span class="event-category" id="event-status">Cancelled</span>
+			</div>
+			<div class="col-md-12">
+				<h2 class="event-title" id="event-title"></h2>
+				<div class="errorHandler alert alert-danger no-display"> </div>
+				
+				<div class="event-start">
+					<p>Start:</p> 
+					<div class="event-day" id="start-day"></div>
+					<div class="event-date"  id="start-date"></div> 
+					<div class="event-time" id="start-time"></div>
+				</div>
+				<div class="event-end" style="display: block;">
+					<p>End:</p> 
+					<div class="event-day" id="end-day"></div>
+					<div class="event-date"  id="end-date"></div> 
+					<div class="event-time" id="end-time"></div>
+				</div>
+				
+				<button data-style="expand-right" class="ladda-button float-right " data-color="red" id="cancelledEvent" >Cancelled</button>
+				<button data-style="expand-right" class="ladda-button float-right " data-color="blue" id="rebookEvent" >Re-book Facility</button>
+			</div>
+			
+			<div class="col-md-12">
+				
+				<div class="event-content"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- end: SUBVIEW SAMPLE CONTENTS -->
+
 <script>
 	$(function(){
-			getBookingList();
+		getBookingInfo();
 	});
-
+	
 	var myBooking = [];
 	
-	var getBookingList = function(){
-		/**Get booking info***/
-		$.get("<?= $this->config->item('domain') ?>/<?= $this->name ?>/getMemberBookingInfo/", function(result) {
-				
+	var getBookingInfo = function(){
+		
+		$.get("<?= $this->config->item('domain') ?>/<?= $this->name ?>/getMemberBookingInfo/",  function(result) {
 			var obj = $.parseJSON(result);
 			if(obj.status =="success"){
-				 console.log(obj.data);
-				 var info = obj.data;
-				 $.each(info, function(key,  val ) {
-				  console.log( val['facility'] );
-				   myBooking.push({
-				   		title: "Booked for "+ val['facility'] ,
-				   		start : new Date(val['bookYear'], val['bookMonth'] -1 , val['bookDay'], val['startTime'], 0),
-						end : new Date(val['bookYear'], val['bookMonth'] -1, val['bookDay'], val['endTime'], 0),
-						className: 'event-job',
-			            category: 'Job',
-						allDay : false,
-						content : val['remark']
-				   	});
+				$.each(obj.data,function(k,val){
+				//	console.log(val);
+					myBooking.push({
+						id : val['fb_id'],
+					    title: 'Booked for '+val['facility'],
+		                start: new Date(val['bookYear'],val['bookMonth'] -1, val['bookDay'],val['startTime'],0),
+		                end: new Date(val['bookYear'], val['bookMonth'] -1, val['bookDay'],val['endTime'],0),
+		                className: val['className'],
+		                category: 'Off-site work',
+		                allDay: false	
+					});
 				});
-
-			//	
-			}else{
-				//error message
+				
+				/***load to calendar after populate data***/
+				runBookingCalendar();
 			}
-			
-			runBookingCalendar();
 		});
-		return false;
 	}
 	
-	    //function to initiate Full Calendar
+	 var toastCount = 0;
+	 var showSuccessPopUp =  function () {
+            var shortCutFunction = "success";
+            var msg = 'Booking is successfully cancelled!';//$('#message').val();
+            var title = 'Booking Cancelled';
+            var toastIndex = toastCount++;
+
+            toastr.options = {
+                closeButton:true,
+                positionClass:  'toast-top-right',
+                onclick: null
+            };
+            
+            toastr.options.showDuration = "1000";
+			toastr.options.hideDuration = "1000";
+            toastr.options.timeOut = "5000";
+            toastr.options.extendedTimeOut = "1000";
+            toastr.options.showEasing = "swing";
+            toastr.options.hideEasing = "linear";
+            toastr.options.showMethod = "fadeIn";
+            toastr.options.hideMethod = "fadeOut";
+
+            $("#toastrOptions").text("Command: toastr["
+                            + shortCutFunction
+                            + "](\""
+                            + msg
+                            + title
+                            + "\")\n\ntoastr.options = "
+                            + JSON.stringify(toastr.options, null, 2)
+            );
+            var $toast = toastr[shortCutFunction](msg, title); // Wire up an event handler to a button in the toast, if it exists
+        }
+        
+	$("#cancelledEvent").click(function(){
+			var str = "fb_id="+$("input[name=fb_id]").val();
+			$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/cancelledEvent/",str,  function(result) {
+				var obj = $.parseJSON(result);
+				if(obj.status =="success"){
+					//reset calendar
+					$('#book-calendar').html("");
+					myBooking = [];
+					
+					getBookingInfo();
+					showSuccessPopUp();
+					$("#event-status").html("Cancelled" );
+					$("#event-status").removeClass("event-offsite" ).addClass('event-cancelled');
+				}
+			});
+	});
+	
+	$("#rebookEvent").click(function(){
+			$(".errorHandler").hide();
+			var str = "fb_id="+$("input[name=fb_id]").val();
+			$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/reActivateBooking/",str,  function(result) {
+				var obj = $.parseJSON(result);
+				if(obj.status =="success"){
+					//reset calendar
+					$('#book-calendar').html("");
+					myBooking = [];
+					
+					getBookingInfo();
+					showSuccessPopUp();
+					$("#event-status").html("Confirmed" );
+					$("#event-status").removeClass("event-cancelled" ).addClass('event-offsite');
+				}else{
+					$(".errorHandler").show();
+					$(".errorHandler").html(obj.data);
+				}
+				
+			});
+	});
+	
+	//function to initiate Full Calendar
     var runBookingCalendar = function () {
     	$(".add-event").off().on("click", function() {
-    					subViewElement = $(this);
+    		subViewElement = $(this);
 			subViewContent = subViewElement.attr('href');
-    	$.subview({
+    		$.subview({
 					content : subViewContent,
 					onShow : function() {
 						editFullEvent();
@@ -193,9 +269,9 @@
         var date = new Date();
         var d = date.getDate();
         var m = date.getMonth();
-        var y = date.getFullYear(); 
+        var y = date.getFullYear();
         var form = '';
-        $('#booking-calendar').fullCalendar({
+        $('#book-calendar').fullCalendar({
             buttonText: {
                 prev: '<i class="fa fa-chevron-left"></i>',
                 next: '<i class="fa fa-chevron-right"></i>'
@@ -207,7 +283,7 @@
             },
             events: myBooking,
             editable: false,
-            droppable: false, // this allows things to be dropped onto the calendar !!!
+            droppable: true, // this allows things to be dropped onto the calendar !!!
             drop: function (date, allDay) { // this function is called when something is dropped
                 // retrieve the dropped element's stored Event Object
                 var originalEventObject = $(this).data('eventObject');
@@ -217,14 +293,11 @@
 				    return letter.toUpperCase();
 				});
                 // we need to copy it, so that multiple events don't have a reference to the same object
-
-                
-                
                 newEvent = new Object;
 				newEvent.title = originalEventObject.title, newEvent.start = new Date(date), newEvent.end =  moment(new Date(date)).add('hours', 1), newEvent.allDay = true, newEvent.className = $categoryClass, newEvent.category = $category, newEvent.content = "";
 
                 myBooking.push(newEvent);
-                $('#booking-calendar').fullCalendar( 'refetchEvents' );
+                $('#fbook-calendar').fullCalendar( 'refetchEvents' );
                
                 // is the "remove after drop" checkbox checked?
                 if ($('#drop-remove').is(':checked')) {
@@ -237,6 +310,7 @@
             select: function (start, end, allDay) {
             	defaultRange.start = moment(start);
 				defaultRange.end = moment(start).add('hours', 1);
+				
 				$.subview({
 					content : "#newFullEvent",
 					onShow : function() {
@@ -249,12 +323,41 @@
             },
             eventClick: function (calEvent, jsEvent, view) {
             	dateToShow = calEvent.start;
-
+            	$(".errorHandler").hide(); 
+				//retreive info details 
+				$.get("<?= $this->config->item('domain') ?>/<?= $this->name ?>/getBookingInfoById/?fb_id="+calEvent.id,  function(result) {
+				
+					var obj = $.parseJSON(result);
+					if(obj.status =="success"){
+						$("input[name=fb_id]").val(obj.data['fb_id'] );
+						$("#event-title").html("Booked <strong> "+ obj.data['options'] + "</strong> for <strong>" + obj.data['facility'] +"</strong>");
+						$("#event-status").html(obj.data['status']  );
+						$("#event-status").addClass(obj.data['className']);
+						$("#start-day").html("<h2>"+ obj.data['bookDay'] + "</h2>");
+						$("#end-day").html("<h2>"+ obj.data['bookDay'] + "</h2>");
+						
+						$("#start-date").html("<h3>"+ obj.data['day'] + "</h3><h4>"+ obj.data['date'] + "</h4>");
+						$("#end-date").html("<h3>"+ obj.data['day'] + "</h3><h4>"+ obj.data['date'] + "</h4>");
+						
+						$("#start-time").html("<h3><i class='fa fa-clock-o'></i> "+ obj.data['start_time'] + "</h3>");
+						$("#end-time").html("<h3><i class='fa fa-clock-o'></i> "+ obj.data['end_time'] + "</h3>");
+						
+						if(obj.data['status'] == "Confirmed"){
+							$("#cancelledEvent").show();
+							$("#rebookEvent").hide();
+						}else{
+							$("#cancelledEvent").hide();
+							$("#rebookEvent").show();
+						}
+						
+					}
+				});
+				
 				$.subview({
 					content : "#readFullEvent",
 					startFrom : "right",
 					onShow : function() {
-						readFullEvents(calEvent._id);
+						//readFullEvents(calEvent._id);
 					}
 				});
                 

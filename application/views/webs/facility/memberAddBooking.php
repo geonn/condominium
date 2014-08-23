@@ -18,7 +18,7 @@
 		<div class="col-md-12">
 			<ol class="breadcrumb">
 				<li>
-					<a href="<?= $this->config->item('domain').'/'.$this->name ?>/index">
+					<a href="<?= $this->config->item('domain').'/'.$this->name ?>/memberBooking">
 						View My Booking
 					</a>
 				</li>
@@ -210,7 +210,7 @@
 			
 			if(obj.status =="success"){
 				showSuccessPopUp();
-				setTimeout(function(){window.location.href="../<?= $this->name ?>/edit/"+obj.data;}, 2000);
+				setTimeout(function(){window.location.href="../<?= $this->name ?>/memberBooking";}, 2000);
 			}else{
 				//error message
 				

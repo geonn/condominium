@@ -66,13 +66,27 @@ class Facility extends Web_Controller {
 	
 	public function getMemberBookingInfo(){
 		$data['booking'] = $this->facilityBooking_model->getByUser($this->user->get_memberid());
-	 
 		echo json_encode($data['booking']);
+	}
+
+	public function getBookingInfoById(){ 
+		$data['booking'] = $this->facilityBooking_model->getById();
+		echo json_encode($data['booking']);
+	}
+	
+	public function cancelledEvent(){
+		$data['info'] = $this->facilityBooking_model->cancelled();
+		echo json_encode($data['info']);
 	}
 	
 	public function checkAvailablity(){ 
 		$this->param['bookingDate'] = convertToDBDate($this->param['bookingDate']); 
 		$result = $this->facilityBooking_model->checkAvailablity();
+		echo json_encode($result);
+	}
+	
+	public function reActivateBooking(){
+		$result = $this->facilityBooking_model->reActivateBooking();
 		echo json_encode($result);
 	}
 	

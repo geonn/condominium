@@ -17,10 +17,64 @@ class FacilityBooking_Model extends APP_Model{
 		);
 		
 		$result = $this->get_data($filter);
-		
+		foreach($result as $k => $val){
+			/**Extract Booking Facility**/
+			$facility = $this->facility_model->getById($val['f_id']);
+			$result[$k]['facility'] = $facility['data']['name'];
+			
+			/**Extract Booking Facility Options**/
+			$options = $this->facilityOptions_model->getById($val['fo_id']);
+			$result[$k]['options'] = $options['data']['option'];
+			
+			$result[$k]['bookTime'] = match($val['bookTime'], $this->config->item('time_range'));
+			/**Extract Booking Date**/
+			$bookDate = explode('-', $val['bookDate']);
+			$result[$k]['bookYear'] = $bookDate[0];
+			$result[$k]['bookMonth'] = $bookDate[1];
+			$result[$k]['bookDay'] = $bookDate[2];
+			
+			/**Extract Booking Time**/
+			$result[$k]['bookTime'] = match($val['bookTime'], $this->config->item('time_range'));
+			$bookTime = explode(' - ', $result[$k]['bookTime']);
+	
+			$startTime = explode(':', $bookTime[0]);
+			$result[$k]['startTime'] = $startTime[0];
+			
+			$endTime = explode(':', $bookTime[1]);
+			$result[$k]['endTime'] = $endTime[0]; 
+			
+			$startDateInfo = date_convert( $val['bookDate'] . " ". $startTime[0] .":00:00","complete");
+			$di = explode(',', $startDateInfo);
+			$result[$k]['day'] = $di[0]; 
+			$result[$k]['date'] = $di[1]; 
+			$result[$k]['start_time'] = strtoupper($di[2]); 
+			
+			$endDateInfo = date_convert( $val['bookDate'] . " ". $endTime[0] .":00:00","complete");
+			$di2 = explode(',', $endDateInfo);
+			$result[$k]['end_time'] = strtoupper($di2[2]); 
+			
+			$result[$k]['status'] =match($val['status'], $this->config->item('booking_status'));
+			if($val['status'] == "1"){
+				$result[$k]['className'] = "event-offsite";
+			}else{
+				$result[$k]['className'] = "event-cancelled";
+			}
+		}
 		/*** return response***/
 		$this->_result['status']     = 'success';
 		$this->_result['data']       = $result[0];	
+		return $this->_result;
+	}
+	
+	public function cancelled(){
+		$data = array(
+			'status' => 2,
+			'updated' => date('Y-m-d H:i:s')
+		);
+		
+		$this->update($this->param['fb_id'], $data);
+		/*** return response***/
+		$this->_result['status']     = 'success';
 		return $this->_result;
 	}
 	
@@ -57,6 +111,11 @@ class FacilityBooking_Model extends APP_Model{
 			$endTime = explode(':', $bookTime[1]);
 			$result[$k]['endTime'] = $endTime[0];
 			
+			if($val['status'] == "1"){
+				$result[$k]['className'] = "event-offsite";
+			}else{
+				$result[$k]['className'] = "event-cancelled";
+			}
 		}
 		
 		/*** return response***/
@@ -83,6 +142,7 @@ class FacilityBooking_Model extends APP_Model{
 			'f_id' => $this->param['bookingFacility'],
 			'bookDate' => $this->param['bookingDate'],
 			'bookTime' => $this->param['bookingTime'],
+			'status' => 1
 		);
 		
 		$result = $this->get_data($filter);
@@ -157,12 +217,50 @@ class FacilityBooking_Model extends APP_Model{
 			}else{
 				/*** return response***/
 				$this->_result['status']     = 'error';
-				$this->_result['data']       = "Booking Full. Please choose others date or time.";	
+				$this->_result['error_code'] = 138;
+				$this->_result['data']       = $this->code[138];	 
 				return $this->_result;
 			}
 		}
+	}
+	
+	public function reActivateBooking(){
+		/***retrieve booking info***/
+		$filter = array(
+			$this->primary_key => $this->param['fb_id']
+		);
+		$result = $this->get_data($filter);
 		
+		if(!empty($result)){
+			/***Check if someone took the book***/
+			$check = array(
+				"f_id"   => $result[0]['f_id'],
+				"fo_id" => $result[0]['fo_id'],
+				"bookDate" => $result[0]['bookDate'],
+				"bookTime" => $result[0]['bookTime'],
+				"status" => 1
+			);
+			$res = $this->get_data($check);
 		
+			if(!empty($res)){
+				/*** return response***/
+				$this->_result['status']     = 'error';
+				$this->_result['error_code'] = 137;
+				$this->_result['data']       = $this->code[137];	
+				
+			}else{
+				$data = array(
+					'status' => 1,
+					'updated' => date('Y-m-d H:i:s')
+				);
+				
+				$this->update($this->param['fb_id'], $data);
+				/*** return response***/
+				$this->_result['status']     = 'success';
+			}
+		}
+		
+		return $this->_result;
 	}
 	
 	public function add(){

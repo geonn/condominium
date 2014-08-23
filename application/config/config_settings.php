@@ -324,6 +324,12 @@ $config['facility_status'] = array(
 	2 => 'Cancel' 
 );
 
+/********Booking status********/
+$config['booking_status'] = array(
+	1 => 'Confirmed',
+	2 => 'Cancelled' 
+);
+
 /********Gender********/
 $config['gender'] = array(
 	'm' => 'Male',

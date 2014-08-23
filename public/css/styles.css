@@ -6607,3 +6607,8 @@ body.error-full-page {
 .isMobile ul.main-navigation-menu li:not(.open) a:hover {
   background: inherit !important;
 }
+
+.float-right {
+	margin-top:10px;
+	float:right;
+}

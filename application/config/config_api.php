@@ -52,7 +52,8 @@ $config['api_code'] = array(
 	133   => 'Missing maintenance total amount',
 	135   => 'Login fail',
 	136   => 'Message cannot be empty',
-
+	137   => 'This court was taken by someone. Try book for another time.',
+	138   => 'Booking Full. Please choose others date or time.',
 	160   => 'No session param passed.',	
 	162	  => 'Can\'t retrieved user session. Please login again.',
 	170   => 'User is banned for review',

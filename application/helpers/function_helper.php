@@ -155,6 +155,12 @@
 
 			$d2 = mktime(0,0,0,$element[1],$element[2],$element[0]);
 			$date_processed =  date('M Y', $d2);
+		}elseif($type == "complete"){
+			$ext = explode(' ', $date_convert );
+			$time = explode(':', $ext[1] );
+			$element = explode("-", $date_processed);
+			$d2 = mktime($time[0],0,0,$element[1],$element[2],$element[0]);
+			$date_processed =  date("l,F Y,g:i a", $d2);
 		}else{
 			$element = explode("-", $date_processed);
 

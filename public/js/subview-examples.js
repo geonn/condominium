@@ -8,6 +8,7 @@
 
 	// creates an array of events to display in the calendar
 	var setCalendarEvents = function() {
+	 
 		var date = new Date();
 		dateToShow = date;
 		var d = date.getDate();
@@ -46,6 +47,7 @@
 	};
 	//creates fullCalendar
 	var showCalendar = function() {
+		 
 		$('#calendar').fullCalendar({
 			header : {
 				left : 'prev,next today',
@@ -444,7 +446,7 @@
 		} else {
 			noteIndex = el;
 		}
-		$("#readNote .e-slider").data('owlCarousel').jumpTo(noteIndex);
+	//	$("#readNote .e-slider").data('owlCarousel').jumpTo(noteIndex);
 	};
 	
 	var checkNote = function() {

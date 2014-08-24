@@ -17,52 +17,10 @@ class FacilityBooking_Model extends APP_Model{
 		);
 		
 		$result = $this->get_data($filter);
-		foreach($result as $k => $val){
-			/**Extract Booking Facility**/
-			$facility = $this->facility_model->getById($val['f_id']);
-			$result[$k]['facility'] = $facility['data']['name'];
-			
-			/**Extract Booking Facility Options**/
-			$options = $this->facilityOptions_model->getById($val['fo_id']);
-			$result[$k]['options'] = $options['data']['option'];
-			
-			$result[$k]['bookTime'] = match($val['bookTime'], $this->config->item('time_range'));
-			/**Extract Booking Date**/
-			$bookDate = explode('-', $val['bookDate']);
-			$result[$k]['bookYear'] = $bookDate[0];
-			$result[$k]['bookMonth'] = $bookDate[1];
-			$result[$k]['bookDay'] = $bookDate[2];
-			
-			/**Extract Booking Time**/
-			$result[$k]['bookTime'] = match($val['bookTime'], $this->config->item('time_range'));
-			$bookTime = explode(' - ', $result[$k]['bookTime']);
-	
-			$startTime = explode(':', $bookTime[0]);
-			$result[$k]['startTime'] = $startTime[0];
-			
-			$endTime = explode(':', $bookTime[1]);
-			$result[$k]['endTime'] = $endTime[0]; 
-			
-			$startDateInfo = date_convert( $val['bookDate'] . " ". $startTime[0] .":00:00","complete");
-			$di = explode(',', $startDateInfo);
-			$result[$k]['day'] = $di[0]; 
-			$result[$k]['date'] = $di[1]; 
-			$result[$k]['start_time'] = strtoupper($di[2]); 
-			
-			$endDateInfo = date_convert( $val['bookDate'] . " ". $endTime[0] .":00:00","complete");
-			$di2 = explode(',', $endDateInfo);
-			$result[$k]['end_time'] = strtoupper($di2[2]); 
-			
-			$result[$k]['status'] =match($val['status'], $this->config->item('booking_status'));
-			if($val['status'] == "1"){
-				$result[$k]['className'] = "event-offsite";
-			}else{
-				$result[$k]['className'] = "event-cancelled";
-			}
-		}
+		$details = $this->_extractDetails($result);
 		/*** return response***/
 		$this->_result['status']     = 'success';
-		$this->_result['data']       = $result[0];	
+		$this->_result['data']       = $details[0];	
 		return $this->_result;
 	}
 	
@@ -84,46 +42,34 @@ class FacilityBooking_Model extends APP_Model{
 		);
 		
 		$result = $this->get_data($filter);
-		
-		foreach($result as $k => $val){
-			/**Extract Booking Facility**/
-			$facility = $this->facility_model->getById($val['f_id']);
-			$result[$k]['facility'] = $facility['data']['name'];
-			
-			/**Extract Booking Facility Options**/
-			$options = $this->facilityOptions_model->getById($val['fo_id']);
-			$result[$k]['options'] = $options['data']['option'];
-			
-			$result[$k]['bookTime'] = match($val['bookTime'], $this->config->item('time_range'));
-			/**Extract Booking Date**/
-			$bookDate = explode('-', $val['bookDate']);
-			$result[$k]['bookYear'] = $bookDate[0];
-			$result[$k]['bookMonth'] = $bookDate[1];
-			$result[$k]['bookDay'] = $bookDate[2];
-			
-			/**Extract Booking Time**/
-			$result[$k]['bookTime'] = match($val['bookTime'], $this->config->item('time_range'));
-			$bookTime = explode(' - ', $result[$k]['bookTime']);
-	
-			$startTime = explode(':', $bookTime[0]);
-			$result[$k]['startTime'] = $startTime[0];
-			
-			$endTime = explode(':', $bookTime[1]);
-			$result[$k]['endTime'] = $endTime[0];
-			
-			if($val['status'] == "1"){
-				$result[$k]['className'] = "event-offsite";
-			}else{
-				$result[$k]['className'] = "event-cancelled";
-			}
-		}
+		$details = $this->_extractDetails($result);
 		
 		/*** return response***/
 		$this->_result['status']     = 'success';
-		$this->_result['data']       = $result;	
+		$this->_result['data']       = $details;	
 		return $this->_result;
 	}
-
+	
+	
+	
+	public function getByProperty($p_id){
+		$fac = $this->facility_model->getByProperty($p_id);
+		
+		$facilities  = array();
+		foreach($fac['data'] as $k => $val){
+			$facilities[] = $val['f_id'];
+		}
+		$facility = implode(',' , $facilities);
+		
+		$filter = "f_id IN (".$facility.")";
+		$result = $this->get_data($filter);
+		$details = $this->_extractDetails($result);
+		/*** return response***/
+		$this->_result['status']     = 'success';
+		$this->_result['data']       = $details;	
+		return $this->_result;
+	}
+	
 	public function getByFacility($f_id){
 		$filter = array(
 			'f_id'  => $f_id
@@ -307,6 +253,61 @@ class FacilityBooking_Model extends APP_Model{
 		/*** return response***/
 		$this->_result['status']     = 'success';
 		return $this->_result;
+	}
+	
+	private function _extractDetails($result=array()){
+		foreach($result as $k => $val){
+			/**Extract User Info**/
+			$user = $this->users_model->getById($val['u_id']);
+			$result[$k]['user'] = $user['data'];
+			
+			$facility = $this->facility_model->getById($val['f_id']);
+			$result[$k]['facility'] = $facility['data']['name'];
+			
+			/**Extract Booking Facility**/
+			$facility = $this->facility_model->getById($val['f_id']);
+			$result[$k]['facility'] = $facility['data']['name'];
+			
+			/**Extract Booking Facility Options**/
+			$options = $this->facilityOptions_model->getById($val['fo_id']);
+			$result[$k]['options'] = $options['data']['option'];
+			
+			$result[$k]['bookTime'] = match($val['bookTime'], $this->config->item('time_range'));
+			/**Extract Booking Date**/
+			$bookDate = explode('-', $val['bookDate']);
+			$result[$k]['bookYear'] = $bookDate[0];
+			$result[$k]['bookMonth'] = $bookDate[1];
+			$result[$k]['bookDay'] = $bookDate[2];
+			
+			/**Extract Booking Time**/
+			$result[$k]['bookTime'] = match($val['bookTime'], $this->config->item('time_range'));
+			$bookTime = explode(' - ', $result[$k]['bookTime']);
+	
+			$startTime = explode(':', $bookTime[0]);
+			$result[$k]['startTime'] = $startTime[0];
+			
+			$endTime = explode(':', $bookTime[1]);
+			$result[$k]['endTime'] = $endTime[0];
+			
+			$startDateInfo = date_convert( $val['bookDate'] . " ". $startTime[0] .":00:00","complete");
+			$di = explode(',', $startDateInfo);
+			$result[$k]['day'] = $di[0]; 
+			$result[$k]['date'] = $di[1]; 
+			$result[$k]['start_time'] = strtoupper($di[2]); 
+			
+			$endDateInfo = date_convert( $val['bookDate'] . " ". $endTime[0] .":00:00","complete");
+			$di2 = explode(',', $endDateInfo);
+			$result[$k]['end_time'] = strtoupper($di2[2]); 
+			
+			$result[$k]['status'] =match($val['status'], $this->config->item('booking_status'));
+			if($val['status'] == "1"){
+				$result[$k]['className'] = "event-offsite";
+			}else{
+				$result[$k]['className'] = "event-cancelled";
+			}
+		}
+		
+		return $result;
 	}
 	
 	/*** Do checking before send to database***/

@@ -63,7 +63,7 @@ $config['sub_menu1'] = array(
 	 'facility'     => array(
 	 				'Manage Facility' => $this->domain.'/facility/index',
 	 				'Create Facility' => $this->domain.'/facility/add',
-	 				'Check Booking' => $this->domain.'/facility/booking'
+	 				'Manage Booking' => $this->domain.'/facility/booking'
 	 ),	
 	'maintenance'     => array(
 					'Manage Maintenance' =>  $this->domain.'/maintenance/index',
@@ -119,7 +119,7 @@ $config['sub_menu2'] = array(
 	 'facility'     => array(
 	 				'Manage Facility' => $this->domain.'/facility/',
 	 				'Create Facility' => $this->domain.'/facility/add',
-	 				'Check Booking' => $this->domain.'/facility/checkBooking'
+	 				'Manage Booking' => $this->domain.'/facility/checkBooking'
 	 ),	
 	'maintenance'     => array(
 					'Manage Maintenance' =>  $this->domain.'/maintenance/',

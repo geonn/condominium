@@ -94,8 +94,8 @@
 	 var toastCount = 0;
 	 var showSuccessPopUp =  function () {
             var shortCutFunction = "success";
-            var msg = 'Facility successfully created!';//$('#message').val();
-            var title = 'New Facility';
+            var msg = 'Facility successfully updated!';//$('#message').val();
+            var title = 'Facility Updated';
             var toastIndex = toastCount++;
 
             toastr.options = {
@@ -136,7 +136,7 @@
      
     	$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/addOptions/", str, function(result) {
 			var obj = $.parseJSON(result);
-			
+			$("#facilityOptions").val("");
 			if(obj.status =="success"){
 				showSuccessPopUp();
 				getOptions();	

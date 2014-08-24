@@ -51,7 +51,7 @@ class Facility extends Web_Controller {
 	public function booking(){
 		/**Module name***/
 		$data['module'] = "Check Booking";
- 
+ 		
 		$this->_render_form('booking',$data);
 	}
 	
@@ -67,6 +67,11 @@ class Facility extends Web_Controller {
 	public function getMemberBookingInfo(){
 		$data['booking'] = $this->facilityBooking_model->getByUser($this->user->get_memberid());
 		echo json_encode($data['booking']);
+	}
+	
+	public function getPropertyFacilityBooking(){
+		$data['booking'] = $this->facilityBooking_model->getByProperty($this->user->get_memberproperty());
+	 	echo json_encode($data['booking']);
 	}
 
 	public function getBookingInfoById(){ 

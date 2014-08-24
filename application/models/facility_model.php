@@ -12,13 +12,16 @@ class Facility_Model extends APP_Model{
 	}
 	
 	public function get(){
-		$result = $this->get_data('','','','updated','DESC');
+		$filter = array(
+			'p_id' => $this->user->get_memberproperty()
+		);
+		$result = $this->get_data($filter,'','','updated','DESC');
 		
 		foreach($result as $k => $val){
 			$options = $this->facilityOptions_model->getChildById($val['f_id']);
 			$result[$k]['totalOptions'] = count($options['data']);
 		}
-				
+ 
 		/*** return response***/
 		$this->_result['status']     = 'success';
 		$this->_result['data']       = $result;	
@@ -56,6 +59,20 @@ class Facility_Model extends APP_Model{
 		return $this->_result;
 	}
 	
+	public function getByProperty($p_id){
+		
+		$filter = array(
+			'p_id' => $p_id
+		);
+		
+		$result = $this->get_data($filter);
+		
+		/*** return response***/
+		$this->_result['status']     = 'success';
+		$this->_result['data']       = $result;	
+		return $this->_result;
+	}
+	
 	public function add(){
 		$validation = $this->validate();
 		
@@ -63,6 +80,7 @@ class Facility_Model extends APP_Model{
 			$data = array(
 				'name'           => $this->param['name'],
 				'description' => $this->param['description'],
+				'p_id'             => $this->user->get_memberproperty(),
 				'status'          => !empty($this->param['status']) ? $this->param['status'] : 1,
 				'created'       => date('Y-m-d H:i:s'),
 				'updated'      => date('Y-m-d H:i:s')

@@ -71,15 +71,22 @@
 											My Profile
 										</a>
 									</li>
-									<li>
-										<a href="pages_calendar.html">
-											My Calendar
-										</a>
-									</li>
+									
 									<li>
 										<a id="topMessage" href="<?= $this->config->item('domain') ?>/messages/index">
 											My Messages  
 										</a>
+									</li>
+									<li>
+										<?php if($this->user->get_memberrole() != "3"){ ?>
+												<a href="<?= $this->config->item('domain') ?>/facility/booking">
+													Manage Facility Booking
+												</a>
+										<?php }else{ ?>
+											<a href="<?= $this->config->item('domain') ?>/facility/memberBooking">
+													My Facility Booking
+												</a>
+										<?php } ?>
 									</li>
 									<li>
 										<a href="<?= $this->config->item('domain') ?>/main/lockScreen">

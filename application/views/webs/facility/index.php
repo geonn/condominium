@@ -91,9 +91,9 @@
 									foreach($result['data'] as $k => $val){ ?>	
 									<tr>
 										<td><?= $val['name'] ?></td>
-										<td><?= $val['description'] ?></td>
+										<td><?= $val['totalOptions'] ?></td>
 										<td class="hidden-xs">
-											 <?= $val['totalOptions'] ?>
+											 <?= match($val['status'], $this->config->item('facility_status')) ?>
 										</td>
 										<td>
 											<a class="btn btn-purple" href="<?= $this->config->item('domain').'/'.$this->name ?>/edit/<?= $val['f_id'] ?>">

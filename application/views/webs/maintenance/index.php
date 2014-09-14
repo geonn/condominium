@@ -112,16 +112,21 @@
 												<td class="hidden-xs"  style="text-align:right;"><?= number_format($val['totalAmount'],2) ?></td>
 												<td style="text-align:right;"><?php 
 													if(empty($val['payment'])){
-														echo number_format($val['totalAmount'],2);
+														echo "<span style='color:#FF0000;font-weight:bold;'>".number_format($val['totalAmount'],2)."</span>";
 													}else{
-														echo number_format($val['payment']['balance'],2);
+														
+														if(number_format($val['payment']['balance'],2) == "0.00"){
+															echo "<span style='color:green;font-weight:bold;'>PAID</span>";
+														}else{
+															echo "<span style='color:#FF0000;font-weight:bold;'>".number_format($val['payment']['balance'],2)."</span>";
+														}
 													}
 													 ?></td>
 												<td class="hidden-xs"><?=   date_convert($val['created'], 'full') ?></td>
 												<?php if($role != 3){ ?>
 												<td>
 													<?php 
-													if(empty($val['payment']) || $val['payment']['balance'] !== "0"){
+													if(empty($val['payment']) || number_format($val['payment']['balance'],2) !== "0.00"){
 														echo '<a type="button" class="btn btn-blue btn-xs" href="'. $this->config->item('domain').'/'.$this->name .'/edit/'.$val['m_id'].'" >Pay Now</a>';
 													} 
 													 ?>

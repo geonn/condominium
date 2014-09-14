@@ -15,6 +15,21 @@ class Maintenance extends Web_Controller {
 		$this->_render_form('index',$data);
 	}
 	
+	function get_list(){		  
+		$data['result']  =  $this->maintenance_model->get(); 
+		$table_row = $this->load->view('/webs/'.$this->name.'/_list_table',$data,true);
+		echo $table_row;
+	}
+	
+	public function edit($id=""){
+		/**Module name***/
+		$data['module'] = "Edit Maintenance";
+		$this->param['m_id'] = $id;
+	 	$data['result']    = $this->maintenance_model->getById();
+	 	
+		$this->_render_form('edit',$data);
+	}
+	
 	public function create(){
 		/**Module name***/
 		$data['module'] = "Add Maintenance";

@@ -39,7 +39,8 @@
                     	<ul class="dd-list">
                         	<?php 
 								foreach($property_list as $value){
-									echo "<li><input type='radio' name='propertyOptions' class='grey' style='margin-right:10px;' value='".$value['p_id']."'><span>".$value['name']."</span></li>";
+									$checked = ($value['p_id'] == $p_id)?"checked":"";
+									echo "<li><input ".$checked." type='radio' name='propertyOptions' class='grey' style='margin-right:10px;' value='".$value['p_id']."'><span>".$value['name']."</span></li>";
 								}
 							?>
                         </ul>

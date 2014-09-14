@@ -1,10 +1,10 @@
 <?php
-class Maintenance_Model extends APP_Model{
+class Payment_Model extends APP_Model{
 	public $_result = array();
 	
 	function __construct() {
-		$this->_table      = "maintenance";
-		$this->primary_key = 'm_id';	
+		$this->_table      = "payment";
+		$this->primary_key = 'id';	
 		
 		$this->_result['status']     = '';
 		$this->_result['error_code'] = '';
@@ -14,7 +14,6 @@ class Maintenance_Model extends APP_Model{
 	public function get(){
 		/** Check user type**/
 		$role = $this->user->get_memberrole();
-		$category = !empty($this->param['category']) ? $this->param['category'] : "";
 		
 		if($role == 3){
 			/** Normal user query**/
@@ -38,15 +37,11 @@ class Maintenance_Model extends APP_Model{
 			}
 			$r_id = implode(',' , $res);
 			$filter = "";
-			if(!empty($category)){
-				$filter = "(type=".$category .") AND ";
-			}
-		
 			if(!empty($r_id)){
-				$filter .=  "r_id IN (".$r_id.")";
+				$filter =  "r_id IN (".$r_id.")";
 			}else{
 				/** to avoid get any records from query**/
-				$filter .=  "type =999";
+				$filter =  "type =999";
 			}
 			
 		}
@@ -54,7 +49,7 @@ class Maintenance_Model extends APP_Model{
 		$result = $this->get_data($filter,'','',$this->primary_key,'DESC');
 	 
 		$return = array();
-	 	
+	 
 		if(!empty($result)){
 			foreach($result as $r => $ret){
 				$return[$r] = $ret;
@@ -62,15 +57,12 @@ class Maintenance_Model extends APP_Model{
 				$return[$r]['paymentType']   = match($ret['paymentType'], $this->config->item('payment_type'));
 				$return[$r]['unitLots'] 			= $resident['data'][$ret['r_id']]['unitLots'];
 				
-				/**get payment info**/
-				$payment              				  = $this->payment_model->getByMid($ret['m_id']);
-				$return[$r]['payment']		 = $payment['data'];
 				/**get user info**/
 				$user = $this->users_model->getById($resident['data'][$ret['r_id']]['u_id']);
-				$return[$r]['name'] 			  = $user['data']['firstname'];
+				$return[$r]['name'] 			= $user['data']['firstname'];
 			}
 		}
-	  
+	 
 		/*** return response***/
 		$this->_result['status']     = 'success';
 		$this->_result['data']       = $return;	
@@ -78,52 +70,60 @@ class Maintenance_Model extends APP_Model{
 		
 	}
 	
-	public function getById(){
+	public function getByMid($m_id){
 		$filter = array(
-			$this->primary_key => $this->param['m_id']
+			'm_id' => $m_id
 		);
 		
 		$result = $this->get_data($filter);
 		
 		/*** return response***/
 		$this->_result['status']     = 'success';
-		$this->_result['data']       = $result[0];	
-		return $this->_result;
-	}
-	
-	public function getByResident(){
-		$limit = !empty( $this->param['limit']) ?  $this->param['limit'] : '';
-		$filter = array(
-			'r_id' => $this->param['r_id']
-		);
 		
-		$result = $this->get_data($filter,$limit,0 ,$this->primary_key,'DESC');
+		if(empty($result)){
+			$this->_result['data']       = array();
+		}else{
+			$this->_result['data']       = $result[0];	
+		}
 		
-		/*** return response***/
-		$this->_result['status']     = 'success';
-		$this->_result['data']       = $result;	
 		return $this->_result;
 	}
 	
 	public function add(){
 		$validation = $this->validate();
-		$duration   = $this->param['year']."-". $this->param['month'] . "-01";
+		
+		$filter = array('m_id' => $this->param['m_id']);
+		$res    = $this->get_data($filter);
+		
 		if(empty($validation)) { 
-			$data = array(
-				'r_id'                     => $this->param['r_id'],
-				'duration'             => $duration,
-				'totalAmount'      => $this->param['totalAmount'],
-				'type'                     => !empty($this->param['type']) ? $this->param['type'] : 1,
-				'paymentType'     => !empty($this->param['paymentType']) ? $this->param['paymentType'] : 1,
-				'created'                => date('Y-m-d H:i:s'),
-				'updated'               => date('Y-m-d H:i:s')
-			);
+			$maintenance = $this->maintenance_model->getById();
+			$total = $maintenance['totalAmount'];
 			
-			$id = $this->insert($data);
+			if(!empty($res)){
+				$balance = $total - ($this->param['paid'] + $res[0]['paid']);
+				$data = array(
+					'paid'      			  => $this->param['paid'],
+					'balance'              => $balance,
+					'updated'             => date('Y-m-d H:i:s')
+				);
+				
+				$this->update($res[0]['id'], $data);
+			}else{
+				$balance = $total - $this->param['paid'];
+				
+				$data = array(
+					'm_id'                   => $this->param['m_id'],
+					'paid'      			  => $this->param['paid'],
+					'balance'              => $balance,
+					'created'               => date('Y-m-d H:i:s'),
+					'updated'             => date('Y-m-d H:i:s')
+				);
+				
+				$id = $this->insert($data);
+			}
 			
 			/*** return response***/
 			$this->_result['status']     = 'success';
-			$this->_result['data']       = $id;	
 			
 		}else{
 			/***Set Error Message***/
@@ -137,30 +137,37 @@ class Maintenance_Model extends APP_Model{
 		return $this->_result;
 	}
 	
-	public function edit(){
-		$validation = $this->validate();
+	public function clearOff(){
+		$filter = array('m_id' => $this->param['m_id']);
+		$res    = $this->get_data($filter);
 		
-		if(empty($validation)) { 
+		$maintenance = $this->maintenance_model->getById();
+		
+		if(!empty($res)) { 
 			$data = array(
-				'duration'             => $this->param['duration'],
-				'totalAmount'      => $this->param['totalAmount'],
-				'type'                     => !empty($this->param['type']) ? $this->param['type'] : 1,
-				'paymentType'     => !empty($this->param['paymentType']) ? $this->param['paymentType'] : 1,
-				'updated'      => date('Y-m-d H:i:s')
-			);
+					'paid'      			  => $maintenance['totalAmount'],
+					'balance'              => 0,
+					'updated'             => date('Y-m-d H:i:s')
+				);
 			
-			$this->update($this->param['m_id'], $data);
+			$this->update($res[0]['id'], $data);
 			
 			/*** return response***/
-			$this->_result['status']     = 'success';
-			$this->_result['data']       = $this->param['m_id'];	
+			$this->_result['status']     = 'success'; 
 		}else{
-			/***Set Error Message***/
-			$this->_result['status']     = 'error';
-			$this->_result['error_code'] = $validation;
-			foreach($validation as $k => $val){
-				$this->_result['data']['error_msg'][$k] = $this->code[$val];
-			}
+			
+				$data = array(
+					'm_id'                   => $this->param['m_id'],
+					'paid'      			  => $maintenance['totalAmount'],
+					'balance'              => 0,
+					'created'               => date('Y-m-d H:i:s'),
+					'updated'             => date('Y-m-d H:i:s')
+				);
+				
+				$id = $this->insert($data);
+				
+			/*** return response***/
+			$this->_result['status']     = 'success';
 		}
 		return $this->_result;
 	}
@@ -176,16 +183,16 @@ class Maintenance_Model extends APP_Model{
 	/*** Do checking before send to database***/
 	private function validate(){
 		$statusCode = array();
-		$year        = $this->param['year'];
-		$month        = $this->param['month'];
-		$totalAmount = $this->param['totalAmount'];
+		$m_id        = $this->param['m_id'];
+		$paidAmount = $this->param['paid'];
 		
-		if(empty($year) || empty($month)){
-			$statusCode[] = 132;
-		}
 		
 		if(empty($totalAmount)){
-			$statusCode[] = 133;
+			$statusCode[] = 139;
+		}
+		
+		if(empty($paidAmount)){
+			$statusCode[] = 140;
 		}
 		
 		return $statusCode;

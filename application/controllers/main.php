@@ -75,6 +75,7 @@ class Main extends Web_Controller {
 		$data = array();
 		$res = $this->property_model->get();
 		$data['property_list'] = $res['data'];
+		$data['p_id'] = $this->user->get_memberproperty();
 		$this->template->set_layout('lockScreen');
 		$this->template->set_partial('includes' , $this->config->item('template_dir').'/_login_includes');   
 		$this->_render_form('switchCondo',$data);

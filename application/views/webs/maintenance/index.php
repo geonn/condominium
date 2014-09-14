@@ -70,45 +70,63 @@
 					<!-- start: DYNAMIC TABLE PANEL -->
 					<div class="panel panel-white">
 						<div class="panel-heading">
-							<h4 class="panel-title"><span class="text-bold">Property List</span></h4>
+							<h4 class="panel-title"><span class="text-bold"><?= ucwords($this->name) ?> List</span></h4>
 						
 						</div>
-						<div class="panel-body">
-							
+						
+						<div style="padding:0px 15px 0 15px">
+							<label>Sort By 
+									<?= form_dropdown('category', array(""=>"All Category")+$this->config->item('maintenance_type'), '',' id="category" size="1"'); ?> 
+							</label>
+							<br/>
 							<table class="table table-striped table-bordered table-hover table-full-width" id="maintenanceTable">
 								<thead>
 									<tr>
-										<th>ID</th>
+										 
 										<th>Ownder Name</th>
 										<th>Unit Lots</th>
 										<th>Payment For</th>
 										<th class="hidden-xs"> Maintenance Type</th>
 										<th class="hidden-xs">Payment Type</th>
-										<th class="hidden-xs">Payment Amount</th>
+										<th class="hidden-xs">Total Amount</th>
+										<th >Balance</th>
 										<th class="hidden-xs">Transaction Date</th>
+										<th >Action</th>
 									</tr>
 								</thead>
-								<tbody>
-								<?php 
-								if(!empty($result['data'])){
-								foreach($result['data'] as $k => $val){ ?>	
-									<tr>
-										<td><?= $val['m_id'] ?></td>
-										<td><?= $val['name'] ?></td>
-										<td><?= $val['unitLots'] ?></td>
-										<td><?=   date_convert($val['duration'], 'shorten') ?></td>
-										<td class="hidden-xs"><?= $val['type'] ?></td>
-										<td class="hidden-xs"><?= $val['paymentType'] ?></td>
-										<td class="hidden-xs"><?= $val['totalAmount'] ?></td>
-										<td class="hidden-xs"><?=   date_convert($val['created'], 'full') ?></td>
-									</tr>
-								<?php
-								}
-								 } else{ ?>
-									<tr><td colspan="8" style="text-align:center;">No records found.</td></tr>
-										
-							<?php } ?>
-									
+								<tbody id="tableBody">
+									 <?php 
+										if(!empty($result['data'])){
+										foreach($result['data'] as $k => $val){ ?>	
+											<tr>
+												 
+												<td><?= $val['name'] ?></td>
+												<td><?= $val['unitLots'] ?></td>
+												<td><?=   date_convert($val['duration'], 'shorten') ?></td>
+												<td class="hidden-xs"><?= $val['type'] ?></td>
+												<td class="hidden-xs"><?= $val['paymentType'] ?></td>
+												<td class="hidden-xs"><?= $val['totalAmount'] ?></td>
+												<td><?php 
+													if(empty($val['payment'])){
+														echo $val['totalAmount'];
+													}else{
+														echo number_format($val['payment']['balance'],2);
+													}
+													 ?></td>
+												<td class="hidden-xs"><?=   date_convert($val['created'], 'full') ?></td>
+												<td>
+													<?php 
+													if(empty($val['payment']) || $val['payment']['balance'] !== "0"){
+														echo '<button type="button" class="btn btn-blue btn-xs" href="'. $this->config->item('domain').'/'.$this->name .'/edit/'.$val['m_id'].'" >Pay Now</button>';
+													} 
+													 ?>
+													 </td>
+											</tr>
+										<?php
+										}
+										 } else{ ?>
+											<tr><td colspan="8" style="text-align:center;">No records found.</td></tr>
+									<?php } ?>
 								</tbody>
 							</table>
 						</div>
@@ -126,12 +144,10 @@
 </div>
 <!-- end: MAIN CONTAINER -->
 <script>
+	var queryString  = "<?= $this->config->item('domain') ?>/<?= $this->name ?>/get_list/";
+	
 	var TableData = function() {
 	"use strict";
-	//function to initiate DataTable
-	//DataTable is a highly flexible tool, based upon the foundations of progressive enhancement,
-	//which will add advanced interaction controls to any HTML table
-	//For more information, please visit https://datatables.net/
 	
 	var runDataTable_maintenance = function(){
 			var oTable = $('#maintenanceTable').dataTable({
@@ -169,9 +185,25 @@
 	return {
 		//main function to initiate template pages
 		init : function() {
+			var queryParam   = "?category=";
+	 		get_list(queryParam);	 
 			runDataTable_maintenance();
 		}
 	};
 }();
 
+
+	var get_list = function(queryParam){
+		console.log(queryString+queryParam);
+		$.get(queryString+queryParam, function(data) {
+			jQuery('#loading').hide();
+		  	jQuery('#tableBody').html(data);
+		 //  	runDataTable_maintenance();
+		});
+	};
+	
+	$("#category").change(function(){
+		var queryParam   = "?category="+ $( this ).val();
+		get_list(queryParam);
+	});
 </script>

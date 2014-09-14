@@ -300,7 +300,10 @@ $config['payment_type'] = array(
 /********Maintenance Type********/
 $config['maintenance_type'] = array(
 	1 => 'Maintenane & Sinking Fund',
-	2 => 'Insurance' 
+	2 => 'Electrical',
+	3 => 'Broadband',
+	4 => 'Water',
+	5 => 'Others'
 );
 
 /********Facilities status********/
@@ -327,6 +330,12 @@ $config['facility_status'] = array(
 /********Booking status********/
 $config['booking_status'] = array(
 	1 => 'Confirmed',
+	2 => 'Cancelled' 
+);
+
+/********Maintenance status********/
+$config['maintenance_status'] = array(
+	1 => 'Ok',
 	2 => 'Cancelled' 
 );
 

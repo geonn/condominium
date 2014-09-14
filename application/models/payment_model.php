@@ -97,12 +97,12 @@ class Payment_Model extends APP_Model{
 		
 		if(empty($validation)) { 
 			$maintenance = $this->maintenance_model->getById();
-			$total = $maintenance['totalAmount'];
+			$total = $maintenance['data']['totalAmount'];
 			
 			if(!empty($res)){
 				$balance = $total - ($this->param['paid'] + $res[0]['paid']);
 				$data = array(
-					'paid'      			  => $this->param['paid'],
+					'paid'      			  => $this->param['paid'] + $res[0]['paid'],
 					'balance'              => $balance,
 					'updated'             => date('Y-m-d H:i:s')
 				);
@@ -145,7 +145,7 @@ class Payment_Model extends APP_Model{
 		
 		if(!empty($res)) { 
 			$data = array(
-					'paid'      			  => $maintenance['totalAmount'],
+					'paid'      			  => $maintenance['data']['totalAmount'],
 					'balance'              => 0,
 					'updated'             => date('Y-m-d H:i:s')
 				);
@@ -158,7 +158,7 @@ class Payment_Model extends APP_Model{
 			
 				$data = array(
 					'm_id'                   => $this->param['m_id'],
-					'paid'      			  => $maintenance['totalAmount'],
+					'paid'      			  => $maintenance['data']['totalAmount'],
 					'balance'              => 0,
 					'created'               => date('Y-m-d H:i:s'),
 					'updated'             => date('Y-m-d H:i:s')
@@ -187,8 +187,8 @@ class Payment_Model extends APP_Model{
 		$paidAmount = $this->param['paid'];
 		
 		
-		if(empty($totalAmount)){
-			$statusCode[] = 139;
+		if(empty($m_id)){
+			$m_id[] = 139;
 		}
 		
 		if(empty($paidAmount)){

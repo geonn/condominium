@@ -90,7 +90,12 @@
 										<th class="hidden-xs">Total Amount</th>
 										<th >Balance</th>
 										<th class="hidden-xs">Transaction Date</th>
+										<?php 
+										$role = $this->user->get_memberrole(); 
+										if($role != 3){
+										?>
 										<th >Action</th>
+									<?php } ?>
 									</tr>
 								</thead>
 								<tbody>
@@ -104,30 +109,33 @@
 												<td><?=   date_convert($val['duration'], 'shorten') ?></td>
 												<td class="hidden-xs"><?= $val['type'] ?></td>
 												<td class="hidden-xs"><?= $val['paymentType'] ?></td>
-												<td class="hidden-xs"><?= $val['totalAmount'] ?></td>
-												<td><?php 
+												<td class="hidden-xs"  style="text-align:right;"><?= number_format($val['totalAmount'],2) ?></td>
+												<td style="text-align:right;"><?php 
 													if(empty($val['payment'])){
-														echo $val['totalAmount'];
+														echo number_format($val['totalAmount'],2);
 													}else{
 														echo number_format($val['payment']['balance'],2);
 													}
 													 ?></td>
 												<td class="hidden-xs"><?=   date_convert($val['created'], 'full') ?></td>
+												<?php if($role != 3){ ?>
 												<td>
 													<?php 
 													if(empty($val['payment']) || $val['payment']['balance'] !== "0"){
-														echo '<button type="button" class="btn btn-blue btn-xs" href="'. $this->config->item('domain').'/'.$this->name .'/edit/'.$val['m_id'].'" >Pay Now</button>';
+														echo '<a type="button" class="btn btn-blue btn-xs" href="'. $this->config->item('domain').'/'.$this->name .'/edit/'.$val['m_id'].'" >Pay Now</a>';
 													} 
 													 ?>
 													 </td>
+													<?php } ?>
 											</tr>
 										<?php
 										}
 										 } else{ ?>
-											<tr><td colspan="8" style="text-align:center;">No records found.</td></tr>
+											<tr><td colspan="9" style="text-align:center;">No records found.</td></tr>
 									<?php } ?>
 								</tbody>
 							</table>
+							<br/>
 						</div>
 					</div>
 					<!-- end: DYNAMIC TABLE PANEL -->

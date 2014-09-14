@@ -28,6 +28,12 @@ class Maintenance_Model extends APP_Model{
 			$filter = array(
 				'r_id' => $res['data']['r_id']
 			);
+			
+			if(!empty($category)){
+				$cate = array('type' => $category);
+				$filter = $filter + $cate;
+			}
+			
 		}else{
 			/** for admin: Get property that admin in-charged**/
 			$p_id	 = $this->user->get_memberproperty();
@@ -70,7 +76,7 @@ class Maintenance_Model extends APP_Model{
 				$return[$r]['name'] 			  = $user['data']['firstname'];
 			}
 		}
-	  
+	
 		/*** return response***/
 		$this->_result['status']     = 'success';
 		$this->_result['data']       = $return;	
@@ -84,10 +90,24 @@ class Maintenance_Model extends APP_Model{
 		);
 		
 		$result = $this->get_data($filter);
-		
+		foreach($result as $r => $ret){
+				$return[$r] = $ret;
+				$return[$r]['type']     			  = match($ret['type'], $this->config->item('maintenance_type'));
+				$return[$r]['paymentType']   = match($ret['paymentType'], $this->config->item('payment_type'));
+				$resident                                   = $this->residents_model->getById($ret['r_id']); 
+				$return[$r]['unitLots'] 			= $resident['data']['unitLots'];
+				
+				/**get payment info**/
+				$payment              				  = $this->payment_model->getByMid($ret['m_id']);
+				$return[$r]['payment']		 = $payment['data'];
+				/**get user info**/
+				$user = $this->users_model->getById($resident['data']['u_id']);
+				$return[$r]['name'] 			  = $user['data']['firstname'];
+		}
+		 
 		/*** return response***/
 		$this->_result['status']     = 'success';
-		$this->_result['data']       = $result[0];	
+		$this->_result['data']       = $return[0];	
 		return $this->_result;
 	}
 	

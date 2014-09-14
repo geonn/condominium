@@ -68,6 +68,16 @@ class Maintenance extends Web_Controller {
 		echo $table_row;
 	}
 	
+	public function payAnyAmount(){  
+		$result = $this->payment_model->add();
+		echo json_encode($result);
+	}
+	
+	public function payAll(){
+		$result = $this->payment_model->clearOff();
+		echo json_encode($result);
+	}
+	
 }
 
 /* End of file maintenance.php */

@@ -112,17 +112,17 @@ $config['menu2'] = array(
 $config['sub_menu2'] = array( 
 	'main'     => array(),
 	 'account'  => array(
-	 				'Manage Account' => $this->domain.'/account/', 
+	 				'Manage Account' => $this->domain.'/account/index', 
 	 				'Create Account' => $this->domain.'/account/create', 
 	 				'Edit Account' => $this->domain.'/account/edit'
 	 ),
 	 'facility'     => array(
-	 				'Manage Facility' => $this->domain.'/facility/',
+	 				'Manage Facility' => $this->domain.'/facility/index',
 	 				'Create Facility' => $this->domain.'/facility/add',
 	 				'Manage Booking' => $this->domain.'/facility/checkBooking'
 	 ),	
 	'maintenance'     => array(
-					'Manage Maintenance' =>  $this->domain.'/maintenance/',
+					'Manage Maintenance' =>  $this->domain.'/maintenance/index',
 					'Add Maintenance' =>  $this->domain.'/maintenance/create',
 	),	
 	 'announcement'    => array(
@@ -170,7 +170,7 @@ $config['sub_menu3'] = array(
 	 				'Facility Booking' => $this->domain.'/facility/memberAddBooking'
 	 ),	
 	'maintenance'     => array(
-					'Manage Maintenance' =>  $this->domain.'/maintenance/'
+					'Manage Maintenance' =>  $this->domain.'/maintenance/index'
 	),	
 );
 

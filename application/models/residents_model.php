@@ -11,9 +11,10 @@ class Residents_Model extends APP_Model{
 		$this->_result['data']       = array();	
 	}
 	
-	public function getById(){
+	public function getById($rid = ""){
+		$rid = !empty($rid) ? $rid : $this->param['r_id'];
 		$filter = array(
-			$this->primary_key => $this->param['r_id']
+			$this->primary_key => $rid
 		);
 		
 		$result = $this->get_data($filter);

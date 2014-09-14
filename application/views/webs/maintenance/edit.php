@@ -67,7 +67,7 @@
 							
 							<div class="panel-body">
 							 	<div class="panel-heading">
-									<h4 class="panel-title"> <span class="text-bold">Account Information for mid <?= $result['data']['m_id'] ?></span></h4>
+									<h4 class="panel-title"> <span class="text-bold">Maintenance Information and Payment for  <?= $result['data']['unitLots'] ?></span></h4>
 								</div>
 								<?= form_hidden('edit',1) ?>
 								<?= form_hidden('m_id',$result['data']['m_id'] ) ?>
@@ -84,57 +84,71 @@
 								<table id="user" class="table table-bordered table-striped">
 									<tbody>
 										<tr>
-											<td class="column-left" style="width:30%;">Mid</td>
+											<td class="column-left" style="width:30%;">ID</td>
 											<td class="column-right"> 
 											<?= $result['data']['m_id'] ?></td>
 										</tr>
                                         <tr>
-											<td class="column-left" style="width:30%;">Rid</td>
+											<td class="column-left" style="width:30%;">Resident Units</td>
 											<td class="column-right"> 
-											<?= $result['data']['r_id'] ?></td>
+											<?= $result['data']['unitLots'] ?></td>
 										</tr>
                                         <tr>
 											<td class="column-left" style="width:30%;">Duration</td>
 											<td class="column-right"> 
-											<?= $result['data']['duration'] ?></td>
+											<?= date_convert($result['data']['duration'],'ori') ?></td>
 										</tr>
                                         <tr>
 											<td class="column-left" style="width:30%;">Total Amount</td>
-											<td class="column-right"> 
-											<?= $result['data']['totalAmount'] ?></td>
+											<td class="column-right"> MYR <?= $result['data']['totalAmount'] ?></td>
 										</tr>
                                         <tr>
 											<td class="column-left" style="width:30%;">Maintenance Type</td>
 											<td class="column-right"> 
-											<?= match($result['data']['type'], $this->config->item('maintenance_type')) ?></td>
+											<?= $result['data']['type'] ?></td>
 										</tr>
                                         <tr>
 											<td class="column-left" style="width:30%;">Payment Type</td>
 											<td class="column-right"> 
-											<?= match($result['data']['paymentType'], $this->config->item('payment_type')) ?></td>
+											<?= $result['data']['paymentType'] ?></td>
 										</tr>
-										<tr>
-											<td style="width:30%;">Account Status</td>
-											<td>
-                                            <?php if($this->user->get_memberrole() != "3") { ?>
-												<a href="#" id="status" data-type="select" data-pk="1"  data-value="<?= $result['data']['status'] ?>" data-original-title="Account Status">
-													<?= match($result['data']['status'],$this->config->item('status') ) ?>
-                                                </a>
-											<?php }else{  ?>
-													<?= match($result['data']['status'],$this->config->item('status') ) ?>
-											<?php }  ?>
-                                            </td>
+										 <tr>
+											<td class="column-left" style="width:30%;">Balance (MYR)</td>
+											<td class="column-right"> 
+											<?php 
+													if(empty($result['data']['payment'])){
+														echo "<span style='color:#FF0000;font-weight:bold;'>".number_format($result['data']['totalAmount'],2)."</span>";
+													}else{
+														if(number_format($result['data']['payment']['balance'],2) == "0.00"){
+															echo "<span style='color:green;font-weight:bold;'>PAID</span>";
+														}else{
+															echo "<span style='color:#FF0000;font-weight:bold;'>".number_format($result['data']['payment']['balance'],2)."</span>";
+														}
+													}
+											?></td>
 										</tr>
 									</tbody>
 								</table>
-								<div class="form-group" >
-									 
-									<div  style="text-align:right;">
-										<button data-style="expand-right" class="ladda-button" data-color="green" onClick="return update()">
-											Update <?= ucwords($this->name) ?> <i class="fa fa-arrow-circle-right"></i>
-										</button>
+								
+								<?php
 									
+									if((empty($result['data']['payment']) || number_format($result['data']['payment']['balance'],2) != "0.00")){ ?>
+								<div class="form-group" >
+									<div  style="text-align:left;">
+										<button data-style="expand-right" data-size="xs" class="ladda-button" data-color="green" onClick="return showPriceBox()">
+											PAY ANY AMOUNT  
+										</button>
+										OR
+										<button data-style="expand-right"  data-size="xs" class="ladda-button" data-color="green" onClick="return payAll()">
+											PAY ALL <i class="fa fa-arrow-circle-right"></i>
+										</button>
+									 
+										<div class="col-sm-9" style="padding-top:15px;display:none;" id="payAmountContainer">
+											MYR <?= form_input('amount', '',' placeholder="Pay any amount"  id="payAmount" class="form-control" style="width:30%;display:inline;"'); ?>
+											<button type="button" class="btn btn-primary" onClick="return payAmounts()">PAY</button>
+										</div>
 									</div>
+								<?php } ?>
 								</div>
 							</div>
 						</div>
@@ -153,8 +167,8 @@
 	 var toastCount = 0;
 	 var showSuccessPopUp =  function () {
             var shortCutFunction = "success";
-            var msg = 'Account successfully updated!';//$('#message').val();
-            var title = 'Account Updates';
+            var msg = 'Maintenance record successfully updated!';//$('#message').val();
+            var title = 'Maintenance Payment Updates';
             var toastIndex = toastCount++;
 
             toastr.options = {
@@ -182,16 +196,47 @@
             );
             var $toast = toastr[shortCutFunction](msg, title); // Wire up an event handler to a button in the toast, if it exists
         }
-        
-	var update = function(){
-		var str = $('form').serialize();
-		
+    
+    var showPriceBox = function(){
+    	$("#payAmountContainer").fadeIn();
+    	 return false;
+    }
+    
+    function payAmounts(){
+    	var str = "paid="+$('input[name=amount]').val()+"&m_id=<?= $result['data']['m_id'] ?>";
+		 
 		/**Do create property to system***/
-		$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/doUpdate/", str, function(result) {
+		$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/payAnyAmount/", str, function(result) {
+			 $('input[name=amount]').val("");
 			var obj = $.parseJSON(result);
 			
 			if(obj.status =="success"){
 				showSuccessPopUp();
+				setTimeout(function(){
+					window.location.reload();
+				},3000);
+				
+			}else{
+				//error message
+			}
+		});
+		
+		return false;
+    }
+    
+	var payAll = function(){
+		var str = "m_id=<?= $result['data']['m_id'] ?>";
+		
+		/**Do create property to system***/
+		$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/payAll/", str, function(result) {
+			var obj = $.parseJSON(result);
+			
+			if(obj.status =="success"){
+				showSuccessPopUp();
+				setTimeout(function(){
+					window.location.reload();
+				},3000);
+				
 			}else{
 				//error message
 			}

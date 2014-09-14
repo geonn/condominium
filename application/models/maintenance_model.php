@@ -143,6 +143,7 @@ class Maintenance_Model extends APP_Model{
 		if(empty($validation)) { 
 			$data = array(
 				'duration'             => $this->param['duration'],
+				'status'                  => $this->param['status'],
 				'totalAmount'      => $this->param['totalAmount'],
 				'type'                     => !empty($this->param['type']) ? $this->param['type'] : 1,
 				'paymentType'     => !empty($this->param['paymentType']) ? $this->param['paymentType'] : 1,

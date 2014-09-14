@@ -71,12 +71,11 @@
 					<div class="panel panel-white">
 						<div class="panel-heading">
 							<h4 class="panel-title"><span class="text-bold"><?= ucwords($this->name) ?> List</span></h4>
-						
 						</div>
 						
 						<div style="padding:0px 15px 0 15px">
 							<label>Sort By 
-									<?= form_dropdown('category', array(""=>"All Category")+$this->config->item('maintenance_type'), '',' id="category" size="1"'); ?> 
+									<?= form_dropdown('category', array(""=>"All Category")+$this->config->item('maintenance_type'), $type,' id="category" size="1"'); ?> 
 							</label>
 							<br/>
 							<table class="table table-striped table-bordered table-hover table-full-width" id="maintenanceTable">
@@ -94,7 +93,7 @@
 										<th >Action</th>
 									</tr>
 								</thead>
-								<tbody id="tableBody">
+								<tbody>
 									 <?php 
 										if(!empty($result['data'])){
 										foreach($result['data'] as $k => $val){ ?>	
@@ -185,25 +184,17 @@
 	return {
 		//main function to initiate template pages
 		init : function() {
-			var queryParam   = "?category=";
-	 		get_list(queryParam);	 
+		
 			runDataTable_maintenance();
 		}
 	};
 }();
 
-
-	var get_list = function(queryParam){
-		console.log(queryString+queryParam);
-		$.get(queryString+queryParam, function(data) {
-			jQuery('#loading').hide();
-		  	jQuery('#tableBody').html(data);
-		 //  	runDataTable_maintenance();
-		});
-	};
 	
 	$("#category").change(function(){
 		var queryParam   = "?category="+ $( this ).val();
-		get_list(queryParam);
+	 
+		window.location.href = queryParam;
+		//$('#geomilano').dataTable();
 	});
 </script>

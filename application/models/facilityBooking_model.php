@@ -50,7 +50,36 @@ class FacilityBooking_Model extends APP_Model{
 		return $this->_result;
 	}
 	
-	
+	public function getFacilityBookingByDay($date){
+		$time_arr = $this->config->item('time_range');
+		
+		$options = $this->facilityOptions_model->getChildById($this->param['bookingFacility']);
+		$totalOptions = count($options['data']);
+			
+		$filter = array(
+			'bookDate' => $date,
+			'f_id'            => $this->param['bookingFacility']
+		);
+		
+		$result = $this->get_data($filter);
+		
+		$avail = array();
+		foreach($time_arr  as $k => $val){
+			$avail[$k]['time'] = $val;
+			$avail[$k]['booking'] = 0;
+			$avail[$k]['availability'] = 1;
+		}
+		
+		foreach($result  as $r => $ral){
+			$avail[$ral['bookTime']]['booking']++;
+			
+			if($avail[$ral['bookTime']]['booking'] >= $totalOptions){
+				$avail[$ral['bookTime']]['availability'] = 2;
+			}	
+		}
+		
+		return $avail;
+	}
 	
 	public function getByProperty($p_id){
 		$fac = $this->facility_model->getByProperty($p_id);
@@ -103,10 +132,15 @@ class FacilityBooking_Model extends APP_Model{
 				$pick = $options['data'][0]['fo_id'];
 			}
 			
+			$user = $this->user->get_memberid();
+			if(!empty($this->param['bookingUser'])){
+				$user = $this->param['bookingUser'];
+			}
+			
 			$data = array(
 				'f_id' => $this->param['bookingFacility'],
 				'fo_id' => $pick,
-				'u_id'  => $this->user->get_memberid(),
+				'u_id'  => $user,
 				'bookDate' => $this->param['bookingDate'],
 				'bookTime' => $this->param['bookingTime'],
 				'status'        => 1,

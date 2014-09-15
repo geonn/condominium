@@ -55,6 +55,24 @@ class Facility extends Web_Controller {
 		$this->_render_form('booking',$data);
 	}
 	
+	public function getFacilityBookingByDay(){
+		$data['date'] = substr($this->param['bookingDate'],0,10);
+		$data['facilities'] =$this->facility_model->getFacilityListByProperty();
+		
+		if($data['date'] < date('Y-m-d')){
+			echo "HISTORY";
+		}else{
+			$data['facility'] = "";
+			if(!empty($this->param['bookingFacility'])){
+				$data['facility'] = $this->param['bookingFacility'];
+				$data['result'] = $this->facilityBooking_model->getFacilityBookingByDay($data['date']);
+			}
+		}
+		//print_pre($data);
+		$table_row = $this->load->view('/webs/'.$this->name.'/_booking_listing',$data,true);
+		echo $table_row;	
+	}
+	
 	public function memberBooking(){
 		/**Module name***/
 		$data['module'] = "Check Booking";
@@ -85,7 +103,10 @@ class Facility extends Web_Controller {
 	}
 	
 	public function checkAvailablity(){ 
-		$this->param['bookingDate'] = convertToDBDate($this->param['bookingDate']); 
+		if(empty($this->param['dateConvert'])){
+			$this->param['bookingDate'] = convertToDBDate($this->param['bookingDate']); 
+		}
+		
 		$result = $this->facilityBooking_model->checkAvailablity();
 		echo json_encode($result);
 	}

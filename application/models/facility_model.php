@@ -41,6 +41,20 @@ class Facility_Model extends APP_Model{
 		return $list;
 	}
 	
+	public function getFacilityListByProperty(){
+		$filter = array(
+			'status' => 1,
+			'p_id' => $this->user->get_memberproperty()
+		);
+		$res = $this->get_data($filter);
+		$list = array();
+		foreach($res as $k => $val){
+			$list[$val['f_id']] = $val['name'];
+		}
+		
+		return $list;
+	}
+	
 	public function getById($f_id=""){
 		
 		if(empty($f_id)){

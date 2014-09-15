@@ -207,6 +207,12 @@ $config['languages'] = array(
 			'bm' => 'Bahasa Malayu',
 ); 
 
+/********Yes/No********/
+$config['yesno'] = array(
+			1 => 'Yes',
+			2 => 'No',
+); 
+
 /********Supported country********/
 $config['country'] = array(
 	'au' => 'Australia',

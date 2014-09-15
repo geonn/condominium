@@ -121,7 +121,14 @@
 		</div>
 	</div>
 </div>
-
+	<div id="newFullEvent">
+				<div class="noteWrap col-md-8 col-md-offset-2">
+					<h3>Book a facility</h3>
+					<form class="form-full-event">
+						<div id="timeListing"></div>
+					</form>
+				</div>
+			</div>
 <!-- end: SUBVIEW SAMPLE CONTENTS -->
 
 <script>
@@ -227,6 +234,13 @@
 			});
 	});
 	
+	var hideEditEvent = function() {
+		$.hideSubview();
+		$('.form-event .summernote').destroy();
+		$(".form-event .all-day").bootstrapSwitch('destroy');
+		
+	};
+	
 	//function to initiate Full Calendar
     var runBookingCalendar = function () {
     	$(".add-event").off().on("click", function() {
@@ -302,13 +316,18 @@
             selectable: true,
             selectHelper: true,
             select: function (start, end, allDay) {
-            	defaultRange.start = moment(start);
-				defaultRange.end = moment(start).add('hours', 1);
-				
+            	var m = moment(start);
+            	var newDt = m.format();
+            	//var start = moment(start);
+				//defaultRange.end = moment(start).add('hours', 1);
+				$.get("<?= $this->config->item('domain') ?>/<?= $this->name ?>/getFacilityBookingByDay/?bookingDate="+newDt,  function(result) {
+				//	console.log(result);
+					$("#timeListing").html(result);
+				});
 				$.subview({
 					content : "#newFullEvent",
 					onShow : function() {
-						editFullEvent();
+						//editFullEvent();
 					},
 					onHide : function() {
 						hideEditEvent();

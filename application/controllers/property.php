@@ -30,11 +30,14 @@ class Property extends Web_Controller {
 	}
 	
 	public function doCreate(){
-		
 		$result = $this->property_model->add();
 		echo json_encode($result);
 	}
 	
+	public function deleteLogo(){
+		$result = $this->images_model->deleteImage($this->param['img_id']);
+		echo json_encode($result);
+	}
 }
 
 /* End of file maintenance.php */

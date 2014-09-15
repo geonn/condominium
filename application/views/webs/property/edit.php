@@ -68,9 +68,29 @@
 									
 									</div>
 									<div class="panel-body">
-									 	
+										
 										<table id="user" class="table table-bordered table-striped">
 											<tbody>
+												<tr>
+													<td class="column-left">Property Logo</td>
+													<td class="column-right">
+													<?php  
+												 
+													if(!empty($result['data']['img_id'])) { ?>
+														<img src="<?= $result['data']['logo'] ?>" />
+														<br/>
+														<button data-style="expand-right" data-size="xs" class="ladda-button" data-color="red" onClick="return confirmDeleteLogo('<?= $result['data']['img_id'] ?>')">
+															Delete
+														</button>
+													<?php }else{ ?>
+														<form>
+															<div id="queue"></div>
+															<input id="file_upload" name="file_upload" type="file" multiple="false">
+														</form>
+													<?php } ?>
+												 	
+												 	</td>
+												</tr>
 												<tr>
 													<td class="column-left">Property Name</td>
 													<td class="column-right">
@@ -130,3 +150,89 @@
 				<!-- end: PAGE -->
 			</div>
 			<!-- end: MAIN CONTAINER -->
+			
+<script>
+	$(function() {
+		$('#file_upload').uploadify({
+				'formData'     : {
+					'u_id' : "<?= $this->user->get_memberid() ?>",
+					'item_id' : "<?= $result['data']['p_id'] ?>",
+					'type' : "property"
+				},
+				'swf'      : "<?= $this->config->item('domain') ?>/public/js/uploadify/uploadify.swf",
+				'uploader' : "<?= $this->config->item('domain') ?>/public/uploadImages.php",//"/public/uploadImages.php" "/admin/locations/uploadPhoto",
+				'onUploadSuccess' : function(file, data, response) {	
+					 window.location.reload();
+			    },
+				'onUploadError' : function(file, errorCode, errorMsg, errorString) {
+		            alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
+		        }
+			});
+	});
+	
+	 var toastCount = 0;
+	 var showSuccessPopUp =  function () {
+            var shortCutFunction = "success";
+            var msg = 'Property logo successfully deleted!';//$('#message').val();
+            var title = 'Property logo Updates';
+            var toastIndex = toastCount++;
+
+            toastr.options = {
+                closeButton:true,
+                positionClass:  'toast-top-right',
+                onclick: null
+            };
+            
+            toastr.options.showDuration = "1000";
+			toastr.options.hideDuration = "1000";
+            toastr.options.timeOut = "5000";
+            toastr.options.extendedTimeOut = "1000";
+            toastr.options.showEasing = "swing";
+            toastr.options.hideEasing = "linear";
+            toastr.options.showMethod = "fadeIn";
+            toastr.options.hideMethod = "fadeOut";
+
+            $("#toastrOptions").text("Command: toastr["
+                            + shortCutFunction
+                            + "](\""
+                            + msg
+                            + title
+                            + "\")\n\ntoastr.options = "
+                            + JSON.stringify(toastr.options, null, 2)
+            );
+            var $toast = toastr[shortCutFunction](msg, title); // Wire up an event handler to a button in the toast, if it exists
+        }
+        
+	function confirmDeleteLogo(img_id){
+    	$.confirm({
+			'title'		: 'Delete Confirmation',
+			'message'	: 'You are about to delete this logo. <br />Are you sure want to delete?',
+			'buttons'	: {
+				'Yes'	: {
+					'class'	: 'blue',
+					'action': function(){
+						 removeLogo(img_id); //remove image
+						
+					}
+				},
+				'No'	: {
+					'class'	: 'gray',
+					'action': function(){}	// Doesn't do anything						
+				}
+			}
+		});				
+		return false;
+    }
+    
+    function removeLogo(img_id){
+	  	var form_data = "img_id="+img_id;
+	  	 
+	  	// Remove image action
+	  	$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/deleteLogo",form_data,function(data){
+	  			showSuccessPopUp();
+				 setTimeout(function(){
+					window.location.reload();
+				},2000);
+	  	});
+    }
+</script>

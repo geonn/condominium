@@ -214,7 +214,7 @@
 				showSuccessPopUp();
 				setTimeout(function(){
 					window.location.reload();
-				},3000);
+				},2000);
 				
 			}else{
 				//error message

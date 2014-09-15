@@ -54,6 +54,8 @@
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css">
 <link href=""<?= $this->config->item('domain') ?>/public/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
 <link href=""<?= $this->config->item('domain') ?>/public/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="<?= $this->config->item('domain') ?>/public/js/uploadify/uploadify.css">
+<link rel="stylesheet" type="text/css" href="<?= $this->config->item('domain') ?>/public/css/confirm.css">
 <!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
 <!-- start: CORE CSS -->
 <link rel="stylesheet" href="<?= $this->config->item('domain') ?>/public/css/styles.css">
@@ -122,7 +124,8 @@
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/wysihtml5/wysihtml5.js"></script>
-		
+		<script type="text/javascript" src="<?= $this->config->item('domain') ?>/public/js/jquery.confirm.js"></script>
+		<script type="text/javascript" src="<?= $this->config->item('domain') ?>/public/js/uploadify/jquery.uploadify.js"></script>	
 		<script src="<?= $this->config->item('domain') ?>/public/js/ui-notifications.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/plugins/ScrollToFixed/jquery-scrolltofixed-min.js"></script>
 		<script src="<?= $this->config->item('domain') ?>/public/js/pages-timeline.js"></script>

@@ -15,6 +15,7 @@ class Maintenance_Model extends APP_Model{
 		/** Check user type**/
 		$role = $this->user->get_memberrole();
 		$category = !empty($this->param['category']) ? $this->param['category'] : "";
+		$paid = !empty($this->param['paid']) ? $this->param['paid'] : "";
 		
 		if($role == 3){
 			/** Normal user query**/
@@ -68,12 +69,28 @@ class Maintenance_Model extends APP_Model{
 				$return[$r]['paymentType']   = match($ret['paymentType'], $this->config->item('payment_type'));
 				$return[$r]['unitLots'] 			= $resident['data'][$ret['r_id']]['unitLots'];
 				
-				/**get payment info**/
-				$payment              				  = $this->payment_model->getByMid($ret['m_id']);
-				$return[$r]['payment']		 = $payment['data'];
 				/**get user info**/
 				$user = $this->users_model->getById($resident['data'][$ret['r_id']]['u_id']);
 				$return[$r]['name'] 			  = $user['data']['firstname'];
+				
+				/**get payment info**/
+				$payment              				  = $this->payment_model->getByMid($ret['m_id']);
+				$return[$r]['payment']		 = $payment['data'];
+				
+				$bal = !empty($payment['data']['balance']) ? $payment['data']['balance']  : "";
+				
+				if(!empty($paid)){
+		 			if($paid == "1"){
+		 				if( $bal != "0.00"){
+		 					unset($return[$r]);
+		 				}
+		 			}else{
+						if( $bal == "0.00"){
+		 					unset($return[$r]);
+		 				}
+					}
+				}
+				
 			}
 		}
 	

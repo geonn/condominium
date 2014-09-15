@@ -12,6 +12,7 @@ class Maintenance extends Web_Controller {
 		/**Module name***/
 		$data['module'] = "Manage Maintenance";
 		$data['type']      = !empty($this->param['category']) ? $this->param['category'] : "";
+		$data['paid']      = !empty($this->param['paid']) ? $this->param['paid'] : "";
   		$data['result']    = $this->maintenance_model->get();
 		$this->_render_form('index',$data);
 	}

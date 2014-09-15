@@ -77,6 +77,10 @@
 							<label>Sort By 
 									<?= form_dropdown('category', array(""=>"All Category")+$this->config->item('maintenance_type'), $type,' id="category" size="1"'); ?> 
 							</label>
+							
+							<label>View 
+									<?= form_dropdown('paid', array(""=>"View All")+array(1 => 'Paid', 2 => 'Outstanding'), $paid,' id="isPaid" size="1"'); ?> 
+							</label>
 							<br/>
 							<table class="table table-striped table-bordered table-hover table-full-width" id="maintenanceTable">
 								<thead>
@@ -205,9 +209,18 @@
 
 	
 	$("#category").change(function(){
-		var queryParam   = "?category="+ $( this ).val();
-	 
+		var isPaid = $("#isPaid").val();
+		var queryParam   = "?category="+ $( this ).val() + "&paid="+ isPaid;
 		window.location.href = queryParam;
 		//$('#geomilano').dataTable();
 	});
+	
+	$("#isPaid").change(function(){
+		var category = $("#category").val();
+		var queryParam   = "?paid="+ $( this ).val() + "&category="+ category;
+		window.location.href = queryParam;
+		//$('#geomilano').dataTable();
+	});
+	
+	
 </script>

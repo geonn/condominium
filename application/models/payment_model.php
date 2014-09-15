@@ -43,11 +43,9 @@ class Payment_Model extends APP_Model{
 				/** to avoid get any records from query**/
 				$filter =  "type =999";
 			}
-			
 		}
 	 
 		$result = $this->get_data($filter,'','',$this->primary_key,'DESC');
-	 
 		$return = array();
 	 
 		if(!empty($result)){

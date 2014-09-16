@@ -161,13 +161,17 @@ class Maintenance_Model extends APP_Model{
 				$return[$r] = $ret;
 				/**get payment info**/
 				$payment              		 = $this->payment_model->getByMid($ret['m_id']);
-				if($payment['data']['balance'] > 0){
-					$return[$r]['payment']		 = $payment['data'];
-				}else{
-					unset($return[$r]);
+				 
+				if(isset($payment['data']['balance'] )){
+					if($payment['data']['balance'] > 0){
+						$return[$r]['payment']		 = $payment['data'];
+					}else{
+						unset($return[$r]);
+					}
 				}
+				
 		}
-		
+	
 		/*** return response***/
 		$this->_result['status']     = 'success';
 		$this->_result['data']       = $return;	

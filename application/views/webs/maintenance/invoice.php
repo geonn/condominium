@@ -100,7 +100,12 @@
 										<div class="invoice">
 											<div class="row invoice-logo">
 												<div class="col-sm-6">
-													<img alt="" src="assets/images/your-logo-here.png">
+													<?php 
+													if(!empty($property['data']['logo'])){
+														echo '<img alt="" src="'.$property['data']['logo'].'">';
+													}
+													?>
+													
 												</div>
 											</div>
 											<hr>
@@ -135,7 +140,7 @@
 													<ul class="list-unstyled invoice-details">
 														<li>
 															<strong>Date</strong> 
-															<br/><?= date("Y-m-d")?> 
+															<br/><?= date_convert(date("Y-m-d"),'ori') ?> 
 														</li>
 													</ul>
 												</div>
@@ -149,29 +154,36 @@
                                                                 <th class="hidden-480"> Invoice Date </th>
                                                                 <th class="hidden-480"> Invoice Due Date </th>
 																<th class="hidden-480"> Description </th>
-                                                                <th class=""> Total Amount </th>
-																<th class=""> Paid </th>
-																<th> Balance </th>
+                                                                <th class=""> Total Amount (RM)</th>
+																<th class=""> Paid (RM)</th>
+																<th> Balance (RM)</th>
 															</tr>
 														</thead>
 														<tbody>
                                                         	<?php 
 															$total = 0;
+															
 															foreach($maintenance['data'] as $val){
 															$time = strtotime($val['created']);
 															$invoiceDate = date("Y-m-d", $time);	
-															$time = strtotime($val['payment']['created']);
-															$invoiceDue = date("Y-m-d", $time);
-															$total += $val['payment']['balance'];	
+															
+															$invoiceDue = "";
+															if(isset($val['payment']['created'])){
+																$time = strtotime($val['payment']['created']);
+																$invoiceDue = date("Y-m-d", $time);
+																$total += $val['payment']['balance'];	
+															}
+															
+															
 															?>
 															<tr>
 																<td> <?= $val['m_id']?> </td>
 																<td class="hidden-480"> <?= $invoiceDate?> </td>
 																<td class="hidden-480"> <?= $invoiceDue?> </td>
 																<td class="hidden-480"> <?= match($val['type'], $this->config->item('maintenance_type'));?> </td>
-																<td class=""> <?= $val['totalAmount']?> </td>
-                                                                <td class=""> <?= $val['payment']['paid']?> </td>
-																<td> <?= $val['payment']['balance']?> </td>
+																<td class="" style="text-align:right;"> <?= number_format($val['totalAmount'],2) ?> </td>
+                                                                <td class="" style="text-align:right;"> <?= isset( $val['payment']['paid']) ? number_format($val['payment']['paid'],2)  : number_format($val['totalAmount'],2)  ?> </td>
+																<td style="text-align:right;"> <?= isset($val['payment']['balance']) ? number_format($val['payment']['balance'],2)  : "0.00" ?> </td>
 															</tr>
                                                             <?php }?>
 														</tbody>
@@ -189,9 +201,7 @@
 													<a onclick="javascript:window.print();" class="btn btn-lg btn-light-blue hidden-print">
 														Print <i class="fa fa-print"></i>
 													</a>
-													<a class="btn btn-lg btn-green hidden-print">
-														Submit Your Invoice <i class="fa fa-check"></i>
-													</a>
+													
 												</div>
 											</div>
 										</div>

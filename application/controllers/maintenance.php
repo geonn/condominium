@@ -34,8 +34,7 @@ class Maintenance extends Web_Controller {
 		$this->param['r_id'] = $data['residential']['data']['r_id'];
 	 	$data['maintenance']    = $this->maintenance_model->getMaintenanceByResident();
 
-		$data['property']    = $this->property_model->getById($data['residential']['data']['p_id']);
-
+		$data['property']    = $this->property_model->getById($data['residential']['data']['p_id']); 
 		$this->_render_form('invoice',$data);
 	}
 	

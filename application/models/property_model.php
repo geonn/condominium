@@ -30,6 +30,7 @@ class Property_Model extends APP_Model{
 		
 		foreach($result as $k => $val){
 			$photo = $this->images_model->getPhoto($val['p_id'], 1);
+			$result[$k]['logo'] = "";
 			if(!empty($photo)){
 				$result[$k]['img_id'] = $photo[0]['img_id'];
 				$result[$k]['logo'] = $this->config->item('domain')."/public/".$photo[0]['img_path'];

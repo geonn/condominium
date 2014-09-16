@@ -83,7 +83,7 @@
 							<label class="col-sm-2 control-label form-field-select-3" for="form-field-select-3"></label>
 							<div class="col-sm-9" style="text-align:right;">
 								<button data-style="expand-right" class="ladda-button" data-color="green">
-									Check Availability <i class="fa fa-arrow-circle-right"></i>
+									Check Availability & Book <i class="fa fa-arrow-circle-right"></i>
 								</button>
 							</div>
 						</div>
@@ -210,7 +210,7 @@
 			
 			if(obj.status =="success"){
 				showSuccessPopUp();
-				setTimeout(function(){window.location.href="../<?= $this->name ?>/memberBooking";}, 2000);
+				setTimeout(function(){window.location.href="../<?= $this->name ?>/memberBooking";}, 1500);
 			}else{
 				//error message
 				

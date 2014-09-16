@@ -167,7 +167,8 @@ $config['sub_menu3'] = array(
 	 				'Edit Account' => $this->domain.'/account/edit'
 	 ),
 	 'facility'     => array(
-	 				'Facility Booking' => $this->domain.'/facility/memberAddBooking'
+	 				'Facility Booking' => $this->domain.'/facility/memberBooking',
+	 				'Make A Booking' => $this->domain.'/facility/memberAddBooking'
 	 ),	
 	'maintenance'     => array(
 					'Manage Maintenance' =>  $this->domain.'/maintenance/index'

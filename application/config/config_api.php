@@ -56,6 +56,7 @@ $config['api_code'] = array(
 	138   => 'Booking Full. Please choose others date or time.',
 	139   => 'Payment maintenance ID is missing',
 	140   => 'Payment amount is missing',
+	141   => 'Exceeded daily booking limit',
 	160   => 'No session param passed.',	
 	162	  => 'Can\'t retrieved user session. Please login again.',
 	170   => 'User is banned for review',

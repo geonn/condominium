@@ -209,8 +209,14 @@
 			var resQuery = "&bookingUser="+resident;
 		}
 		$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/checkAvailablity/?dateConvert=1&bookingDate=<?= $date ?>&bookingFacility=<?= isset($facility) ? $facility: '' ?>&bookingTime=" +time + resQuery,  function(result) {
-			showSuccessPopUp();
-			setTimeout(function(){location.reload();}, 1500);
+			var obj = $.parseJSON(result);
+			if(obj.status =="success"){
+				showSuccessPopUp();
+				setTimeout(function(){location.reload();}, 1500);
+			}else{
+				alert(obj.data);
+			}
+			
 		});
 		return false;	
 	};

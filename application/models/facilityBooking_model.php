@@ -152,6 +152,7 @@ class FacilityBooking_Model extends APP_Model{
 	}
 	
 	public function checkAvailablity(){
+		
 		$filter = array(
 			'f_id' => $this->param['bookingFacility'],
 			'bookDate' => $this->param['bookingDate'],
@@ -174,6 +175,17 @@ class FacilityBooking_Model extends APP_Model{
 			$user = $this->user->get_memberid();
 			if(!empty($this->param['bookingUser'])){
 				$user = $this->param['bookingUser'];
+			}
+			
+			$bookingTimes = $this->_checkUserBookingTimes($user);
+			$resi = $this->residents_model->getByUser($this->user->get_memberid());
+			$prop = $this->property_model->getById($resi['data']['p_id']);
+			if($bookingTimes > $prop['data']['facility_book'] ){
+				/*** return response***/
+				$this->_result['status']     = 'error';
+				$this->_result['error_code'] = 141;
+				$this->_result['data']       = $this->code[141];	 
+				return $this->_result;
 			}
 			
 			$data = array(
@@ -326,6 +338,18 @@ class FacilityBooking_Model extends APP_Model{
 		/*** return response***/
 		$this->_result['status']     = 'success';
 		return $this->_result;
+	}
+	
+	private function _checkUserBookingTimes($u_id){
+		$filter = array(
+			'u_id' => $u_id,
+			'status' => 1,
+			'DATE(created)' => date('Y-m-d')
+		);
+		
+		$res = $this->get_data($filter);
+		
+		return count($res);
 	}
 	
 	private function _extractDetails($result=array()){

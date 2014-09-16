@@ -72,7 +72,7 @@
 						<div class="panel-heading">
 							<h4 class="panel-title"><span class="text-bold"><?= ucwords($this->name) ?> List</span></h4>
 						</div>
-						
+						<?php echo '<a type="button" class="btn btn-blue btn-xs" href="'. $this->config->item('domain').'/'.$this->name .'/invoice/'.$val['m_id'].'" >Invoice</a>';?>
 						<div style="padding:0px 15px 0 15px">
 							<label>Sort By 
 									<?= form_dropdown('category', array(""=>"All Category")+$this->config->item('maintenance_type'), $type,' id="category" size="1"'); ?> 
@@ -132,8 +132,7 @@
 													<?php 
 													if(empty($val['payment']) || number_format($val['payment']['balance'],2) !== "0.00"){
 														echo '<a type="button" class="btn btn-blue btn-xs" href="'. $this->config->item('domain').'/'.$this->name .'/edit/'.$val['m_id'].'" >Pay Now</a>';
-													} 
-													 ?>
+													}?>
 													 </td>
 													<?php } ?>
 											</tr>

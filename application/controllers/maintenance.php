@@ -26,6 +26,19 @@ class Maintenance extends Web_Controller {
 		$this->_render_form('edit',$data);
 	}
 	
+	public function invoice($id=""){
+		/**Module name***/
+		$data['module'] = "Maintenance Invoice";
+		$this->param['m_id'] = $id;
+	 	$data['maintenance']    = $this->maintenance_model->getById();
+		$data['payment']    = $this->payment_model->getByMid($data['maintenance']['data']['m_id']);
+	 	$data['residential']    = $this->residents_model->getById($data['maintenance']['data']['r_id']);
+		$data['user']    = $this->users_model->getById($data['residential']['data']['u_id']);
+		$data['property']    = $this->property_model->getById($data['residential']['data']['p_id']);
+
+		$this->_render_form('invoice',$data);
+	}
+	
 	public function create(){
 		/**Module name***/
 		$data['module'] = "Add Maintenance";

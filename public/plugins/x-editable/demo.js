@@ -52,6 +52,12 @@ $(function(){
         	$("input[name=lastname]").val(value);
         }
      });
+     
+     $('#facility_book').editable({
+     	validate: function(value) {
+        	$("input[name=facility_book]").val(value);
+        }
+     });
     
     $('#unitLots').editable({
         validate: function(value) {
@@ -62,17 +68,26 @@ $(function(){
     
      $('#property_name').editable({
         validate: function(value) {
-        
+        	$("input[name=name]").val(value);
            if($.trim(value) == '') return 'This field is required';
         }
     });
-   
-    $('#fax_no').editable({ });
+  
+    $('#fax_no').editable({
+    	  validate: function(value) {
+        	$("input[name=fax_no]").val(value);
+        }
+     });
     
-    $('#developer_name').editable({ });
+    $('#developer_name').editable({
+    	  validate: function(value) {
+        	$("input[name=developer_name]").val(value);
+        }
+    });
     
    $('#contact_no').editable({
         validate: function(value) {
+        	$("input[name=contact_no]").val(value);
            if($.trim(value) == '') return 'This field is required';
         }
     });

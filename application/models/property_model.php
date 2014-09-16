@@ -97,6 +97,7 @@ class Property_Model extends APP_Model{
 				'contact_no'         => $this->param['contact_no'],
 				'fax_no'                 => $this->param['fax_no'],
 				'email'                   => $this->param['email'],
+				'facility_book'      => $this->param['facility_book'],
 				'developer_name'      => $this->param['developer_name'],
 				'updated'             => date('Y-m-d H:i:s')
 			);

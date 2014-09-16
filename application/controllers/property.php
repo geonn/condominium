@@ -34,6 +34,11 @@ class Property extends Web_Controller {
 		echo json_encode($result);
 	}
 	
+	public function doUpdate(){
+		$result = $this->property_model->edit();
+		echo json_encode($result);
+	}
+	
 	public function deleteLogo(){
 		$result = $this->images_model->deleteImage($this->param['img_id']);
 		echo json_encode($result);

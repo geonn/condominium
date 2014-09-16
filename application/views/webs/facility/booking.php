@@ -240,6 +240,23 @@
 		$(".form-event .all-day").bootstrapSwitch('destroy');
 	};
 	
+	var todayDate = function(){
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+		
+		if(dd<10) {
+		    dd='0'+dd
+		} 
+		
+		if(mm<10) {
+		    mm='0'+mm
+		} 
+		
+		return yyyy+'-'+mm+'-'+dd;
+	}
+	
 	//function to initiate Full Calendar
     var runBookingCalendar = function () {
     	$(".add-event").off().on("click", function() {
@@ -354,12 +371,17 @@
 						$("#start-time").html("<h3><i class='fa fa-clock-o'></i> "+ obj.data['start_time'] + "</h3>");
 						$("#end-time").html("<h3><i class='fa fa-clock-o'></i> "+ obj.data['end_time'] + "</h3>");
 						
-						if(obj.data['status'] == "Confirmed"){
-							$("#cancelledEvent").show();
-							$("#rebookEvent").hide();
+						if(obj.data['bookDate'] >= todayDate()){
+							if(obj.data['status'] == "Confirmed"){
+								$("#cancelledEvent").show();
+								$("#rebookEvent").hide();
+							}else{
+								$("#cancelledEvent").hide();
+								$("#rebookEvent").show();
+							}
 						}else{
 							$("#cancelledEvent").hide();
-							$("#rebookEvent").show();
+							$("#rebookEvent").hide();
 						}
 						
 					}

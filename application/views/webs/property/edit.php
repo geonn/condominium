@@ -62,13 +62,22 @@
 						<!-- start: PAGE CONTENT -->
 						<div class="row">
 							<div class="col-sm-12">
+								<form>
 								<div class="panel panel-white">
 									<div class="panel-heading">
 										<h4 class="panel-title"> <span class="text-bold">Edit Property Information for <?= $result['data']['name'] ?></span></h4>
 									
 									</div>
 									<div class="panel-body">
-										
+										<?= form_hidden('edit',1) ?>
+										<?= form_hidden('p_id',$result['data']['p_id'] ) ?>
+										<?= form_hidden('name',$result['data']['name'] ) ?>
+										<?= form_hidden('email',$result['data']['email'] ) ?>
+										<?= form_hidden('contact_no',$result['data']['contact_no']  ) ?>
+										<?= form_hidden('fax_no',$result['data']['fax_no']  ) ?>
+										<?= form_hidden('developer_name',$result['data']['developer_name']  ) ?>
+										<?= form_hidden('address',$result['data']['address']   ) ?>
+										<?= form_hidden('facility_book',$result['data']['facility_book']   ) ?>
 										<table id="user" class="table table-bordered table-striped">
 											<tbody>
 												<tr>
@@ -131,13 +140,28 @@
 											
 											</tbody>
 										</table>
+										
+										<div class="panel-heading">
+											<h4 class="panel-title"> <span class="text-bold"><?= $result['data']['name'] ?> Settings</span></h4>
+										</div>
+										<table id="user" class="table table-bordered table-striped">
+											<tbody>
+												<tr>
+													<td style="width:25%;">Allowed times resident book facility per day</td>
+													<td><a href="#" id="facility_book" data-type="text" data-pk="1" data-placeholder="Required" data-original-title="Facility book times" >
+														<?= $result['data']['facility_book'] ?>
+													</a></td>
+												</tr>
+											</tbody>
+										</table>
 										<div class="form-group" >
 											 
 											<div  style="text-align:right;">
-												<button data-style="expand-right" class="ladda-button" data-color="green">
-													Update Property <i class="fa fa-arrow-circle-right"></i>
+												<button data-style="expand-right" class="ladda-button" data-color="green"  onClick="return update()">
+													Update <?= ucwords($this->name) ?> <i class="fa fa-arrow-circle-right"></i>
 												</button>
 											</div>
+										</form>
 										</div>
 									</div>
 								</div>
@@ -173,8 +197,8 @@
 	 var toastCount = 0;
 	 var showSuccessPopUp =  function () {
             var shortCutFunction = "success";
-            var msg = 'Property logo successfully deleted!';//$('#message').val();
-            var title = 'Property logo Updates';
+            var msg = 'Property successfully updated!';//$('#message').val();
+            var title = 'Property Updates';
             var toastIndex = toastCount++;
 
             toastr.options = {
@@ -235,4 +259,21 @@
 				},2000);
 	  	});
     }
+    
+    var update = function(){
+		var str = $('form').serialize();
+	///	alert(str);
+		/**Do create property to system***/
+		$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/doUpdate/", str, function(result) {
+			console.log(result);
+			var obj = $.parseJSON(result);
+			if(obj.status =="success"){
+				showSuccessPopUp();
+			}else{
+				//error message
+			}
+		});
+		
+		return false;
+	}
 </script>

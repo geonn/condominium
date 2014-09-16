@@ -72,21 +72,20 @@ class FacilityBooking_Model extends APP_Model{
 		}
 		
 		foreach($result  as $r => $ral){
-			$avail[$ral['bookTime']]['booking']++;
-			
-			if($ral['u_id'] == $resident){
+			if($ral['status'] == 1){
+				$avail[$ral['bookTime']]['booking']++;
 				
-				if($ral['status'] == 1){
+				if($ral['u_id'] == $resident){
 					$avail[$ral['bookTime']]['userBooked'] = 1;
 					$avail[$ral['bookTime']]['userInfo'][$r]['fb_id'] = $ral['fb_id']; 
 					$opt = $this->facilityOptions_model->getById($ral['fo_id']);
 					$avail[$ral['bookTime']]['userInfo'][$r]['options'] = $opt['data']['option']; 
 				}
+				
+				if($avail[$ral['bookTime']]['booking'] >= $totalOptions){
+					$avail[$ral['bookTime']]['availability'] = 2;
+				}	
 			}
-			
-			if($avail[$ral['bookTime']]['booking'] >= $totalOptions){
-				$avail[$ral['bookTime']]['availability'] = 2;
-			}	
 		}
 		//print_pre($avail);
 		return $avail;

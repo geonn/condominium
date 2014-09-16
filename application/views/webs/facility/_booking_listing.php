@@ -89,9 +89,12 @@
 										<div style="padding-bottom:10px;"><span style="color:green;">Booked <?= $info['options'] ?></span> <button class="btn btn-red btn-xs" onClick="return confirmCancelBooking(<?= $info['fb_id'] ?>);">Cancel</button></div>
 									<?php 
 												}
-											}	 ?>
+											}	
+											if($val['availability'] == "1"){
+											 ?>
 													<button class="btn btn-blue btn-xs" onClick="return confirmBookFacility(<?= $k ?>);">Book</button>
 											<?php   
+										}
 											}else{
 												if($val['userBooked'] ==1){
 													echo "BOOKED (EXPIRED)";

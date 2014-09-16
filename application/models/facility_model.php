@@ -42,10 +42,12 @@ class Facility_Model extends APP_Model{
 	}
 	
 	public function getFacilityListByProperty(){
+		
 		$filter = array(
 			'status' => 1,
 			'p_id' => $this->user->get_memberproperty()
 		);
+
 		$res = $this->get_data($filter);
 		$list = array();
 		foreach($res as $k => $val){

@@ -50,7 +50,7 @@ class FacilityBooking_Model extends APP_Model{
 		return $this->_result;
 	}
 	
-	public function getFacilityBookingByDay($date){
+	public function getFacilityBookingByDay($date, $resident){
 		$time_arr = $this->config->item('time_range');
 		
 		$options = $this->facilityOptions_model->getChildById($this->param['bookingFacility']);
@@ -67,18 +67,58 @@ class FacilityBooking_Model extends APP_Model{
 		foreach($time_arr  as $k => $val){
 			$avail[$k]['time'] = $val;
 			$avail[$k]['booking'] = 0;
+			$avail[$k]['userBooked'] = 0;
 			$avail[$k]['availability'] = 1;
 		}
 		
 		foreach($result  as $r => $ral){
 			$avail[$ral['bookTime']]['booking']++;
 			
+			if($ral['u_id'] == $resident){
+				
+				if($ral['status'] == 1){
+					$avail[$ral['bookTime']]['userBooked'] = 1;
+					$avail[$ral['bookTime']]['userInfo'][$r]['fb_id'] = $ral['fb_id']; 
+					$opt = $this->facilityOptions_model->getById($ral['fo_id']);
+					$avail[$ral['bookTime']]['userInfo'][$r]['options'] = $opt['data']['option']; 
+				}
+			}
+			
 			if($avail[$ral['bookTime']]['booking'] >= $totalOptions){
 				$avail[$ral['bookTime']]['availability'] = 2;
 			}	
 		}
-		
+		//print_pre($avail);
 		return $avail;
+	}
+	
+	public function getFacilityBookingHistoryByDay($date){
+		$time_arr = $this->config->item('time_range');
+		
+		$fac = $this->facility_model->get();
+		$facs = array();
+		foreach( $fac['data'] as $k => $val){
+			$facs[] = $val['f_id'];
+		}
+		$facilities = implode(',', $facs);
+		
+		$filter = "(f_id IN (".$facilities.") AND bookDate ='".$date."')";
+		$result = $this->get_data($filter);
+		//print_pre($result);
+		$avail = array();
+		foreach($time_arr  as $k => $val){
+			$avail[$k] = array();
+		}
+		
+		$details = $this->_extractDetails($result);
+		$count = 0;
+		foreach($details  as $r => $ral){
+			$count = count( $avail[$ral['bookT']]);
+			$avail[$ral['bookT']][$count] = $ral; 
+			$count++;
+		}
+		return $avail;
+		
 	}
 	
 	public function getByProperty($p_id){
@@ -305,7 +345,7 @@ class FacilityBooking_Model extends APP_Model{
 			/**Extract Booking Facility Options**/
 			$options = $this->facilityOptions_model->getById($val['fo_id']);
 			$result[$k]['options'] = $options['data']['option'];
-			
+			$result[$k]['bookT']   = $val['bookTime'];
 			$result[$k]['bookTime'] = match($val['bookTime'], $this->config->item('time_range'));
 			/**Extract Booking Date**/
 			$bookDate = explode('-', $val['bookDate']);

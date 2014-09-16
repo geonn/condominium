@@ -55,6 +55,7 @@ class Residents_Model extends APP_Model{
 			foreach($result as $k => $val){
 				$property = $this->property_model->getById($val['p_id']);
 				$result[$k]['r_id'] 		= $val['r_id'];
+				$result[$k]['p_id'] 		= $val['p_id'];
 				$result[$k]['property'] = $property['data']['name'];
 				$result[$k]['unitLots']  = $val['unitLots'];
 				$result[$k]['residentType']  = match($val['type'], $this->config->item('resident_type'));
@@ -73,7 +74,7 @@ class Residents_Model extends APP_Model{
 			'p_id' => $pid
 		);
 		
-		$result = $this->get_data($filter);
+		$result = $this->get_data($filter,'','','unitLots');
 		$return = array();
 		
 		foreach($result as $k => $val){

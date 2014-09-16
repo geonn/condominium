@@ -70,7 +70,17 @@ class Users_Model extends APP_Model{
 		return $this->_result;
 	}
 
-	
+	public function getListByProperty(){
+		$res = $this->residents_model->getByProperty($this->user->get_memberproperty());
+		$list = array();
+		 foreach($res['data'] as $k => $val){
+		 	$user = $this->getById($val['u_id']);
+		   $list[$val['u_id']] = $val['unitLots'] . "(".$user['data']['firstname'] . " ". $user['data']['lastname'].")";
+		}
+		
+		 return $list;
+	}
+		
 	public function getById($u_id){
 		$filter = array(
 					$this->primary_key    => $u_id
@@ -141,9 +151,12 @@ class Users_Model extends APP_Model{
 					$this->user->set_memberfullname($info['firstname']." ".$info['lastname']);
 					$this->user->set_memberusername($info['username']);
 					$this->user->set_memberrole($info['type']);
-					if($info['type'] == 2){
-						$admin = $this->propertyAdmin_model->getByUser($this->user->get_memberid());
-						$this->user->set_memberproperty($admin['data']['p_id']);
+					if($info['type'] == 3){
+						$prop = $this->residents_model->getByUser($this->user->get_memberid());
+						$this->user->set_memberproperty($prop['data']['p_id']);
+					}elseif($info['type'] == 2){
+						$prop = $this->propertyAdmin_model->getByUser($this->user->get_memberid());
+						$this->user->set_memberproperty($prop['data']['p_id']);
 					}
 					$this->user->set_memberonline(1);
 				}

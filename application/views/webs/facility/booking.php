@@ -121,14 +121,14 @@
 		</div>
 	</div>
 </div>
-	<div id="newFullEvent">
-				<div class="noteWrap col-md-8 col-md-offset-2">
-					<h3>Book a facility</h3>
-					<form class="form-full-event">
-						<div id="timeListing"></div>
-					</form>
-				</div>
-			</div>
+<div id="newFullEvent">
+	<div class="noteWrap col-md-8 col-md-offset-2">
+		<h3>Book a facility</h3>
+		<form class="form-full-event">
+			<div id="timeListing"></div>
+		</form>
+	</div>
+</div>
 <!-- end: SUBVIEW SAMPLE CONTENTS -->
 
 <script>
@@ -147,7 +147,7 @@
 				//	console.log(val);
 					myBooking.push({
 						id : val['fb_id'],
-					    title: val['user']['username'] + ' booked for '+val['facility'],
+					    title: val['user']['username'] + ' booked  '+val['facility'],
 		                start: new Date(val['bookYear'],val['bookMonth'] -1, val['bookDay'],val['startTime'],0),
 		                end: new Date(val['bookYear'], val['bookMonth'] -1, val['bookDay'],val['endTime'],0),
 		                className: val['className'],
@@ -165,8 +165,8 @@
 	 var toastCount = 0;
 	 var showSuccessPopUp =  function () {
             var shortCutFunction = "success";
-            var msg = 'Booking is successfully cancelled!';//$('#message').val();
-            var title = 'Booking Cancelled';
+            var msg = 'Booking is successfully updated!';//$('#message').val();
+            var title = 'Booking Activity';
             var toastIndex = toastCount++;
 
             toastr.options = {
@@ -238,7 +238,6 @@
 		$.hideSubview();
 		$('.form-event .summernote').destroy();
 		$(".form-event .all-day").bootstrapSwitch('destroy');
-		
 	};
 	
 	//function to initiate Full Calendar
@@ -343,7 +342,7 @@
 					var obj = $.parseJSON(result);
 					if(obj.status =="success"){
 						$("input[name=fb_id]").val(obj.data['fb_id'] );
-						$("#event-title").html("Booked <strong> "+ obj.data['options'] + "</strong> for <strong>" + obj.data['facility'] +"</strong><br/>By <strong>"+obj.data['user']['firstname'] +" "+obj.data['user']['lastname']  +"</strong> from <strong>"+ obj.data['user']['residental']['unitLots']+"</strong>" );
+						$("#event-title").html("Booked <strong> "+ obj.data['options'] + " " + obj.data['facility'] +"</strong><br/>By <strong>"+obj.data['user']['firstname'] +" "+obj.data['user']['lastname']  +"</strong> from <strong>"+ obj.data['user']['residental']['unitLots']+"</strong>" );
 						$("#event-status").html(obj.data['status']  );
 						$("#event-status").addClass(obj.data['className']);
 						$("#start-day").html("<h2>"+ obj.data['bookDay'] + "</h2>");

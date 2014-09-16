@@ -127,7 +127,14 @@
 		</div>
 	</div>
 </div>
-
+<div id="newFullEvent">
+	<div class="noteWrap col-md-8 col-md-offset-2">
+		<h3>Book a facility</h3>
+		<form class="form-full-event">
+			<div id="timeListing"></div>
+		</form>
+	</div>
+</div>
 <!-- end: SUBVIEW SAMPLE CONTENTS -->
 
 <script>
@@ -146,7 +153,7 @@
 				//	console.log(val);
 					myBooking.push({
 						id : val['fb_id'],
-					    title: 'Booked for '+val['facility'],
+					    title: 'Booked '+val['facility'],
 		                start: new Date(val['bookYear'],val['bookMonth'] -1, val['bookDay'],val['startTime'],0),
 		                end: new Date(val['bookYear'], val['bookMonth'] -1, val['bookDay'],val['endTime'],0),
 		                className: val['className'],
@@ -164,8 +171,8 @@
 	 var toastCount = 0;
 	 var showSuccessPopUp =  function () {
             var shortCutFunction = "success";
-            var msg = 'Booking is successfully cancelled!';//$('#message').val();
-            var title = 'Booking Cancelled';
+            var msg = 'Booking is successfully updated!';//$('#message').val();
+            var title = 'Booking Activity';
             var toastIndex = toastCount++;
 
             toastr.options = {
@@ -194,6 +201,12 @@
             var $toast = toastr[shortCutFunction](msg, title); // Wire up an event handler to a button in the toast, if it exists
         }
         
+     var hideEditEvent = function() {
+		$.hideSubview();
+		$('.form-event .summernote').destroy();
+		$(".form-event .all-day").bootstrapSwitch('destroy');
+	};
+	
 	$("#cancelledEvent").click(function(){
 			var str = "fb_id="+$("input[name=fb_id]").val();
 			$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/cancelledEvent/",str,  function(result) {
@@ -308,13 +321,18 @@
             selectable: true,
             selectHelper: true,
             select: function (start, end, allDay) {
-            	defaultRange.start = moment(start);
-				defaultRange.end = moment(start).add('hours', 1);
-				
+            	var m = moment(start);
+            	var newDt = m.format();
+            	//var start = moment(start);
+				//defaultRange.end = moment(start).add('hours', 1);
+				$.get("<?= $this->config->item('domain') ?>/<?= $this->name ?>/getFacilityBookingByDay/?bookingDate="+newDt,  function(result) {
+				//	console.log(result);
+					$("#timeListing").html(result);
+				});
 				$.subview({
 					content : "#newFullEvent",
 					onShow : function() {
-						editFullEvent();
+						//editFullEvent();
 					},
 					onHide : function() {
 						hideEditEvent();

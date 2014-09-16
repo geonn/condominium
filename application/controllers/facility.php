@@ -56,19 +56,26 @@ class Facility extends Web_Controller {
 	}
 	
 	public function getFacilityBookingByDay(){
+		
 		$data['date'] = substr($this->param['bookingDate'],0,10);
 		$data['facilities'] =$this->facility_model->getFacilityListByProperty();
-		
+		$data['residents'] = $this->users_model->getListByProperty();
+		$role = $this->user->get_memberrole();
+		$data['resident'] = !empty($this->param['resident']) ? $this->param['resident'] : "";
+		if($role == "3"){
+			$data['resident'] = $this->user->get_memberid();
+		}
 		if($data['date'] < date('Y-m-d')){
-			echo "HISTORY";
+			$data['result'] = $this->facilityBooking_model->getFacilityBookingHistoryByDay($data['date']);
 		}else{
-			$data['facility'] = "";
+			$data['facility'] = ""; 
 			if(!empty($this->param['bookingFacility'])){
 				$data['facility'] = $this->param['bookingFacility'];
-				$data['result'] = $this->facilityBooking_model->getFacilityBookingByDay($data['date']);
+			 
+				$data['result'] = $this->facilityBooking_model->getFacilityBookingByDay($data['date'], $data['resident']);
 			}
 		}
-		//print_pre($data);
+	 
 		$table_row = $this->load->view('/webs/'.$this->name.'/_booking_listing',$data,true);
 		echo $table_row;	
 	}

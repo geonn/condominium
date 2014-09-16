@@ -135,10 +135,42 @@ class Maintenance_Model extends APP_Model{
 		);
 		
 		$result = $this->get_data($filter,$limit,0 ,$this->primary_key,'DESC');
+
+		foreach($result as $r => $ret){
+				$return[$r] = $ret;
+				/**get payment info**/
+				$payment              		 = $this->payment_model->getByMid($ret['m_id']);
+				$return[$r]['payment']		 = $payment['data'];
+		}
 		
 		/*** return response***/
 		$this->_result['status']     = 'success';
-		$this->_result['data']       = $result;	
+		$this->_result['data']       = $return;	
+		return $this->_result;
+	}
+	
+	public function getMaintenanceByResident(){
+		$limit = !empty( $this->param['limit']) ?  $this->param['limit'] : '';
+		$filter = array(
+			'r_id' => $this->param['r_id']
+		);
+		
+		$result = $this->get_data($filter,$limit,0 ,$this->primary_key,'DESC');
+
+		foreach($result as $r => $ret){
+				$return[$r] = $ret;
+				/**get payment info**/
+				$payment              		 = $this->payment_model->getByMid($ret['m_id']);
+				if($payment['data']['balance'] > 0){
+					$return[$r]['payment']		 = $payment['data'];
+				}else{
+					unset($return[$r]);
+				}
+		}
+		
+		/*** return response***/
+		$this->_result['status']     = 'success';
+		$this->_result['data']       = $return;	
 		return $this->_result;
 	}
 	

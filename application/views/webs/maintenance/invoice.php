@@ -102,11 +102,6 @@
 												<div class="col-sm-6">
 													<img alt="" src="assets/images/your-logo-here.png">
 												</div>
-												<div class="col-sm-6">
-													<p>
-														#1233219 / <?php echo date("Y-m-d");?>
-													</p>
-												</div>
 											</div>
 											<hr>
 											<div class="row">
@@ -116,7 +111,11 @@
 														<address>
 															<strong><?= $property['data']['name']?></strong><br/>
 															<?= nl2br($property['data']['address'])?><br/>
-															<abbr title="Phone">P:</abbr> (123) 456-7890
+														</address>
+                                                        <address>
+															<strong>Unit No</strong>
+															<br>
+																<?= $residential['data']['unitLots']?>
 														</address>
                                                         <address>
                                                         	<strong>Name</strong><br/>
@@ -132,29 +131,11 @@
 														</address>
 													</div>
 												</div>
-												<div class="col-sm-4">
-													<h4>We appreciate your business.</h4>
-													<div class="padding-vertical-20">
-														Thanks for being a customer.
-														<br>
-														A detailed summary of your invoice is below.
-														<br>
-														If you have questions, we're happy to help.
-														<br>
-														Email support@cliptheme.com or contact us through other support channels.
-													</div>
-												</div>
 												<div class="col-sm-4 pull-right">
-													<h4>Payment Details:</h4>
 													<ul class="list-unstyled invoice-details">
 														<li>
-															<strong>Invoice No. #:</strong> 233243444
-														</li>
-														<li>
-															<strong>DATE:</strong> <?= $maintenance['data']['created']?> 
-														</li>
-														<li>
-															<strong>DUE:</strong> <?= $payment['data']['created']?>
+															<strong>Date</strong> 
+															<br/><?= date("Y-m-d")?> 
 														</li>
 													</ul>
 												</div>
@@ -164,22 +145,35 @@
 													<table class="table table-striped table-hover">
 														<thead>
 															<tr>
-																<th> # </th>
-																<th> Item </th>
+																<th> ID </th>
+                                                                <th class="hidden-480"> Invoice Date </th>
+                                                                <th class="hidden-480"> Invoice Due Date </th>
 																<th class="hidden-480"> Description </th>
-																<th class="hidden-480"> Paid </th>
+                                                                <th class=""> Total Amount </th>
+																<th class=""> Paid </th>
 																<th> Balance </th>
 															</tr>
 														</thead>
 														<tbody>
+                                                        	<?php 
+															$total = 0;
+															foreach($maintenance['data'] as $val){
+															$time = strtotime($val['created']);
+															$invoiceDate = date("Y-m-d", $time);	
+															$time = strtotime($val['payment']['created']);
+															$invoiceDue = date("Y-m-d", $time);
+															$total += $val['payment']['balance'];	
+															?>
 															<tr>
-																<td> 1 </td>
-																<td> Lorem </td>
-																<td class="hidden-480"> Drem psum dolor </td>
-																<td class="hidden-480"> 12 </td>
-																<td class="hidden-480"> $35 </td>
-																<td> $1152 </td>
+																<td> <?= $val['m_id']?> </td>
+																<td class="hidden-480"> <?= $invoiceDate?> </td>
+																<td class="hidden-480"> <?= $invoiceDue?> </td>
+																<td class="hidden-480"> <?= match($val['type'], $this->config->item('maintenance_type'));?> </td>
+																<td class=""> <?= $val['totalAmount']?> </td>
+                                                                <td class=""> <?= $val['payment']['paid']?> </td>
+																<td> <?= $val['payment']['balance']?> </td>
 															</tr>
+                                                            <?php }?>
 														</tbody>
 													</table>
 												</div>
@@ -187,17 +181,8 @@
 											<div class="row">
 												<div class="col-sm-12 invoice-block">
 													<ul class="list-unstyled amounts">
-														<li>
-															<strong>Sub-Total:</strong> $12876
-														</li>
-														<li>
-															<strong>Discount:</strong> 9.9%
-														</li>
-														<li>
-															<strong>VAT:</strong> 22%
-														</li>
-														<li>
-															<strong>Total:</strong> $11400
+															<strong>Total:</strong>
+                                                            RM <?= number_format($total, 2);?>
 														</li>
 													</ul>
 													<br>

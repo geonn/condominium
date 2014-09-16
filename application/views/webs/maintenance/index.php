@@ -72,8 +72,12 @@
 						<div class="panel-heading">
 							<h4 class="panel-title"><span class="text-bold"><?= ucwords($this->name) ?> List</span></h4>
 						</div>
-						<?php echo '<a type="button" class="btn btn-blue btn-xs" href="'. $this->config->item('domain').'/'.$this->name .'/invoice/'.$val['m_id'].'" >Invoice</a>';?>
-						<div style="padding:0px 15px 0 15px">
+						<?php 
+						$role = $this->user->get_memberrole();
+						if($role == 3){
+						echo '<a type="button" style="margin-right:15px; float:right" class="btn btn-blue btn-xs" href="'. $this->config->item('domain').'/'.$this->name .'/invoice/'.$this->user->get_memberid().'" >Invoice</a>';
+						}?>
+                        <div style="padding:0px 15px 0 15px">
 							<label>Sort By 
 									<?= form_dropdown('category', array(""=>"All Category")+$this->config->item('maintenance_type'), $type,' id="category" size="1"'); ?> 
 							</label>
@@ -95,7 +99,6 @@
 										<th >Balance</th>
 										<th class="hidden-xs">Transaction Date</th>
 										<?php 
-										$role = $this->user->get_memberrole(); 
 										if($role != 3){
 										?>
 										<th >Action</th>

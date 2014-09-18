@@ -11,6 +11,26 @@ class FacilityBooking_Model extends APP_Model{
 		$this->_result['data']       = array();	
 	}
 	
+	public function getBookingActivities(){
+		 $prop = $this->facility_model->getByProperty($this->user->get_memberproperty());
+		 $list = array();
+		 
+		 foreach($prop['data'] as $k => $val){
+		 	$list[] = $val['f_id'];
+		 }
+		  
+		$filter = "(f_id IN (".  implode(',', $list) ."))"; 
+		 
+		$res = $this->get_data($filter,$this->config->item('per_page'),0,$this->primary_key,'DESC');
+		
+		$details = $this->_extractDetails($res);
+		
+		/*** return response***/
+		$this->_result['status']     = 'success';
+		$this->_result['data']       = $details;	
+		return $this->_result;
+	}
+	
 	public function getById(){
 		$filter = array(
 			$this->primary_key => $this->param['fb_id']

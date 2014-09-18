@@ -364,5 +364,7 @@ $config['skip_auth'] = array(
 	),
 );
 
+$config['per_page'] = "10";
+
 /* End of file config_settings.php */
 /* Location: ./application/config/config_settings.php */

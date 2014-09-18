@@ -24,6 +24,8 @@ class Main extends Web_Controller {
 	 	}else if($type == "1" && !$this->user->get_memberproperty()){
 			redirect($this->config->item('base_url').$this->name.'/switchCondo');
 		}else{
+			$data['list']    =$this->facilityBooking_model->getBookingActivities(); 
+			//print_pre($data);exit;
 	 		$this->_render_form('index',$data);
 	 	}
 		

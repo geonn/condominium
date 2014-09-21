@@ -78,6 +78,8 @@
 										<?= form_hidden('developer_name',$result['data']['developer_name']  ) ?>
 										<?= form_hidden('address',$result['data']['address']   ) ?>
 										<?= form_hidden('facility_book',$result['data']['facility_book']   ) ?>
+										<?= form_hidden('maintenance_fee',$result['data']['maintenance_fee']   ) ?>
+										<?= form_hidden('sinking_fee',$result['data']['sinking_fee']   ) ?>
 										<table id="user" class="table table-bordered table-striped">
 											<tbody>
 												<tr>
@@ -150,6 +152,18 @@
 													<td style="width:25%;">Allowed times resident book facility per day</td>
 													<td><a href="#" id="facility_book" data-type="text" data-pk="1" data-placeholder="Required" data-original-title="Facility book times" >
 														<?= $result['data']['facility_book'] ?>
+													</a></td>
+												</tr>
+												<tr>
+													<td style="width:25%;">Property monthly maintenance fees</td>
+													<td><a href="#" id="maintenance_fee" data-type="text" data-pk="1" data-placeholder="Required" data-original-title="Maintenance fees" >
+														<?= $result['data']['maintenance_fee'] ?>
+													</a></td>
+												</tr>
+												<tr>
+													<td style="width:25%;">Property month sinking funds</td>
+													<td><a href="#" id="sinking_fee" data-type="text" data-pk="1" data-placeholder="Required" data-original-title="Sinking funds" >
+														<?= $result['data']['sinking_fee'] ?>
 													</a></td>
 												</tr>
 											</tbody>

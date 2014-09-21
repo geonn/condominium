@@ -59,6 +59,18 @@ $(function(){
         }
      });
     
+      $('#maintenance_fee').editable({
+     	validate: function(value) {
+        	$("input[name=maintenance_fee]").val(value);
+        }
+     });
+     
+       $('#sinking_fee').editable({
+     	validate: function(value) {
+        	$("input[name=sinking_fee]").val(value);
+        }
+     });
+     
     $('#unitLots').editable({
         validate: function(value) {
         	$("input[name=unitLots]").val(value);

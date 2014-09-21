@@ -99,6 +99,8 @@ class Property_Model extends APP_Model{
 				'fax_no'                 => $this->param['fax_no'],
 				'email'                   => $this->param['email'],
 				'facility_book'      => $this->param['facility_book'],
+				'maintenance_fee'      => $this->param['maintenance_fee'],
+				'sinking_fee'        => $this->param['sinking_fee'],
 				'developer_name'      => $this->param['developer_name'],
 				'updated'             => date('Y-m-d H:i:s')
 			);

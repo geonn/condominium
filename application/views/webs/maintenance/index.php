@@ -75,8 +75,11 @@
 						<?php 
 						$role = $this->user->get_memberrole();
 						if($role == 3){
-						echo '<a type="button" style="margin-right:15px; float:right" class="btn btn-blue btn-xs" href="'. $this->config->item('domain').'/'.$this->name .'/invoice/'.$this->user->get_memberid().'" >Invoice</a>';
-						}?>
+							echo '<a type="button" style="margin-right:15px; float:right" class="btn btn-blue btn-xs" href="'. $this->config->item('domain').'/'.$this->name .'/invoice/'.$this->user->get_memberid().'" >Invoice</a>';
+						}else{
+							echo '<a type="button" style="margin-right:15px; float:right" class="btn btn-blue btn-xs" onClick="goPrint()" >Print List</a>';
+						}
+						?>
                         <div style="padding:0px 15px 0 15px">
 							<label>Sort By 
 									<?= form_dropdown('category', array(""=>"All Category")+$this->config->item('maintenance_type'), $type,' id="category" size="1"'); ?> 
@@ -224,5 +227,12 @@
 		//$('#geomilano').dataTable();
 	});
 	
-	
+	function goPrint(){
+		var category = $("#category").val();
+		var isPaid = $("#isPaid").val();
+		myWindow = window.open("","myWindow","width='100%',height='100%'"); 
+		jQuery.get("<?= $this->config->item('domain').'/'.$this->name.'/' ?>printList?category="+category+"&paid="+isPaid, function(data) {
+		  	myWindow.document.write(data);
+		});
+}
 </script>

@@ -91,6 +91,12 @@ class Maintenance extends Web_Controller {
 		echo json_encode($result);
 	}
 	
+	public function printList(){
+		$data['result']    = $this->maintenance_model->get();
+		$table_row = $this->load->view('/webs/'.$this->name.'/_print',$data,true);
+		echo $table_row;
+	}
+	
 }
 
 /* End of file maintenance.php */

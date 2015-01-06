@@ -1,4 +1,22 @@
 <!-- start: LOGIN BOX -->
+
+<script>
+	var doforgetPassword = function(){
+		/**Do login to system***/
+		$.post("<?= $this->config->item('domain') ?>/main/doforgetPassword/",$('#form-forgot').serialize(), function(result) {
+			console.log(result);
+			var obj = $.parseJSON(result);
+
+			if(obj.status =="error"){
+				$("#errorHandler1").html(obj.data.error_msg);
+				$("#divErrorHandler").removeClass("no-display");
+			}else{
+				window.location.href="../<?= $this->name ?>/login";
+			}
+		});
+		return false;
+	};
+</script>
 <div class="box-login">
 	<h3>Sign in to your account</h3>
 	<p>
@@ -36,7 +54,7 @@
 	</form>
 	<!-- start: COPYRIGHT -->
 	<div class="copyright">
-		 <? echo date('Y');?> &copy; <?= $this->config->item('project_developer') ?>
+		 <?php echo date('Y');?> &copy; <?php echo $this->config->item('project_developer'); ?>
 	</div>
 	<!-- end: COPYRIGHT -->
 </div>
@@ -47,7 +65,7 @@
 	<p>
 		Enter your e-mail address below to reset your password.
 	</p>
-	<form class="form-forgot">
+	<form class="form-forgot" id="form-forgot">
 		<div class="errorHandler alert alert-danger no-display">
 			<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
 		</div>
@@ -61,7 +79,7 @@
 				<a class="btn btn-light-grey go-back">
 					<i class="fa fa-chevron-circle-left"></i> Log-In
 				</a>
-				<button type="submit" class="btn btn-green pull-right">
+				<button class="btn btn-green pull-right" onClick=" return doforgetPassword();">
 					Submit <i class="fa fa-arrow-circle-right"></i>
 				</button>
 			</div>
@@ -69,7 +87,7 @@
 	</form>
 	<!-- start: COPYRIGHT -->
 	<div class="copyright">
-		 <? echo date('Y');?> &copy; <?= $this->config->item('project_developer') ?>
+		 <? echo date('Y');?> &copy; <?php echo $this->config->item('project_developer'); ?>
 	</div>
 	<!-- end: COPYRIGHT -->
 </div>

@@ -36,7 +36,7 @@
 			<div class="toolbar row">
 				<div class="col-sm-6 hidden-xs">
 					<div class="page-header">
-						<h1>Managet <?= ucwords($this->name) ?> <small>view all available <?= $this->name ?> in the system</small></h1>
+						<h1>Manage <?= ucwords($this->name) ?> <small>view all available <?= $this->name ?> in the system</small></h1>
 					</div>
 				</div>
 				<div class="col-sm-6 col-xs-12">
@@ -80,7 +80,6 @@
 								<thead>
 									<tr>
 										<th>Facility Name</th>
-										<th>Have Options</th>
 										<th class="hidden-xs">Status</th>
 										<th>Action </th>
 									</tr>
@@ -91,13 +90,15 @@
 									foreach($result['data'] as $k => $val){ ?>	
 									<tr>
 										<td><?= $val['name'] ?></td>
-										<td><?= $val['totalOptions'] ?></td>
 										<td class="hidden-xs">
 											 <?= match($val['status'], $this->config->item('facility_status')) ?>
 										</td>
 										<td>
 											<a class="btn btn-purple" href="<?= $this->config->item('domain').'/'.$this->name ?>/edit/<?= $val['f_id'] ?>">
 												EDIT <i class="fa fa-edit"></i>
+											</a>
+                                            <a class="btn btn-purple" onClick="return confirmDeleteFacility('<?= $val['f_id'] ?>')" href="#<?= $this->config->item('domain').'/'.$this->name ?>/delete/<?= $val['f_id'] ?>">
+												DELETE <i class="fa fa-edit"></i>
 											</a>
 										</td>
 									</tr>
@@ -122,3 +123,69 @@
 	<!-- end: PAGE -->
 </div>
 <!-- end: MAIN CONTAINER -->
+<script>
+function confirmDeleteFacility(f_id){
+    	$.confirm({
+			'title'		: 'Delete Confirmation',
+			'message'	: 'You are about to delete this facility. <br />Are you sure want to delete?',
+			'buttons'	: {
+				'Yes'	: {
+					'class'	: 'blue',
+					'action': function(){
+						 removeFacility(f_id); //remove image
+						
+					}
+				},
+				'No'	: {
+					'class'	: 'gray',
+					'action': function(){}	// Doesn't do anything						
+				}
+			}
+		});				
+		return false;
+    }
+
+function removeFacility(f_id){
+	  	var form_data = "f_id="+f_id;
+	  	 
+	  	// Remove image action
+	  	$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/delete",form_data,function(data){
+	  			showSuccessPopUp();
+				 setTimeout(function(){
+					window.location.reload();
+				},2000);
+	  	});
+    }
+var toastCount = 0;
+ var showSuccessPopUp =  function () {
+            var shortCutFunction = "success";
+            var msg = 'Facility successfully delete!';//$('#message').val();
+            var title = 'Facility Updates';
+            var toastIndex = toastCount++;
+
+            toastr.options = {
+                closeButton:true,
+                positionClass:  'toast-top-right',
+                onclick: null
+            };
+            
+            toastr.options.showDuration = "1000";
+			toastr.options.hideDuration = "1000";
+            toastr.options.timeOut = "5000";
+            toastr.options.extendedTimeOut = "1000";
+            toastr.options.showEasing = "swing";
+            toastr.options.hideEasing = "linear";
+            toastr.options.showMethod = "fadeIn";
+            toastr.options.hideMethod = "fadeOut";
+
+            $("#toastrOptions").text("Command: toastr["
+                            + shortCutFunction
+                            + "](\""
+                            + msg
+                            + title
+                            + "\")\n\ntoastr.options = "
+                            + JSON.stringify(toastr.options, null, 2)
+            );
+            var $toast = toastr[shortCutFunction](msg, title); // Wire up an event handler to a button in the toast, if it exists
+        }
+</script>

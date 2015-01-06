@@ -5,9 +5,9 @@
 	<!-- start: PAGE HEADER -->
 	<!-- start: TOOLBAR -->
 	<div class="toolbar row">
-		<div class="col-sm-6 hidden-xs">
+		<div class="col-sm-12 hidden-xs">
 			<div class="page-header">
-				<h1>Create <?= ucwords($this->name) ?> <small>add new account for owners/tenants, and new admin </small></h1>
+				<h1>Create Batch <?= ucwords($this->name) ?> <small>add new account for owners/tenants, and new admin </small></h1>
 			</div>
 		</div>
 	</div>
@@ -35,96 +35,43 @@
 			<!-- start: TEXT FIELDS PANEL -->
 			<div class="panel panel-white" style="ming-height:300px;">
 				<div class="panel-heading">
-					<h4 class="panel-title"> <span class="text-bold">Owner Information</span></h4>
+					<h4 class="panel-title"> <span class="text-bold">Batch Submit Users Information</span></h4>
 				 
 				</div>
 				<div class="panel-body" >
-					<form role="form" class="form-horizontal" id="searchform">
+					Download the user form templates and fill in before upload to the system. <br/>
+					[<a href="../public/attachment/templates/user.csv">DOWNLOAD</a>] <br/><br/>
+					
+					Reference : <br/>
+					<table class="table table-striped table-bordered table-hover table-full-width dataTable">
+						<tr><th>First Name</th><td>User's first name</td><tr>
+						<tr><th>Last Name</th><td>User's last name</td><tr>
+						<tr><th>Username</th><td>User's access to login into system</td><tr>
+						<tr><th>Email Address</th><td>User's email address</td><tr>
+						<tr><th>Password</th><td>User's  password that for security season in order to login to the account. <br/>Default password: 123456 if this field isn't filled.</td><tr>
+						<tr><th>Unit lots</th><td>User's property unit lots</td><tr>
+						<tr><th>Type</th><td>Fill in the <strong><u>number</u></strong> based on the type of the record:<br>
+								<strong>1</strong> : Owners<br/>
+								<strong>2 </strong>: Tenants<br/> 
+						</td><tr>	
+					</table>			
+					<hr/>
+					<?php echo  form_open_multipart('/'.$this->name.'/batchUpload/','id="updateform"'); ?>
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="form-field-1">
-								Search Unit Lot
+								Upload .csv file
 							</label>
 							<div class="col-sm-9">
-								<?= form_input('unitLot', '',' placeholder="Owner\'s Unit Lot (eg. 01-01)"  id="unitLot" class="form-control" style="width:50%;display:inline;"'); ?>
-								<button type="button" class="btn btn-primary" onClick="return searchUnit()">Search</button>
-												
+								
+								<input type="file" name="file" id="file">
+								<button type="submit" class="btn btn-primary"  >Upload</button> 
 							</div>
 						</div>
 					</form>
 					<div id="userTable"></div>
 				</div>
 			</div>
-				<!-- start: TEXT FIELDS PANEL -->
-			<div class="panel panel-white"  id="maintenanceBox" style="display:none;">
-				<div class="panel-heading">
-					<h4 class="panel-title"> <span class="text-bold">Payment Record</span></h4>
-				</div>
-				<div class="panel-body">
-					<form role="form" class="form-horizontal" id="form">
-						<div class="form-group">
-							<label class="col-sm-2 control-label" for="form-field-2">
-								Name
-							</label>
-							<div class="col-sm-9" id="residentName"></div>
-							<?= form_hidden('r_id', ''); ?>	
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label" for="form-field-1">
-								Payment For  <span class="symbol required"></span>
-							</label>
-							<div class="col-sm-9">
-								<?= form_dropdown('month', $this->config->item('month'),date('m'),'  id="month" class="form-control" style="width:30%;display:inline;"'); ?>
-								<?= form_dropdown('year', $this->config->item('yearRecent'),date('Y'),'  id="year" class="form-control" style="width:30%;display:inline;"'); ?>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label" for="form-field-2">
-								Total Amount
-							</label>
-							<div class="col-sm-9">
-								<?= form_input('totalAmount', '',' placeholder="Total Amount"  id="totalAmount" class="form-control"'); ?>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label" for="form-field-1">
-								Account Type  <span class="symbol required"></span>
-							</label>
-							<div class="col-sm-9">
-								<?= form_dropdown('type', $this->config->item('maintenance_type'),'','  id="type" class="form-control"'); ?>
-							</div>
-						</div>
-						<div class="form-group" id="manageProperty" >
-							<label class="col-sm-2 control-label" for="form-field-1">
-								Payment Type
-							</label>
-							<div class="col-sm-9">
-								<?= form_dropdown('paymentType', $this->config->item('payment_type'),'','  id="paymentType" class="form-control"'); ?>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<div>
-									<span class="symbol required"></span>Required Fields
-									<hr>
-								</div>
-							</div>
-						</div>
-						<div class="form-group" >
-							<label class="col-sm-2 control-label form-field-select-3" for="form-field-select-3"></label>
-							<div class="col-sm-9" style="text-align:right;">
-								<button data-style="expand-right" class="ladda-button" data-color="green">
-									Add <?= ucwords($this->name) ?> <i class="fa fa-arrow-circle-right"></i>
-								</button>
-							</div>
-						</div>
-						
-					</form>
-				</div>
-			</div>
-			
-			<!-- end: TEXT FIELDS PANEL -->
-			<!-- end: TEXT FIELDS PANEL -->
+		
 		</div>
 	</div>
 
@@ -182,7 +129,7 @@
      var searchUnit  = function(){
      	var unitLots = $("#unitLot").val();
      	if(unitLots == "" ){
-     		alert("Please fill in unit Lot");
+     		alert("Please fill in unit Lots");
      		return false;	
      	}
      	/**Do create property to system***/

@@ -70,40 +70,18 @@
 					<!-- start: DYNAMIC TABLE PANEL -->
 					<div class="panel panel-white">
 						<div class="panel-heading">
-							<h4 class="panel-title"><span class="text-bold">Account List</span></h4>
+							<h4 class="panel-title"><span class="text-bold">Payment History</span></h4>
 						</div>
-						<?php 
-						$role = $this->user->get_memberrole();
-						if($role == 3){
-							echo '<a type="button" style="margin-right:15px; float:right" class="btn btn-blue btn-xs" href="'. $this->config->item('domain').'/'.$this->name .'/invoice/'.$this->user->get_memberid().'" >Invoice</a>';
-						}else{
-							echo '<a type="button" style="margin-right:15px; float:right" class="btn btn-blue btn-xs" onClick="goBatch()" >Batch Submit</a>';
-							echo '<a type="button" style="margin-right:15px; float:right" class="btn btn-blue btn-xs" onClick="goPrint()" >Print List</a>';
-						}
-						?>
+						 
                         <div style="padding:0px 15px 0 15px">
-							<label>Sort By 
-									<?= form_dropdown('category', array(""=>"All Category")+$this->config->item('maintenance_type'), $type,' id="category" size="1"'); ?> 
-							</label>
-							
-							<label>View 
-									<?= form_dropdown('paid', array(""=>"View All")+array(1 => 'Paid', 2 => 'Outstanding'), $paid,' id="isPaid" size="1"'); ?> 
-							</label>
-							<br/>
+							 
 							<table class="table table-striped table-bordered table-hover table-full-width" id="maintenanceTable">
 								<thead>
 									<tr>
-										 
-										<th>Ownder Name</th>
-										<th>Unit Lots</th>
-										<th>Payment For</th>
-										<th class="hidden-xs"> Account Type</th> 
-										<th class="hidden-xs">Total Amount</th>
-										<th >Balance</th>
-										<th class="hidden-xs">Transaction Date</th>
-									 
+										<th>ID</th>
+										<th>Payment Date</th>
+										<th>Payment Amount(MYR)</th> 
 										<th >Action</th>
-								 
 									</tr>
 								</thead>
 								<tbody>
@@ -111,39 +89,12 @@
 										if(!empty($result['data'])){
 										foreach($result['data'] as $k => $val){ ?>	
 											<tr>
-												 
-												<td><?= $val['name'] ?></td>
-												<td><?= $val['unitLots'] ?></td>
-												<td><?=   date_convert($val['duration'], 'shorten') ?></td>
-												<td class="hidden-xs"><?= $val['type'] ?></td> 
-												<td class="hidden-xs"  style="text-align:right;"><?= number_format($val['totalAmount'],2) ?></td>
-												<td style="text-align:right;"><?php 
-													if(empty($val['payment'])){
-														echo "<span style='color:#FF0000;font-weight:bold;'>".number_format($val['totalAmount'],2)."</span>";
-													}else{
-														
-														if(number_format($val['payment']['balance'],2) == "0.00"){
-															echo "<span style='color:green;font-weight:bold;'>PAID</span>";
-														
-														}else{
-															echo "<span style='color:#FF0000;font-weight:bold;'>".number_format($val['payment']['balance'],2)."</span>";
-														}
-													}
-													 ?></td>
-												<td class="hidden-xs"><?=   date_convert($val['created'], 'full') ?></td>
+												<td>#<?= $val['id'] ?></td> 
+												<td><?=   date_convert($val['created'], 'full') ?></td> 
+												<td class="hidden-xs"><?=   number_format($val['amount'],2) ?></td>
 												
 												<td>
-													<?php 
-													
-														if(empty($val['payment']) || number_format($val['payment']['balance'],2) !== "0.00"){
-															echo '<a type="button" class="btn btn-blue btn-xs" href="'. $this->config->item('domain').'/'.$this->name .'/edit/'.$val['m_id'].'" >Pay Now</a>';
-														}
-														
-													
-															if(!empty($val['payment']) && number_format($val['payment']['balance'],2) == "0.00"){
-																echo '<a type="button" class="btn btn-blue btn-xs" href="'. $this->config->item('domain').'/'.$this->name .'/receipt?m_id='.$val['m_id'].'" >Receipt</a>';
-															}
-													?>
+													<a type="button" class="btn btn-blue btn-xs" href="<?= $this->config->item('domain').'/'.$this->name .'/payment_receipt?id='.$val['id'] ?>" >Receipt</a>
 													 </td>
 											</tr>
 										<?php

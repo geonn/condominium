@@ -38,7 +38,7 @@ class propertyAdmin_Model extends APP_Model{
 				$result[$k]['property'] = $property['data']['name'];
 			}
 		}
-		
+ 
 		/*** return response***/
 		$this->_result['status']     = 'success';
 		$this->_result['data']       = $result[0];	

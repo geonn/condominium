@@ -79,6 +79,8 @@ class Payment_Model extends APP_Model{
 		$this->_result['status']     = 'success';
 		
 		if(empty($result)){
+			$this->_result['status']     = 'error';
+			$this->_result['error_code']  = 100;
 			$this->_result['data']       = array();
 		}else{
 			$this->_result['data']       = $result[0];	
@@ -120,9 +122,10 @@ class Payment_Model extends APP_Model{
 				$id = $this->insert($data);
 			}
 			
+			
 			/*** return response***/
 			$this->_result['status']     = 'success';
-			
+			$this->_result['data'] 	=  $this->user_payment_model->add($this->param['paid'],$maintenance['data']['u_id']);
 		}else{
 			/***Set Error Message***/
 			$this->_result['status']     = 'error';
@@ -167,6 +170,9 @@ class Payment_Model extends APP_Model{
 			/*** return response***/
 			$this->_result['status']     = 'success';
 		}
+		
+		$this->_result['data'] 	= $this->user_payment_model->add($maintenance['data']['totalAmount'],$maintenance['data']['u_id']);
+		
 		return $this->_result;
 	}
 	

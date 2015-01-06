@@ -36,7 +36,7 @@
 			<div class="toolbar row">
 				<div class="col-sm-6 hidden-xs">
 					<div class="page-header">
-						<h1>Edit <?= ucwords($this->name) ?> <small>Please get permit from your superior before do any changes.</small></h1>
+						<h1>Pay <?= ucwords($this->name) ?> <small>Please get permit from your superior before do any changes.</small></h1>
 					</div>
 				</div>
 				 
@@ -53,7 +53,7 @@
 							</a>
 						</li>
 						<li class="active">
-							Edit Payment Type - <?= match($result['data']['type'], $this->config->item('maintenance_type')) ?>
+							Pay Account
 						</li>
 					</ol>
 				</div>
@@ -67,7 +67,7 @@
 							
 							<div class="panel-body">
 							 	<div class="panel-heading">
-									<h4 class="panel-title"> <span class="text-bold">Maintenance Information and Payment for  <?= $result['data']['unitLots'] ?></span></h4>
+									<h4 class="panel-title"> <span class="text-bold">Account Information and Payment for  <?= $result['data']['unitLots'] ?></span></h4>
 								</div>
 								<?= form_hidden('edit',1) ?>
 								<?= form_hidden('m_id',$result['data']['m_id'] ) ?>
@@ -103,15 +103,16 @@
 											<td class="column-right"> MYR <?= $result['data']['totalAmount'] ?></td>
 										</tr>
                                         <tr>
-											<td class="column-left" style="width:30%;">Maintenance Type</td>
+											<td class="column-left" style="width:30%;">Account Type</td>
 											<td class="column-right"> 
 											<?= $result['data']['type'] ?></td>
 										</tr>
-                                        <tr>
+                                       <!-- <tr>
 											<td class="column-left" style="width:30%;">Payment Type</td>
 											<td class="column-right"> 
 											<?= $result['data']['paymentType'] ?></td>
 										</tr>
+										-->
 										 <tr>
 											<td class="column-left" style="width:30%;">Balance (MYR)</td>
 											<td class="column-right"> 
@@ -213,8 +214,9 @@
 			if(obj.status =="success"){
 				showSuccessPopUp();
 				setTimeout(function(){
-					window.location.reload();
-				},2000);
+				//	window.location.reload();
+					window.location.href = "<?= $this->config->item('domain').'/'.$this->name .'/' ?>payment_receipt?id="+obj.data;
+				},3000);
 				
 			}else{
 				//error message
@@ -234,7 +236,8 @@
 			if(obj.status =="success"){
 				showSuccessPopUp();
 				setTimeout(function(){
-					window.location.reload();
+					//	window.location.reload();
+					window.location.href = "<?= $this->config->item('domain').'/'.$this->name .'/' ?>payment_receipt?id="+obj.data;
 				},3000);
 				
 			}else{

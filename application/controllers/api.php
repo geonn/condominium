@@ -8,6 +8,9 @@ class API extends API_Controller {
 		parent::__construct();	
 	}
 	
+	public function addMaintenanceRecord(){
+		$this->result = $this->maintenance_model->generateMaintenanceRecord(); 
+	}
 	
 	/**
 	*	Upload attachment

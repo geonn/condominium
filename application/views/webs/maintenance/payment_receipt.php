@@ -38,7 +38,8 @@
 			<div class="toolbar row">
 				<div class="col-sm-6 hidden-xs">
 					<div class="page-header">
-						<h1><?= ucwords($this->name) ?> Invoice<small></small></h1>
+						<h1>My Payment
+							 Receipt<small></small></h1>
 					</div>
 				</div>
 				 
@@ -55,7 +56,7 @@
 							</a>
 						</li>
 						<li class="active">
-							Invoice
+							Receipt
 						</li>
 					</ol>
 				</div>
@@ -66,37 +67,8 @@
 							<div class="col-md-12">
 								<div class="panel panel-white">
 									<div class="panel-heading">
-										<h4 class="panel-title">Invoice</h4>
-										<div class="panel-tools">
-											<div class="dropdown">
-												<a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
-													<i class="fa fa-cog"></i>
-												</a>
-												<ul class="dropdown-menu dropdown-light pull-right" role="menu">
-													<li>
-														<a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-													</li>
-													<li>
-														<a class="panel-refresh" href="#">
-															<i class="fa fa-refresh"></i> <span>Refresh</span>
-														</a>
-													</li>
-													<li>
-														<a class="panel-config" href="#panel-config" data-toggle="modal">
-															<i class="fa fa-wrench"></i> <span>Configurations</span>
-														</a>
-													</li>
-													<li>
-														<a class="panel-expand" href="#">
-															<i class="fa fa-expand"></i> <span>Fullscreen</span>
-														</a>
-													</li>
-												</ul>
-											</div>
-											<a class="btn btn-xs btn-link panel-close" href="#">
-												<i class="fa fa-times"></i>
-											</a>
-										</div>
+										<h4 class="panel-title">Receipt</h4>
+									 
 									</div>
 									<div class="panel-body">
 										<div class="invoice">
@@ -113,29 +85,15 @@
 											<hr>
 											<div class="row">
 												<div class="col-sm-4">
-													<h4>Client:</h4>
+												 
 													<div class="well">
 														<address>
-															<strong><?= $property['data']['name']?></strong><br/>
+															<strong><?= $payment['data']['residental']['unitLots']?>, <?= $property['data']['name']?></strong><br/>
 															<?= nl2br($property['data']['address'])?><br/>
 														</address>
-                                                        <address>
-															<strong>Unit No</strong>
-															<br>
-																<?= $residential['data']['unitLots']?>
-														</address>
-                                                        <address>
-                                                        	<strong>Name</strong><br/>
-                                                            <?= $user['data']['firstname']?> 
-                                                            <?= $user['data']['lastname']?>
-                                                        </address>
-														<address>
-															<strong>E-mail</strong>
-															<br>
-															<a href="mailto:<?= $user['data']['email']?> ">
-																<?= $user['data']['email']?> 
-															</a>
-														</address>
+                                                        
+                                                       
+													
 													</div>
 												</div>
 												<div class="col-sm-4 pull-right">
@@ -149,63 +107,25 @@
 											</div>
 											<div class="row">
 												<div class="col-sm-12">
-													<table class="table table-striped table-hover">
-														<thead>
-															<tr>
-																<th> Invoice ID </th>
-                                                                <th class="hidden-480"> Invoice Date </th>
-                                                                <th class="hidden-480"> Invoice Due Date </th>
-																<th class="hidden-480"> Description </th>
-                                                                <th class=""> Total Amount (RM)</th>
-																<th class=""> Paid (RM)</th>
-																<th> Balance (RM)</th>
-															</tr>
-														</thead>
-														<tbody>
-                                                        	<?php 
-															$total = 0;
-															if(empty($maintenance['data'] )){
-																echo "<tr><td colspan='7'>all invoices have been paid</td></tr>";
-															}else{
-																foreach($maintenance['data'] as $val){
-																$time = strtotime($val['created']);
-																$invoiceDate = date("Y-m-d", $time);
-																$invoiceDue = "";
-																$balance = (isset($val['payment']['balance'])) ? $val['payment']['balance']  : $val['totalAmount'];
-																$total += $balance;	
-																if(isset($val['payment']['created'])){
-																	$time = strtotime($val['payment']['created']);
-																	$invoiceDue = date("Y-m-d", $time);
-																	
-																}?>
-                                                                <tr>
-                                                                    <td> <?= $val['m_id']?> </td>
-                                                                    <td class="hidden-480"> <?= $invoiceDate?> </td>
-                                                                    <td class="hidden-480"> <?= $invoiceDue?> </td>
-                                                                    <td class="hidden-480"> <?= match($val['type'], $this->config->item('maintenance_type'));?> </td>
-                                                                    <td class="" style="text-align:right;"> <?= number_format($val['totalAmount'],2) ?> </td>
-                                                                    <td class="" style="text-align:right;"> <?= isset( $val['payment']['paid']) ? number_format($val['payment']['paid'],2)  : number_format($val['totalAmount'],2)  ?> </td>
-                                                                    <td style="text-align:right;"> <?= number_format($balance, 2)?> </td>
-                                                                </tr>
-                                                            <?php }
-															}?>
-														</tbody>
-													</table>
+													<strong>Dear <?= $payment['data']['name']?> ,</strong> <br/><br/>
+													
+													Please inform that the management has been received your payment of MYR  <strong><?= $payment['data']['amount']?></strong> at
+													<strong>  <?= date_convert($payment['data']['created'], 'full') ?> </strong>.<br/>
+													The management will continue to serve you better in the future!
+													
 												</div>
 											</div>
+											<br/>
+											<div> Thanks you !  </div>
+											<strong><?= $property['data']['name'] ?> Management.</strong>
+											<br/><br/>
+											
+											<div>This is a computer generated receipt, no signature is required.</div>
 											<div class="row">
 												<div class="col-sm-12 invoice-block">
-													<ul class="list-unstyled amounts">
-															<strong>Total:</strong>
-                                                            RM <?= number_format($total, 2);?>
-														</li>
-													</ul>
+												
 													<br>
-													<?php  if(!empty($maintenance['data'])) { ?>
-                                                    <button data-style="expand-right" data-size="xs" class="ladda-button" data-color="red" onClick="return confirmPayAll()">
-                                                        Pay All
-                                                    </button>
-                                                <?php } ?>
+												
 													<a onclick="javascript:window.print();" class="btn btn-lg btn-light-blue hidden-print">
 														Print <i class="fa fa-print"></i>
 													</a>

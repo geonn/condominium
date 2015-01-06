@@ -165,5 +165,19 @@ class Facility_Model extends APP_Model{
 		
 		return $statusCode;
 	}
+	
+	public function delete(){
+		$data = array(
+			'status'          => 3,
+			'updated'      => date('Y-m-d H:i:s')
+		);
+		
+		$this->update($this->param['f_id'], $data);
+		 
+		/*** return response***/
+		$this->_result['status']     = 'success';
+		$this->_result['data']       = $this->param['f_id'];	
+		return $this->_result;
+	}
 }
 ?>

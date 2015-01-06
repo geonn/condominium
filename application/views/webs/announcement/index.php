@@ -36,7 +36,7 @@
 			<div class="toolbar row">
 				<div class="col-sm-6 hidden-xs">
 					<div class="page-header">
-						<h1>Managet <?= ucwords($this->name) ?> <small>view all available <?= $this->name ?> in the system</small></h1>
+						<h1>Manage <?= ucwords($this->name) ?> <small>view all available <?= $this->name ?> in the system</small></h1>
 					</div>
 				</div>
 				<div class="col-sm-6 col-xs-12">

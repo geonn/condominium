@@ -55,6 +55,16 @@ class User_sessions_Model extends APP_Model{
 		return $u_id;
 	}
 	
+		/** Remove session from user **/
+	public function removeUserbySession(){
+		$u_id = $this->getUserID($this->param['session']);
+		if($u_id > 0){
+			$this->delete($u_id);
+		}
+		
+		return $u_id;
+	}
+	
 	/** Check if user id session is exists? **/
 	public function checkUserID($u_id){
 		$filter = array($this->primary_key => $u_id);
@@ -62,6 +72,18 @@ class User_sessions_Model extends APP_Model{
 		
 		if($result){
 			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	/** get uid by session/u_key **/
+	public function getUserID($session){
+		$filter = array("u_key" => $session);
+		$result = $this->get_data($filter);
+		
+		if($result){
+			return $result[0]['u_id'];
 		}else{
 			return false;
 		}

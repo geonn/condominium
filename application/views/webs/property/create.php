@@ -68,6 +68,14 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-2">
+								Contact Person <span class="symbol required"></span>
+							</label>
+							<div class="col-sm-9">
+								<input type="text" placeholder="Contact Person" class="form-control" id="contact_person" name="contact_person">
+							</div>
+						</div>
+                        <div class="form-group">
+							<label class="control-label col-sm-2">
 								Contact Number <span class="symbol required"></span>
 							</label>
 							<div class="col-sm-9">

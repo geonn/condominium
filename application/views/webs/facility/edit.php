@@ -42,6 +42,7 @@
 					<form role="form" class="form-horizontal" id="form">
 						<?= form_hidden('module',  'update') ?>
 						<?= form_hidden('f_id',  $result['data']['f_id']) ?>
+                        <?= form_hidden('status',$result['data']['status']   ) ?>
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="form-field-1">
 								Facility Name <span class="symbol required"></span>
@@ -58,7 +59,18 @@
 								<?= form_input('description',  $result['data']['description'],' placeholder="Description"  id="fac-desc" class="form-control"'); ?>
 							</div>
 						</div>
-						<hr/>
+                        <div class="form-group">
+							<label class="col-sm-2 control-label" for="form-field-2">
+								Status
+							</label>
+							<div class="col-sm-9">
+							 
+                            <a href="#" id="f_status" data-type="select" data-pk="1"  data-value="<?= $result['data']['status'] ?>" data-original-title="Facility Status">
+								<?= match($result['data']['status'],$this->config->item('facility_status') ) ?>
+                            </a>
+							</div>
+						</div>
+						<hr/><!--
 						<h4 class="panel-title"> <span class="text-bold">Facility options</span></h4>
 						<br/>
 						 
@@ -66,13 +78,14 @@
 						<button type="button" class="btn btn-primary" onClick="return addOptions()">Add Options</button>
 						
 						<div id="facilityOption"></div>
+                        -->
 						<div class="form-group" >
-							<label class="col-sm-2 control-label form-field-select-3" for="form-field-select-3"></label>
-							<div class="col-sm-9" style="text-align:right;">
-								<button data-style="expand-right" class="ladda-button" data-color="green" >
-									Update <?= ucwords($this->name) ?> <i class="fa fa-arrow-circle-right"></i>
-								</button>
-							</div>
+                            <div  style="text-align:right;">
+                                <button data-style="expand-right" class="ladda-button" data-color="green" onClick="return update_facility()">
+                                    Update <?= ucwords($this->name) ?> <i class="fa fa-arrow-circle-right"></i>
+                                </button>
+                            
+                            </div>
 						</div>
 						
 					</form>
@@ -82,7 +95,7 @@
 			<!-- end: TEXT FIELDS PANEL -->
 		</div>
 	</div>
-
+    
 	
 	<!-- end: PAGE CONTENT-->
 </div>
@@ -133,7 +146,7 @@
     
     var addOptions = function(){ 
     	var str = "f_id=<?= $result['data']['f_id'] ?>&option="+ $("#facilityOptions").val();
-     
+     console.log("<?= $this->config->item('domain') ?>/<?= $this->name ?>/addOptions/?"+str);
     	$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/addOptions/", str, function(result) {
 			var obj = $.parseJSON(result);
 			$("#facilityOptions").val("");
@@ -147,11 +160,12 @@
     	
     }
     
-	var update = function(){
+	var update_facility = function(){
 		var str = $('form').serialize(); 
 		/**Do create property to system***/
 		$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/doUpdate/", str, function(result) {
 			var obj = $.parseJSON(result);
+			
 			if(obj.status =="success"){
 				showSuccessPopUp();
 			}else{
@@ -161,5 +175,5 @@
 		
 		return false;
 	}
-	
+    
 </script>

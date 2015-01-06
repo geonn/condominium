@@ -14,16 +14,17 @@ class FacilityBooking_Model extends APP_Model{
 	public function getBookingActivities(){
 		 $prop = $this->facility_model->getByProperty($this->user->get_memberproperty());
 		 $list = array();
-		 
+		 $details = array();
 		 foreach($prop['data'] as $k => $val){
 		 	$list[] = $val['f_id'];
 		 }
-		  
-		$filter = "(f_id IN (".  implode(',', $list) ."))"; 
 		 
-		$res = $this->get_data($filter,$this->config->item('per_page'),0,$this->primary_key,'DESC');
-		
-		$details = $this->_extractDetails($res);
+		if(!empty($list)){
+			$filter = "(f_id IN (".  implode(',', $list) ."))"; 
+			$res = $this->get_data($filter,$this->config->item('per_page'),0,$this->primary_key,'DESC');
+			$details = $this->_extractDetails($res);
+		}
+	
 		
 		/*** return response***/
 		$this->_result['status']     = 'success';
@@ -98,8 +99,13 @@ class FacilityBooking_Model extends APP_Model{
 				if($ral['u_id'] == $resident){
 					$avail[$ral['bookTime']]['userBooked'] = 1;
 					$avail[$ral['bookTime']]['userInfo'][$r]['fb_id'] = $ral['fb_id']; 
-					$opt = $this->facilityOptions_model->getById($ral['fo_id']);
-					$avail[$ral['bookTime']]['userInfo'][$r]['options'] = $opt['data']['option']; 
+					
+					$avail[$ral['bookTime']]['userInfo'][$r]['options'] = "";
+					if(!empty($ral['fo_id'])){
+						$opt = $this->facilityOptions_model->getById($ral['fo_id']);
+						$avail[$ral['bookTime']]['userInfo'][$r]['options'] = $opt['data']['option']; 
+					}
+					
 				}
 				
 				if($avail[$ral['bookTime']]['booking'] >= $totalOptions){
@@ -184,23 +190,26 @@ class FacilityBooking_Model extends APP_Model{
 		
 		/***get facility options***/
 		$options = $this->facilityOptions_model->getChildById($this->param['bookingFacility'], 1);
-		
+ 
 		if(empty($result)){
 			$pick = "";
-			if(!empty($options)){
+			if(!empty($options['data'])){
 				/***Assign an option for the booking***/
 				$pick = $options['data'][0]['fo_id'];
 			}
-			
+		 
 			$user = $this->user->get_memberid();
 			if(!empty($this->param['bookingUser'])){
 				$user = $this->param['bookingUser'];
 			}
-			
+		
 			$bookingTimes = $this->_checkUserBookingTimes($user);
-			$resi = $this->residents_model->getByUser($this->user->get_memberid());
+			$resi = $this->residents_model->getByUser($user);
 			$prop = $this->property_model->getById($resi['data']['p_id']);
-			if($bookingTimes > $prop['data']['facility_book'] ){
+		 
+			$roles = $this->user->get_memberrole();
+		 
+			if(($bookingTimes > $prop['data']['facility_book']) && ($roles == "3") ){
 				/*** return response***/
 				$this->_result['status']     = 'error';
 				$this->_result['error_code'] = 141;
@@ -245,10 +254,14 @@ class FacilityBooking_Model extends APP_Model{
 				$count = 0 ;
 				foreach($op as $opt){
 					if($count  == 0) {
+						$user = $this->user->get_memberid();
+						if(!empty($this->param['bookingUser'])){
+							$user = $this->param['bookingUser'];
+						}
 						$data = array(
 							'f_id' => $this->param['bookingFacility'],
 							'fo_id' => $opt,
-							'u_id'  => $this->user->get_memberid(),
+							'u_id'  => $user,
 							'bookDate' => $this->param['bookingDate'],
 							'bookTime' => $this->param['bookingTime'],
 							'status'        => 1,
@@ -386,8 +399,11 @@ class FacilityBooking_Model extends APP_Model{
 			$result[$k]['facility'] = $facility['data']['name'];
 			
 			/**Extract Booking Facility Options**/
-			$options = $this->facilityOptions_model->getById($val['fo_id']);
-			$result[$k]['options'] = $options['data']['option'];
+			$result[$k]['options'] = "";
+			if(!empty($val['fo_id'])){
+				$options = $this->facilityOptions_model->getById($val['fo_id']);
+				$result[$k]['options'] = $options['data']['option'];
+			}
 			$result[$k]['bookT']   = $val['bookTime'];
 			$result[$k]['bookTime'] = match($val['bookTime'], $this->config->item('time_range'));
 			/**Extract Booking Date**/
@@ -442,6 +458,7 @@ class FacilityBooking_Model extends APP_Model{
 		}
 		
 		return $statusCode;
+	
 	}
 }
 ?>

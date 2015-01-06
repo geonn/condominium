@@ -113,13 +113,14 @@ class Maintenance_Model extends APP_Model{
 				$return[$r]['paymentType']   = match($ret['paymentType'], $this->config->item('payment_type'));
 				$resident                                   = $this->residents_model->getById($ret['r_id']); 
 				$return[$r]['unitLots'] 			= $resident['data']['unitLots'];
-				
+				$return[$r]['p_id'] 			    	= $resident['data']['p_id'];
 				/**get payment info**/
 				$payment              				  = $this->payment_model->getByMid($ret['m_id']);
 				$return[$r]['payment']		 = $payment['data'];
 				/**get user info**/
 				$user = $this->users_model->getById($resident['data']['u_id']);
-				$return[$r]['name'] 			  = $user['data']['firstname'];
+				$return[$r]['u_id'] 			  = $resident['data']['u_id'];
+				$return[$r]['name'] 			= $user['data']['firstname'];
 		}
 		 
 		/*** return response***/
@@ -208,6 +209,27 @@ class Maintenance_Model extends APP_Model{
 		}
 		
 		return $this->_result;
+	}
+	
+	public function batchAdd($array=array()){
+		$info = explode(',', $array);
+		$p_id = $this->user->get_memberproperty();
+	 	$resident = $this->residents_model->getByUnitLots($p_id,$info[0],1 ); 
+	 	if($resident['status'] == "success" &&  !empty($resident['data'])){
+	 		$data = array(
+				'r_id'                     => $resident['data']['r_id'],
+				'duration'             => $info[1],
+				'totalAmount'      => !empty($info[2]) ? $info[2] : "0.00",
+				'type'                     => !empty($info[3]) ? $info[3] : 1,
+				'paymentType'     => 1,
+				'created'                => date('Y-m-d H:i:s'),
+				'updated'               => date('Y-m-d H:i:s')
+			);
+			
+			$id = $this->insert($data);
+	 	}
+	 	
+		
 	}
 	
 	public function edit(){

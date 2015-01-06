@@ -33,7 +33,7 @@ $config['menu1'] = array(
 	 					"url" => $this->domain."/facility/index",	
 	 				),
 	'maintenance'  => array(
-	 					"name" => "Maintenance",	
+	 					"name" => "Account",	
 	 					"icon"    => "fa-wrench",
 	 					"url" => $this->domain."/maintenance/index",	
 	 				),
@@ -56,9 +56,9 @@ $config['sub_menu1'] = array(
 					'Create Property' =>  $this->domain.'/property/create',
 	),
 	 'account'  => array(
-	 				'Manage Account' => $this->domain.'/account/index', 
-	 				'Create Account' => $this->domain.'/account/create', 
-	 				'Edit Account' => $this->domain.'/account/edit'
+	 				'Manage User' => $this->domain.'/account/index', 
+	 				'Create User' => $this->domain.'/account/create', 
+	 				'Edit User' => $this->domain.'/account/edit'
 	 ),
 	 'facility'     => array(
 	 				'Manage Facility' => $this->domain.'/facility/index',
@@ -66,8 +66,8 @@ $config['sub_menu1'] = array(
 	 				'Manage Booking' => $this->domain.'/facility/booking'
 	 ),	
 	'maintenance'     => array(
-					'Manage Maintenance' =>  $this->domain.'/maintenance/index',
-					'Add Maintenance' =>  $this->domain.'/maintenance/create',
+					'Manage Account' =>  $this->domain.'/maintenance/index',
+					'Add Account' =>  $this->domain.'/maintenance/create',
 	),	
 	 'announcement'    => array(
 	 				'Manage Announcement' => $this->domain.'/announcement/index',
@@ -93,7 +93,7 @@ $config['menu2'] = array(
 	 					"url" => $this->domain."/facility/index",	
 	 				),
 	'maintenance'  => array(
-	 					"name" => "Maintenance",	
+	 					"name" => "Account",	
 	 					"icon"    => "fa-wrench",
 	 					"url" => $this->domain."/maintenance/index",	
 	 				),
@@ -112,9 +112,9 @@ $config['menu2'] = array(
 $config['sub_menu2'] = array( 
 	'main'     => array(),
 	 'account'  => array(
-	 				'Manage Account' => $this->domain.'/account/index', 
-	 				'Create Account' => $this->domain.'/account/create', 
-	 				'Edit Account' => $this->domain.'/account/edit'
+	 				'Manage User' => $this->domain.'/account/index', 
+	 				'Create User' => $this->domain.'/account/create', 
+	 				'Edit User' => $this->domain.'/account/edit'
 	 ),
 	 'facility'     => array(
 	 				'Manage Facility' => $this->domain.'/facility/index',
@@ -122,8 +122,8 @@ $config['sub_menu2'] = array(
 	 				'Manage Booking' => $this->domain.'/facility/checkBooking'
 	 ),	
 	'maintenance'     => array(
-					'Manage Maintenance' =>  $this->domain.'/maintenance/index',
-					'Add Maintenance' =>  $this->domain.'/maintenance/create',
+					'Manage Account' =>  $this->domain.'/maintenance/index',
+					'Add Account' =>  $this->domain.'/maintenance/create',
 	),	
 	 'announcement'    => array(
 	 				'Manage Announcement' => $this->domain.'/announcement/index',
@@ -139,7 +139,7 @@ $config['menu3'] = array(
 	 					"url" => $this->domain."/main/dashboard",	
 	 				),
 	 'account'     => array(
-	 					"name" => "Account",	
+	 					"name" => "Users",	
 	 					"icon"    => "fa-user",
 	 					"url" => $this->domain."/account/index",	
 	 				),
@@ -149,7 +149,7 @@ $config['menu3'] = array(
 	 					"url" => $this->domain."/facility/index",	
 	 				),
 	'maintenance'  => array(
-	 					"name" => "Maintenance",	
+	 					"name" => "Account",	
 	 					"icon"    => "fa-wrench",
 	 					"url" => $this->domain."/maintenance/index",	
 	 				),
@@ -164,14 +164,15 @@ $config['menu3'] = array(
 $config['sub_menu3'] = array(
 	'main'     => array(),
 	 'account'  => array(
-	 				'Edit Account' => $this->domain.'/account/edit'
+	 				'Edit User' => $this->domain.'/account/edit'
 	 ),
 	 'facility'     => array(
 	 				'Facility Booking' => $this->domain.'/facility/memberBooking',
 	 				'Make A Booking' => $this->domain.'/facility/memberAddBooking'
 	 ),	
 	'maintenance'     => array(
-					'Manage Maintenance' =>  $this->domain.'/maintenance/index'
+					'Manage Account' =>  $this->domain.'/maintenance/index',
+					'My Payment' =>  $this->domain.'/maintenance/myPayment'
 	),	
 );
 
@@ -279,16 +280,15 @@ $config['state'] = array(
 /********User type********/
 $config['user_type'] = array(
 	1 => array(
-		1 => 'Super Admin',
 		2 => 'Admin',
-		3 => 'Owner/Tenant' 
+		3 => 'Resident' 
 	),
 	2 => array(
 		2 => 'Admin',
-		3 => 'Owner/Tenant' 
+		3 => 'Resident' 
 	),
 	3 => array(
-		3 => 'Owner/Tenant' 
+		3 => 'Resident' 
 	),
 );
 
@@ -324,14 +324,14 @@ $config['facilities_status'] = array(
 /********Resident Type********/
 $config['resident_type'] = array(
 	1 => 'Owner',
-	2 => 'Tenants',
-	3 => 'Others' 
+	2 => 'Tenants'
 );
 
 /********Facility status********/
 $config['facility_status'] = array(
 	1 => 'Open',
-	2 => 'Cancel' 
+	2 => 'Close for maintenance',
+	3 => 'Facility removed' 
 );
 
 /********Booking status********/
@@ -360,7 +360,7 @@ $config['sorted']  = array(
 /********Skip authentication module********/
 $config['skip_auth'] = array(
 	'main' => array(
-		'login','doLogin','doLogout',
+		'login','doLogin','doLogout','doforgetPassword','resetPassword','doSetNewPassword'
 	),
 );
 

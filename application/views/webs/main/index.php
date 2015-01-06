@@ -99,7 +99,9 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach($list['data'] as $k => $val){ ?>
+																<?php foreach($list['data'] as $k => $val){ 
+																$val['user']['residental']['unitLots'] = (!empty($val['user']['residental']['unitLots']))?$val['user']['residental']['unitLots']:"";
+																?>
 																<tr>
 																	<td class="center"> <?= $val['user']['firstname'] . " ". $val['user']['lastname'] ?></td>
 																	<td class="center"><?= $val['user']['residental']['unitLots'] ?> </td>
@@ -121,7 +123,9 @@
 																<?php } ?>
 															</tbody>
 														</table>
-													<?php	} ?>
+													<?php	}else{
+														echo "No records found";	
+													} ?>
 												</div>
 											</div>
 										</div>

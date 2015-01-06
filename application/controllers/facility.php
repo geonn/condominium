@@ -56,12 +56,13 @@ class Facility extends Web_Controller {
 	}
 	
 	public function getFacilityBookingByDay(){
-		
+	
 		$data['date'] = substr($this->param['bookingDate'],0,10);
 		$data['facilities'] =$this->facility_model->getFacilityListByProperty();
 		$data['residents'] = $this->users_model->getListByProperty();
 		$role = $this->user->get_memberrole();
 		$data['resident'] = !empty($this->param['resident']) ? $this->param['resident'] : "";
+		
 		if($role == "3"){
 			$data['resident'] = $this->user->get_memberid();
 		}
@@ -69,9 +70,9 @@ class Facility extends Web_Controller {
 			$data['result'] = $this->facilityBooking_model->getFacilityBookingHistoryByDay($data['date']);
 		}else{
 			$data['facility'] = ""; 
+				
 			if(!empty($this->param['bookingFacility'])){
 				$data['facility'] = $this->param['bookingFacility'];
-			 
 				$data['result'] = $this->facilityBooking_model->getFacilityBookingByDay($data['date'], $data['resident']);
 			}
 		}
@@ -84,8 +85,6 @@ class Facility extends Web_Controller {
 		/**Module name***/
 		$data['module'] = "Check Booking";
  		
- 		
- 		//print_pre($data);exit;
 		$this->_render_form('memberBooking',$data);
 	}
 	
@@ -130,6 +129,8 @@ class Facility extends Web_Controller {
 	
 	public function doUpdate(){ 
 		$this->param['name'] = $this->param['fac_name'];
+		$this->param['description'] = $this->param['description'];
+		$this->param['status'] = $this->param['status'];
 		$result = $this->facility_model->edit();
 		echo json_encode($result);
 	}
@@ -152,6 +153,12 @@ class Facility extends Web_Controller {
 	
 	public function getFacilityOptionStatus(){
 		echo json_encode($this->config->item('facilities_status'));
+	}
+	
+	public function delete(){
+		$this->param['f_id'] = $this->param['f_id'];
+		$result = $this->facility_model->delete();
+		echo $table_row;	
 	}
 }
 

@@ -141,6 +141,29 @@ $(function(){
         }
     });    
     
+     $('#f_status').editable({
+    //  prepend: "not selected",
+        source: [
+            {value: 1, text: 'Open'},
+            {value: 2, text: 'Close for maintenance'},
+             {value: 3, text: 'Facility removed'}
+        ],
+        display: function(value, sourceData) {
+        
+              var colors = {1: "green", 2: "blue"},
+                 elem = $.grep(sourceData, function(o){return o.value == value;});
+                 
+             if(elem.length) {    
+                 $(this).text(elem[0].text).css("color", colors[value]); 
+             } else {
+                 $(this).empty(); 
+             }
+        }   ,
+        validate: function(value){
+        	$("input[name=status]").val(value);	
+        }
+    });   
+    
     $('#status').editable({
     //  prepend: "not selected",
         source: [

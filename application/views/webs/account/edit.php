@@ -36,7 +36,7 @@
 			<div class="toolbar row">
 				<div class="col-sm-6 hidden-xs">
 					<div class="page-header">
-						<h1>Edit User <?= ucwords($this->name) ?> <small>Amended information of owners, tenants and admin</small></h1>
+						<h1>Edit User <?= ucwords($this->name) ?> <small>Edit information of owners, tenants and admin</small></h1>
 					</div>
 				</div>
 				 
@@ -76,12 +76,13 @@
 								<?= form_hidden('firstname',$result['data']['firstname']  ) ?>
 								<?= form_hidden('lastname',$result['data']['lastname']  ) ?>
 								<?= form_hidden('email',$result['data']['email']   ) ?>
+								<?= form_hidden('mobile',$result['data']['mobile']   ) ?>
 								<?= form_hidden('status',$result['data']['status']   ) ?>
 							 
 								<table id="user" class="table table-bordered table-striped">
 									<tbody>
 										<tr>
-											<td class="column-left" style="width:30%;">Userame</td>
+											<td class="column-left" style="width:30%;">Username</td>
 											<td class="column-right"> 
 											<?= $result['data']['username'] ?></td>
 										</tr>
@@ -104,7 +105,7 @@
 												<?= $result['data']['firstname'] ?>
 											</a></td>
 										</tr>
-											<tr>
+										<tr>
 											<td class="column-left" style="width:30%;">Last Name</td>
 											<td class="column-right">
 											<a href="#" id="lastname" data-type="text" data-pk="1" data-placeholder="Required" data-original-title="Last Name" >
@@ -118,10 +119,41 @@
 											</a></td>
 										</tr>
 										<tr>
-											<td style="width:30%;">Account Status</td>
-											<td><a href="#" id="status" data-type="select" data-pk="1"  data-value="<?= $result['data']['status'] ?>" data-original-title="Account Status">
-												<?= match($result['data']['status'],$this->config->item('status') ) ?>
+											<td style="width:30%;">Mobile Number</td>
+											<td><a href="#" id="mobile" data-type="text" data-pk="1"   data-original-title="Mobile Number">
+												<?= $result['data']['mobile'] ?>
 											</a></td>
+										</tr>
+										
+										<tr>
+											<td class="column-left" style="width:30%;">Change Password</td>
+											<td class="column-right">
+												<a href="#" id="lastname" data-type="text" data-pk="1" data-placeholder="Required" data-original-title="Last Name" >
+													<?= form_password('password', '',' placeholder="Password"  id="password" class="form-control"'); ?>
+												</a>
+											</td>
+										</tr>
+										
+										<tr>
+											<td class="column-left" style="width:30%;">Confirmation change password</td>
+											<td class="column-right">
+											<a href="#" id="lastname" data-type="text" data-pk="1" data-placeholder="Required" data-original-title="Last Name" >
+												<?= form_password('confirmation', '',' placeholder="Confirm Password"  id="confirmation" class="form-control"'); ?>
+											</a></td>
+										</tr>
+										
+										<tr>
+											<td style="width:30%;">Account Status</td>
+											<td>
+                                            <?php if($this->user->get_memberrole() != "3") { ?>
+                                            <a href="#" id="status" data-type="select" data-pk="1"  data-value="<?= $result['data']['status'] ?>" data-original-title="Account Status">
+												<?= match($result['data']['status'],$this->config->item('status') ) ?>
+											</a>
+                                            <?php }else{
+											echo match($result['data']['status'],$this->config->item('status'));
+											}
+											?>
+                                            </td>
 										</tr>
 									</tbody>
 								</table>
@@ -170,17 +202,28 @@
 											</td>
 										</tr>
 										<tr>
-											<td style="width:30%;">Unit Lots</td>
-											<td><a href="#" id="unitLots" data-type="text" data-pk="1"   data-original-title="Unit Lots">
-												<?= $result['data']['residental']['unitLots'] ?>
-											</a></td>
+											<td style="width:30%;">Unit Lot</td>
+											<td>
+                                            	<?php if($this->user->get_memberrole() != "1") { ?>
+													<?= $result['data']['residental']['unitLots'] ?>
+												<?php }else{ ?>
+													<a href="#" id="unitLots" data-type="text" data-pk="1"   data-original-title="Unit Lots">
+													<?= $result['data']['residental']['unitLots'] ?>
+													</a>
+                                                <?php } ?>
+                                            </td>
 										</tr>
 										<tr>
 											<td style="width:30%;">Residental Type</td>
 											<td>
+                                             <?php if($this->user->get_memberrole() != "1") { ?>
+                                             	<?= $result['data']['residental']['residentType'] ?>
+											<?php }else{ ?>
 												<a href="#" id="residentType" data-type="select" data-pk="1" data-value="<?= $result['data']['residental']['type'] ?>"    data-original-title="Resident Type">
 												<?= $result['data']['residental']['residentType'] ?>
-											</a></td>
+											</a>
+                                            <?php } ?>
+                                            </td>
 										</tr>
 									</tbody>
 								</table>
@@ -244,7 +287,7 @@
 	var update = function(){
 		var str = $('form').serialize();
 		
-		/**Do create property to system***/
+		/**Do create property to system***/ 
 		$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/doUpdate/", str, function(result) {
 			var obj = $.parseJSON(result);
 			if(obj.status =="success"){

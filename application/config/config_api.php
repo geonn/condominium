@@ -38,6 +38,7 @@ $config['api_code'] = array(
 	
 	120   => 'Missing property name',
 	121   => 'Missing property contact number',
+	1211   => 'Missing property contact person',
 	122   => 'Missing facility name',
 	123   => 'Missing facility options',
 	124   => 'Missing residents unit lots',
@@ -64,6 +65,7 @@ $config['api_code'] = array(
 	188	  => 'User param or API key param is missing',
 	190	  => 'Invalid user',
 	192	  => 'Wrong user key provided',
+
 	
 );
 

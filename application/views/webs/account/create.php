@@ -81,6 +81,14 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-sm-2 control-label" for="form-field-1">
+								Email</span>
+							</label>
+							<div class="col-sm-9">
+								<?= form_input('email', '',' placeholder="Email"  id="form-field-3" class="form-control"'); ?>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-2 control-label form-field-select-3" for="form-field-select-3">
 								Account Type  <span class="symbol required"></span>
 							</label>
@@ -92,11 +100,19 @@
 							</div>
 						</div>
 						<div class="form-group" id="unitLots2" style="display:none;">
-							<label class="col-sm-2 control-label" for="form-field-1">
-								Unit Lots
+							<label class="col-sm-2 control-label" for="form-field-2">
+								Unit Lots <span class="symbol required"></span>
 							</label>
 							<div class="col-sm-9">
-								<?= form_input('unitLots', '',' placeholder="Unit Lots"  id="form-field-6" class="form-control"'); ?>
+								<?= form_input('unitLots', '0',' placeholder="Unit Lots"  id="form-field-6" class="form-control"'); ?>
+							</div>
+						</div>
+						<div class="form-group" id="residentTypes" style="display:none;">
+							<label class="col-sm-2 control-label" for="form-field-1">
+								Resident Type
+							</label>
+							<div class="col-sm-9">
+								<?= form_dropdown('residentTypes', $this->config->item('resident_type'),'','  id="form-field-7" class="form-control"'); ?>
 							</div>
 						</div>
 						<div class="form-group" id="manageProperty" style="display:none;">
@@ -141,13 +157,16 @@
 	 	 if($( this ).val()  == "3"){
 	  		$("#manageProperty").hide();
 	  		$("#unitLots2").show();
+	  		$("#residentTypes").show();
 			$("#form-field-7").val(<?= $p_id; ?>);
 		}else if($( this ).val()  == "2"){
 			$("#manageProperty").show();
 	  		$("#unitLots2").hide();
+	  		$("#residentTypes").hide();
 		}else{
 			$("#manageProperty").hide();
 	  		$("#unitLots2").hide();
+	  		$("#residentTypes").hide();
 		}
 	});
 	
@@ -187,7 +206,7 @@
 	var create = function(){
 		var str = $('form').serialize();
 		/**Do create property to system***/
-
+		console.log("<?= $this->config->item('domain') ?>/<?= $this->name ?>/doAdd/?"+ str);
 		$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/doAdd/", str, function(result) {
 			var obj = $.parseJSON(result);
 			

@@ -25,11 +25,28 @@ class Residents_Model extends APP_Model{
 		return $this->_result;
 	}
 	
-	public function getByUnitLots(){
-		$filter = array(
-			'p_id'		 => $this->param['p_id'],
-			'unitLots' => $this->param['unitLots']
-		);
+	public function getByUnitLots($p_id ="", $unitLost ="", $type=""){
+		
+		if(empty($p_id)){
+			$p_id = $this->param['p_id'];
+		}
+		
+		if(empty($unitLost)){
+			$unitLost = $this->param['unitLots'];
+		}
+		
+		if(empty($type)){
+			$filter = array(
+				'p_id'		 => $p_id,
+				'unitLots' => $unitLost
+			);
+		}else{
+			$filter = array(
+				'p_id'		 => $p_id,
+				'unitLots' => $unitLost,
+				'type'       => $type
+			);
+		}
 		
 		$result = $this->get_data($filter);
 		$return = array();
@@ -60,11 +77,16 @@ class Residents_Model extends APP_Model{
 				$result[$k]['unitLots']  = $val['unitLots'];
 				$result[$k]['residentType']  = match($val['type'], $this->config->item('resident_type'));
 			}
+			/*** return response***/
+			$this->_result['status']     = 'success';
+			$this->_result['data']       = $result[0];	
+		}else{
+			/*** return response***/
+			$this->_result['status']     = 'error';
+			$this->_result['error']       = "result not found";	
 		}
 		
-		/*** return response***/
-		$this->_result['status']     = 'success';
-		$this->_result['data']       = $result[0];	
+		
 		return $this->_result;
 	}
 	
@@ -87,16 +109,36 @@ class Residents_Model extends APP_Model{
 		return $this->_result;
 	}
 	
-	public function add($u_id){
-		$validation = $this->validate();
-		$p_id = $this->param['p_id'];
+	public function add($u_id, $p_id="", $units="", $residentType="", $skipAuth=""){
+		
+		$validation = "";
+		if(empty($skipAuth)){
+			$validation = $this->validate();
+		}
+		 
+		if(empty($p_id)){
+			if(!empty($this->param['p_id'])){
+				$p_id = $this->param['p_id'];
+			}else{
+				$p_id = $this->user->get_memberproperty();
+			}
+		}
+		
+		if(empty($units)){
+			$units = $this->param['unitLots'];
+		}
+		
+		if(empty($residentType)){
+			$residentType = $this->param['residentTypes'];
+		}
 		
 		if(empty($validation)) {
+		
 			$data = array(
 				'u_id'                   => $u_id,
 				'p_id'                   => $p_id,
-				'unitLots'            => $this->param['unitLots'],
-				'type'                  => !empty($this->param['residentType']) ? $this->param['residentType'] : 1,
+				'unitLots'            => $units,
+				'type'                  => !empty($residentType) ? $residentType : 1,
 				'created'                => date('Y-m-d H:i:s'),
 				'updated'              => date('Y-m-d H:i:s')
 			);
@@ -106,7 +148,7 @@ class Residents_Model extends APP_Model{
 			/*** return response***/
 			$this->_result['status']     = 'success';
 			$this->_result['data']       = $id;
-		}else{
+		}else{ 
 			/***Set Error Message***/
 			$this->_result['status']     = 'error';
 			$this->_result['error_code'] = $validation;

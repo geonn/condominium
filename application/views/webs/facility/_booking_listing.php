@@ -28,7 +28,11 @@
 									if(!empty($val)){
 										echo "<ul>";
 										foreach($val as $index => $agenda){
-											echo  "<li style='text-align:left;'>". $agenda['user']['firstname']." ".$agenda['user']['lastname'] . " ". $agenda['facility'] . " (".$agenda['options'].")</li>";
+											if(empty($agenda['options'])){
+												echo  "<li style='text-align:left;'>". $agenda['user']['firstname']." ".$agenda['user']['lastname'] . " ". $agenda['facility']. "</li>";
+											}else{
+												echo  "<li style='text-align:left;'>". $agenda['user']['firstname']." ".$agenda['user']['lastname'] . " ". $agenda['facility'] . " (".$agenda['options'].")</li>";
+											}
 										}
 										echo "</ul>";
 									}
@@ -207,8 +211,13 @@
 		var resQuery = "";
 		if(resident != ""){
 			var resQuery = "&bookingUser="+resident;
+		}else{
+			alert("Please select resident");
+			return false;
 		}
+		console.log("<?= $this->config->item('domain') ?>/<?= $this->name ?>/checkAvailablity/?dateConvert=1&bookingDate=<?= $date ?>&bookingFacility=<?= isset($facility) ? $facility: '' ?>&bookingTime=" +time + resQuery);
 		$.post("<?= $this->config->item('domain') ?>/<?= $this->name ?>/checkAvailablity/?dateConvert=1&bookingDate=<?= $date ?>&bookingFacility=<?= isset($facility) ? $facility: '' ?>&bookingTime=" +time + resQuery,  function(result) {
+			 
 			var obj = $.parseJSON(result);
 			if(obj.status =="success"){
 				showSuccessPopUp();

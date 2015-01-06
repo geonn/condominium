@@ -16,9 +16,13 @@ class FacilityOptions_Model extends APP_Model{
 			'fo_id' => $fo_id
 		);
 		$result = $this->get_data($filter);
+		$return = array();
+	 	if(!empty($result)){
+	 		$return = $result[0];
+	 	}
 		/*** return response***/
 		$this->_result['status']     = 'success';
-		$this->_result['data']       = $result[0];	
+		$this->_result['data']       = $return;	
 		return $this->_result;
 	}
 	

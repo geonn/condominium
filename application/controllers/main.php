@@ -93,6 +93,23 @@ class Main extends Web_Controller {
 		echo json_encode($result);
 	}
 	
+	public function doforgetPassword(){
+		$result = $this->users_model->forgetPassword();
+		echo json_encode($result);
+	}
+	
+	public function doSetNewPassword(){
+		$result = $this->users_model->setNewPassword();
+		echo json_encode($result);
+		$this->user_sessions_model->removeUserbySession();
+	}
+	
+	public function resetPassword(){
+		$data['session'] = $this->param['session'];
+		$this->template->set_layout('login');
+		$this->_render_form('resetPassword',$data);
+	}
+	
 	public function doLogout(){
 		$result = $this->users_model->logoutUser();
 		echo json_encode($result);

@@ -73,6 +73,7 @@
 										<?= form_hidden('p_id',$result['data']['p_id'] ) ?>
 										<?= form_hidden('name',$result['data']['name'] ) ?>
 										<?= form_hidden('email',$result['data']['email'] ) ?>
+                                        <?= form_hidden('contact_person',$result['data']['contact_person']  ) ?>
 										<?= form_hidden('contact_no',$result['data']['contact_no']  ) ?>
 										<?= form_hidden('fax_no',$result['data']['fax_no']  ) ?>
 										<?= form_hidden('developer_name',$result['data']['developer_name']  ) ?>
@@ -116,6 +117,12 @@
 													</a></td>
 												</tr>
 												<tr>
+													<td>Contact Person</td>
+													<td><a href="#" id="contact_person" data-type="text" data-pk="1" data-placeholder="Required" data-original-title="Contact Person">
+													<?= $result['data']['contact_person'] ?>
+													</a></td>
+												</tr>
+                                                <tr>
 													<td>Contact Number</td>
 													<td><a href="#" id="contact_no" data-type="text" data-pk="1" data-placeholder="Required" data-original-title="Contact Number">
 													<?= $result['data']['contact_no'] ?>

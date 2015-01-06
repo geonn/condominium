@@ -23,21 +23,36 @@ class Users_Model extends APP_Model{
 			$p_id = $this->user->get_memberproperty();
 			$residents = $this->residents_model->getByProperty($p_id);
 			foreach($result as $k => $val){
-				if($val['type'] == "3"){
-					$residents = $this->residents_model->getByUser($val['u_id']);
+				
+					
+			   	if($val['type'] == "3"){
+					$residents = $this->residents_model->getByUser($val['u_id']);		
 					if($residents['data']['p_id'] == $p_id ){
 						$return[$count] = $val;
-						$count++;
+						$return[$count]['unitLots'] = $residents['data']['unitLots'];
+						$return[$count]['p_id'] = $residents['data']['p_id'];
+						$return[$count]['residentType'] = match($residents['data']['type'],$this->config->item('resident_type'));
+						
+					}
+				}else{
+					if($val['type'] == "2"){
+						$propadmin = $this->propertyAdmin_model->getByUser($val['u_id']);
+					 
+						if($propadmin['data']['p_id'] == $p_id ){
+							$return[$count] = $val;
+						}
 					}
 				}
-				
+					
+			
+				$count++;
 			}
 			
 		}else{
 			$return = $result;	
 			
-		}
-		
+		} 
+		 
 		/*** return response***/
 		$this->_result['status']     = 'success';
 		$this->_result['data']       = $return;	
@@ -189,7 +204,7 @@ class Users_Model extends APP_Model{
 	}
 	
 	/** Add user to DB  **/
-	public function add(){
+	public function add(){ 
 		$validation = $this->validateUser();
 		
 		$result     = $this->checkUser(); 
@@ -201,6 +216,7 @@ class Users_Model extends APP_Model{
 					'lastname'	   => $this->param['lastname'],
 					'username'    => $this->param['username'],
 					'email'            => !empty($this->param['email']) ? $this->param['email'] : "",
+					'mobile'            => !empty($this->param['mobile']) ? $this->param['mobile'] : "",
 					'password'	   => md5($this->param['password']),
 					'type'       => $type,
 					'status'       => !empty($this->param['status']) ? $this->param['status'] : 1,
@@ -237,18 +253,48 @@ class Users_Model extends APP_Model{
 		return	$this->_result;
 	}
 	
+	public function batchAdd($array){
+		$info = $array;
+	
+		$p_id = $this->user->get_memberproperty(); 
+	 	$data = array(
+				'firstname'	   => $info[0],
+				'lastname'	   => $info[1],
+				'username'    => $info[2],
+				'email'            => !empty($info[3]) ? $info[3] : "",
+				'password'	   => !empty($info[4]) ? md5($info[4]) : md5("123456"),
+				'type'       		=> 3, //owner/tenants
+				'status'           => 1,
+				'onlineStatus'       => 2,
+				'created' 	   => date('Y-m-d H:i:s'),
+				'updated' 	   => date('Y-m-d H:i:s'),
+			);
+			
+		$id = $this->insert($data);
+		$this->residents_model->add($id,$p_id , $info[5], $info[6], "1");
+		
+	}
+	
 	public function edit(){
 		$validation = $this->validateUser();
-		 
+		
 		if(empty($validation)) { 
 			$type = !empty($this->param['type']) ? $this->param['type'] : 3;
 			$data = array(
 				'firstname' => $this->param['firstname'],
-				'lastname'  => $this->param['lastname'],
+				'lastname'  => $this->param['lastname'], 
 				'status'       => !empty($this->param['status']) ? $this->param['status'] : 1,
 				'email'         =>  !empty($this->param['email']) ? $this->param['email'] : "",
+				'mobile'         =>  !empty($this->param['mobile']) ? $this->param['mobile'] : "",
 				'updated' 	 => date('Y-m-d H:i:s'),
 			);
+			
+			/**If user want to update password **/
+			if($this->param['password']){
+				$pwd = array('password' => md5($this->param['password']));
+				$data = $data + $pwd;
+			}
+			 
 			$this->update($this->param['u_id'],$data);
 			
 			/***Edit unitLots of Owner/Tenants OR property manage for Admin***/
@@ -322,6 +368,25 @@ class Users_Model extends APP_Model{
 		
 	}
 	
+	public function setNewPassword(){
+		$data = array(
+			'password' => md5($this->param['password']),
+			'updated'    => date('Y-m-d H:i:s'),
+		);			
+		$this->_result['debug'][] =  $this->param;
+		$u_id = $this->user_sessions_model->getUserID($this->param['session']);
+		$this->_result['debug'][] =  $u_id;
+		
+		if($u_id){
+			$this->update($u_id, $data);
+			$this->_result['status']     = 'success';
+		}else{
+			$this->_result['status']     = 'error';
+			$this->_result['error_code'] = 100;
+		}
+		return $this->_result;
+	}
+	
 	public function checkPassword(){
 		if(isset($this->param['password']) && isset($this->param['password2'])){
 			if(empty($this->param['password']) || empty($this->param['password2'])){ 
@@ -355,10 +420,54 @@ class Users_Model extends APP_Model{
 		return $this->_result;	
 	}
 	
+	public function forgetPassword(){
+		
+		if(!empty($this->param['email'])){
+			if($user = $this->checkEmailExist()){
+				$sessionkey = $this->generateSession($user['u_id']);
+				$return = $this->sentResetPasswordEmail($sessionkey, $user);
+				$this->_result['data']     =  $sessionkey;
+				$this->_result['status']     = 'success';
+			}else{
+				$this->_result['status']     = 'error';
+			}
+		}else{
+			$this->_result['status']     = 'error';
+		}
+		return $this->_result;
+	}
+	
 	/*********************************************
 	******************* PRIVATE CLASS ************
 	*********************************************/
-
+	
+	private function sentResetPasswordEmail($sessionkey, $user){
+		$residents = $this->residents_model->getByUser($user['u_id']);
+		$property = $this->property_model->getById($residents['data']['p_id']);
+		$to = $this->param['email'];
+		$subject = $property['data']['name']." - Forgot your password?";
+		$message = "click the link to reset your password. \r\n http://".$this->config->item('master_domain').$this->config->item('domain')."/main/resetPassword/?session=".$sessionkey;
+		$header = "From:".$property['data']['email']." \r\n";
+		$retval = mail ($to,$subject,$message,$header);
+		if( $retval == true )  
+		{
+		  return "Message sent successfully...";
+		}
+		else
+		{
+		  return "Message could not be sent...";
+		}
+	}
+	
+	private function checkEmailExist(){
+		$filter = array('email' => $this->param['email']);
+		$result = $this->get_data($filter);//param : $where,$limit,$offset, $order, $direction('ASC','DESC')	
+		if(empty($result)){
+			return false;
+		}else{
+			return $result[0];
+		}
+	}
 	
 	/** Check if userdata is exists  **/
 	private function validateUser(){
@@ -386,9 +495,12 @@ class Users_Model extends APP_Model{
 						$statusCode[] = 129;
 					}
 				}
-			}
+			}else{
+				if($password != $confirmation){
+					$statusCode[] = 107;	
+				}
 			
-		
+			}	
 		}else{
 			if(!$password){
 				$statusCode[] = 106;

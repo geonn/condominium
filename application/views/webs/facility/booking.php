@@ -50,23 +50,10 @@
 					 
 						<div class="panel-body">
 						
-							<div class="col-sm-9">
+							<div class="col-sm-12">
 								<div id='book-calendar'></div>
 							</div>
-							<div class="col-sm-3">
-								<h4 class="space20">Status categories</h4>
-								<div id="event-categories">
-									
-									<div class="event-category event-offsite" data-class="event-offsite">
-										Confirmed
-									</div>
-								
-									<div class="event-category event-cancelled" data-class="event-cancelled">
-										Cancelled
-									</div>
-									
-								</div>
-							</div>
+							 
 						</div>
 					</div>
 					<!-- end: FULL CALENDAR PANEL -->
@@ -144,16 +131,19 @@
 			var obj = $.parseJSON(result);
 			if(obj.status =="success"){
 				$.each(obj.data,function(k,val){
-				//	console.log(val);
-					myBooking.push({
-						id : val['fb_id'],
-					    title: val['user']['username'] + ' booked  '+val['facility'],
-		                start: new Date(val['bookYear'],val['bookMonth'] -1, val['bookDay'],val['startTime'],0),
-		                end: new Date(val['bookYear'], val['bookMonth'] -1, val['bookDay'],val['endTime'],0),
-		                className: val['className'],
-		                category: 'Off-site work',
-		                allDay: false	
-					});
+					console.log(val);
+					if(val['status'] == "Confirmed"){
+						myBooking.push({
+							id : val['fb_id'],
+						    title: val['facility']+ ' (' +val['user']['username'] + ")",
+			                start: new Date(val['bookYear'],val['bookMonth'] -1, val['bookDay'],val['startTime'],0),
+			                end: new Date(val['bookYear'], val['bookMonth'] -1, val['bookDay'],val['endTime'],0),
+			                className: val['className'],
+			                category: 'Off-site work',
+			                allDay: false	
+						});
+					}
+					
 				});
 				
 				/***load to calendar after populate data***/

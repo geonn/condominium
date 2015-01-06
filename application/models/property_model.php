@@ -30,10 +30,10 @@ class Property_Model extends APP_Model{
 		
 		foreach($result as $k => $val){
 			$photo = $this->images_model->getPhoto($val['p_id'], 1);
-			$result[$k]['logo'] = "";
 			if(!empty($photo)){
 				$result[$k]['img_id'] = $photo[0]['img_id'];
 				$result[$k]['logo'] = $this->config->item('domain')."/public/".$photo[0]['img_path'];
+				$result[$k] = $val;
 			}
 			
 		} 
@@ -63,6 +63,7 @@ class Property_Model extends APP_Model{
 			$data = array(
 				'name'                   => $this->param['name'],
 				'address'               => $this->param['address'],
+				'contact_person'         => $this->param['contact_person'],
 				'contact_no'         => $this->param['contact_no'],
 				'fax_no'                 => $this->param['fax_no'],
 				'email'                   => $this->param['email'],
@@ -95,6 +96,7 @@ class Property_Model extends APP_Model{
 			$data = array(
 				'name'                   => $this->param['name'],
 				'address'               => $this->param['address'],
+				'contact_person'         => $this->param['contact_person'],
 				'contact_no'         => $this->param['contact_no'],
 				'fax_no'                 => $this->param['fax_no'],
 				'email'                   => $this->param['email'],
@@ -134,6 +136,7 @@ class Property_Model extends APP_Model{
 		$statusCode = array();
 		$name          = $this->param['name'];
 		$contact_no = $this->param['contact_no'];
+		$contact_person = $this->param['contact_person'];
 		
 		if(empty($name)){
 			$statusCode[] = 120;
@@ -141,6 +144,10 @@ class Property_Model extends APP_Model{
 		
 		if(empty($contact_no)){
 			$statusCode[] = 121;
+		}
+		
+		if(empty($contact_person)){
+			$statusCode[] = 1211;
 		}
 		
 		return $statusCode;

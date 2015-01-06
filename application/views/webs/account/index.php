@@ -74,7 +74,15 @@
 							<h4 class="panel-title"><span class="text-bold"><?= ucwords($this->name) ?> List</span></h4>
 						
 						</div>
-						<div class="panel-body">
+						<?php 
+						$role = $this->user->get_memberrole();
+						if($role != 3){
+							echo '<a type="button" style="margin-right:15px; float:right" class="btn btn-blue btn-xs" onClick="goBatch()" >Batch Submit</a>';
+							echo '<a type="button" style="margin-right:15px; float:right" class="btn btn-blue btn-xs" onClick="downloadUser()" >Download User List</a>';
+						}
+						?>
+						
+						<div class="panel-body" style="margin-top:15px;">
 							
 							<table class="table table-striped table-bordered table-hover table-full-width" id="sample_1">
 								<thead>
@@ -138,3 +146,12 @@
 	<!-- end: PAGE -->
 </div>
 <!-- end: MAIN CONTAINER -->
+<script>
+	function goBatch() {
+		window.location.href = "<?= $this->config->item('domain').'/'.$this->name.'/' ?>batchUsers";
+	}
+	
+	function downloadUser(){
+		window.location.href = "<?= $this->config->item('domain').'/'.$this->name.'/' ?>downloadList";
+	}
+</script>
